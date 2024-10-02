@@ -1,0 +1,10 @@
+Objeto para crear un usuario: 
+
+{
+  "name" : "Irving",
+  "last_name" : "Abundes",
+  "username" : "irving_abundes",
+  "password" : "12345678",
+  "password_confirmation" : "12345678",
+  "email" : "irvingabundes23@gmail.com"
+}
