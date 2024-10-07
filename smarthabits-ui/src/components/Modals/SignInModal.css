@@ -1,0 +1,7 @@
+#name-addon,
+#lastname-addon,
+#username-addon{
+    background-color: var( --light-accent-color);
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}

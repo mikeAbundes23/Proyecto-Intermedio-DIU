@@ -1,0 +1,68 @@
+.modal-content{
+    font-family: var(--font);
+}
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Estilos para los inputs redondeados */
+  .input-group .rounded-input {
+    border-radius: 30px; /* Borde redondeado */
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  /* Ajustar el tamaño del icono dentro del campo de entrada */
+  .input-icon {
+    width: 20px;  /* Ancho del icono */
+    height: auto; /* Mantener proporciones */
+  }
+  
+  /* Alinear los campos de entrada al centro */
+  .input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; /* Limitar el ancho del formulario */
+  }
+  
+  /* Estilo de la parte izquierda del input donde va el icono */
+  .input-group-text {
+    background-color: #f1f1f1;
+    border-top-left-radius: 30px;  /* Redondear esquinas del grupo */
+    border-bottom-left-radius: 30px;
+    padding: 10px 15px;
+  }
+
+form .btn{
+    margin-top: 20px;
+    background-color: var(--primary-color);
+    border: none;
+}
+
+form .btn:hover{
+    background-color: var(--primary-accent-color);
+    border: none;
+}
+
+.modal-footer{
+    flex-direction: column;
+}
+
+.footer-text{
+    padding: 5px;
+    font-style: italic;
+}
+
+#password-addon,
+#email-addon{
+    background-color: var( --light-accent-color);
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.modal-title{
+    margin-left: 20px;
+}

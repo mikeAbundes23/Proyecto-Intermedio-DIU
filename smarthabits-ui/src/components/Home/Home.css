@@ -1,0 +1,57 @@
+.home-container {
+    margin: 0 auto;
+    font-family: var(--home-font);
+    color: var(--dark-primary-color);
+}
+  
+.carousel-section {
+    width: 90%;
+    margin: 0 auto; /* Se centra el carrusel */
+    position: relative; /* Necesario para que los botones se posicionen relativos a este contenedor */
+}
+  
+.carousel-inner {
+    display: flex; /* Asegura que las imágenes se alineen correctamente */
+    border-radius: 15px;
+}
+  
+.carousel img {
+    height: 600px; /* Ajusta la altura del carrusel */
+    object-fit: cover; /* Asegura que las imágenes no se distorsionen */
+}
+  
+.home-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+  
+.home-text {
+    font-size: 2.5rem;
+    font-weight: 400;
+    font-style: italic;
+}      
+
+#prev,
+#next{
+    position: absolute;
+    top: 50%; /* Centra verticalmente */
+    transform: translateY(-50%); /* Ajusta la posición para que esté perfectamente centrado */
+    width: 70px;
+    height: 70px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+#prevIcon,
+#nextIcon{
+    width: 100px;
+    height: 100px;
+    outline: black;
+    background-size: 100%, 100%;
+    background-image: url('../../images/right-arrow.svg');
+}
+
+#prevIcon{
+    transform: rotate(180deg);    
+}
+
