@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './UserButtons.css';
+import './UserButtons.css'
 import notificationsIcon from '../../images/notifications.png';
 import userIcon from '../../images/user-logo.png';
 import { Dropdown } from 'react-bootstrap'; // Importamos Dropdown de react-bootstrap
@@ -17,15 +17,15 @@ const UserButtons = ({ handleLogout }) => {
         <img src={notificationsIcon} alt="notificaciones" className="icon" />
       </button>
 
-      <Dropdown show={showDropdown} onToggle={toggleDropdown} align="end">
+      <Dropdown id="dropdown-user" show={showDropdown} onToggle={toggleDropdown} align="end">
         <Dropdown.Toggle as="button" className="icon-button" onClick={toggleDropdown}>
           <img src={userIcon} alt="userconfig" className="icon" />
         </Dropdown.Toggle>
 
-        <Dropdown.Menu>
+        <Dropdown.Menu id='dropdown-user-menu'>
           <Dropdown.Item href="/profile">Mi Perfil</Dropdown.Item>
           <Dropdown.Item href="/settings">Configuración</Dropdown.Item>
-          <Dropdown.Divider />
+          <Dropdown.Divider id="dropdown-divider"/>
           <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

@@ -3,13 +3,14 @@
    display: inline-flex;
 }
 
-.dropdown-menu{
+#dropdown-user-menu{
     background-color: var(--dark-primary-color);
-}
-.dropdown-item{
     color: var( --light-text-color);
 }
-.dropdown-divider{
+#dropdown-user{
+    color: var( --light-text-color);
+}
+#dropdown-divider{
     border-color: var( --light-text-color);
     width: 90%; 
     margin: 0 auto; 
