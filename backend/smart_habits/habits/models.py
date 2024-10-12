@@ -33,3 +33,11 @@ class Habit(models.Model):
     def __str__(self):
         return f"id: {self.id}, user: {self.user}, habit: {self.habit}, category: {self.category}, frequency: {self.frequency}, start_date: {self.start_date}, goal: {self.goal}, achieved: {self.achieved}, is_required_reminder: {self.is_required_reminder}"
     
+class HabitProgress(models.Model):
+    habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name='progress')
+    date = models.DateTimeField(default=timezone.now)
+    progress = models.IntegerField(default=0)  
+    is_completed = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"habit: {self.habit}, date: {self.date}, progress: {self.progress}, is_completed: {self.is_completed}"

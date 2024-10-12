@@ -1,3 +1,9 @@
+Objeto para iniciar sesión:
+{
+  "username" : "irving_abundes",
+  "password" : "12345678"
+}
+
 Objeto para crear un usuario: 
 
 {
@@ -7,4 +13,13 @@ Objeto para crear un usuario:
   "password" : "12345678",
   "password_confirmation" : "12345678",
   "email" : "irvingabundes23@gmail.com"
+}
+
+Objeto para crear un hábito:
+
+{
+  "habit" : "Leer",
+  "category" : "school",
+  "frequency" : "d",
+  "goal" : "1"
 }
