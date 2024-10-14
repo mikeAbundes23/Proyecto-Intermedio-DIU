@@ -18,13 +18,13 @@ const UserButtons = ({ handleLogout }) => {
       </button>
 
       <Dropdown id="dropdown-user" show={showDropdown} onToggle={toggleDropdown} align="end">
-        <Dropdown.Toggle as="button" className="icon-button" onClick={toggleDropdown}>
+        <Dropdown.Toggle as="div" className="icon-button" onClick={toggleDropdown}>
           <img src={userIcon} alt="userconfig" className="icon" />
         </Dropdown.Toggle>
 
         <Dropdown.Menu id='dropdown-user-menu'>
-          <Dropdown.Item href="/profile">Mi Perfil</Dropdown.Item>
-          <Dropdown.Item href="/settings">Configuración</Dropdown.Item>
+          <Dropdown.Item href="/">Mi Perfil</Dropdown.Item>
+          <Dropdown.Item href="/">Configuración</Dropdown.Item>
           <Dropdown.Divider id="dropdown-divider"/>
           <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
         </Dropdown.Menu>

@@ -24,7 +24,6 @@ export const test = async (username,password) => {
         username: 'emilys',
         password: 'emilyspass',
       });
-      // TODO: almacenar el token en una cookie
       return response.data;
     } catch (error) {
       console.error('Error al hacer login:', error);

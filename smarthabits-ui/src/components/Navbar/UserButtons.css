@@ -1,34 +1,45 @@
-.user-buttons{
-   font-family: var(--font);
-   display: inline-flex;
-}
-
-#dropdown-user-menu{
-    background-color: var(--dark-primary-color);
-    color: var( --light-text-color);
-}
-#dropdown-user{
-    color: var( --light-text-color);
-}
-#dropdown-divider{
-    border-color: var( --light-text-color);
-    width: 90%; 
-    margin: 0 auto; 
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.icon-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0 10px;
-  }
-  
-  .icon {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .icon-button:focus {
-    outline: none;
-  }
+.user-buttons {
+    font-family: var(--font);
+    display: inline-flex;
+ }
+ 
+ #dropdown-user-menu {
+     background-color: var(--dark-primary-color);
+     color: var(--light-text-color); /* Aplica el color a todo dentro del menú */
+ }
+ 
+ #dropdown-user {
+     color: var(--light-text-color); /* Asegura que el texto del dropdown tenga el color correcto */
+ }
+ 
+ #dropdown-divider {
+     border-color: var(--light-text-color);
+     width: 90%;
+     margin: 5px auto; /* Unifica los márgenes */
+ }
+ 
+ .icon-button {
+     background: none;
+     border: none;
+     cursor: pointer;
+     padding: 0 10px;
+ }
+ 
+ .icon {
+     width: 40px;
+     height: 40px;
+ }
+ 
+ .icon-button:focus {
+     outline: none;
+ }
+ 
+ .dropdown-item {
+     color: var(--light-text-color) !important; /* Forzar el color blanco para todos los items */
+     background-color: var(--dark-primary-color); /* Fondo del item */
+ }
+ 
+ .dropdown-item:hover {
+     background-color: var(--hover-color); /* Ajusta el color hover si es necesario */
+ }
+ 
