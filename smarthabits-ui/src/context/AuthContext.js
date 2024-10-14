@@ -1,25 +1,26 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getCookie } from '../helpers/auth';
+import { getCookie, setCookie } from '../helpers/auth';
 
 export const AuthContext = createContext();
+const cookieName = process.env.REACT_APP_TOKEN_COOKIE_NAME;
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = getCookie('token');
+    const token = getCookie(`${cookieName}`);
     if (token) {
       setIsAuthenticated(true);
     }
   }, []);
 
   const login = (token) => {
-    document.cookie = `token=${token}; path=/;`;
+    setCookie(cookieName,token, process.env.REACT_APP_TOKEN_EXPIRATION_TIME);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     setIsAuthenticated(false);
   };
 
