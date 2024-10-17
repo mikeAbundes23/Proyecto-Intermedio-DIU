@@ -81,6 +81,6 @@ def get_user(request):
         user = get_object_or_404(User, id=user_id) # Obtener el usuario
         user_serializer = UserSerializer(user)
         
-        return Response(user_serializer.data, status=status.HTTP_200_OK)
+        return Response({"data" : user_serializer.data}, status=status.HTTP_200_OK)
     except Exception as _:
         return Response({'message': 'Error al intentar obtener el usuario'}, status=status.HTTP_400_BAD_REQUEST)

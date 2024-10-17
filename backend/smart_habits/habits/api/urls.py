@@ -22,6 +22,6 @@ urlpatterns = [
     path('habits/delete/<int:habit_id>/', delete_habit),
     path('habits/progress/<int:habit_id>/', get_habit_progress),
     path('habits/update/<int:habit_id>/', update_habit),
-    path('habits/progress/update/<int:habit_id>/', update_progress),
+    path('habits/update/progress/<int:habit_id>/', update_progress),
     path('habits/progress/by-category/<str:category>/', get_progress_by_category),
 ]

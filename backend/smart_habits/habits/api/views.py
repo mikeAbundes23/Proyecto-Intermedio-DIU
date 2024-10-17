@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from ..models import Habit, HabitProgress
 from .serializers import (
     HabitSerializer, 
+    HabitInfoSerializer,
     HabitListSerializer, 
     HabitProgressSerializer, 
     HabitProgressInfoSerializer, 
@@ -30,6 +31,9 @@ def get_habits(request):
     try:
         habits = Habit.objects.filter(user=request.user.id)
         
+        if not habits:
+            return Response({"message": "No hay hábitos registrados"}, status=status.HTTP_200_OK)
+        
         
         for habit in habits:
             #print(habit)
@@ -42,20 +46,14 @@ def get_habits(request):
             
                 #print(habit_date)
                 habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
-                #achived = habit.achieved
-                #goal = habit.goal
-                #progress = int((achived * 100) / goal)
                 
-                #if progress >= 100:
-                    #progress = 100
-                
+                # Objeto con la nueva información del hábito
                 habit_data = {}
                 
                 progress_array = habit_progress.progress_array
                 if len(progress_array) == 30:
                     progress_array.pop(0)
                     
-                #progress_array[-1] = progress
                 progress_array.append(0)
                     
                 habit_progress.progress_array = progress_array
@@ -65,6 +63,7 @@ def get_habits(request):
                 
                 days_elapsed = habit.days_elapsed + 1
                 
+                # Reinicio de la información del hábito cuando ha pasado su frecuencia
                 if habit.frequency == 'm' and habit.days_elapsed == 30:
                     days_elapsed = 1
                     habit_data['achieved'] = 0
@@ -80,13 +79,14 @@ def get_habits(request):
                     
                 habit_data['days_elapsed'] = days_elapsed
                 habit_data['start_date'] = today_date
+                
                 habit_serializer = HabitSerializer(habit, data=habit_data, partial=True)
                 if not habit_serializer.is_valid():
                     return Response(habit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 habit_serializer.save()
         
         habits_serializer = HabitListSerializer(habits, many=True)
-        return Response(habits_serializer.data, status=status.HTTP_200_OK)
+        return Response({"data":habits_serializer.data}, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -98,8 +98,8 @@ def get_habit(request, habit_id):
     try:
         habit = get_object_or_404(Habit, id=habit_id, user=request.user.id)
         
-        habit_serializer = HabitSerializer(habit)
-        return Response(habit_serializer.data, status=status.HTTP_200_OK)
+        habit_serializer = HabitInfoSerializer(habit)
+        return Response({"data": habit_serializer.data}, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -123,7 +123,7 @@ def create_habit(request):
                 
         habit = habit_serializer.save(user=user) # Guardamos el hábito 
 
-        # Creamos el progreso del hábito para el día actual
+        # Creamos el registro del progreso del hábito
         habit_progress = HabitProgress.objects.create(
                 habit=habit,
                 updated_at=timezone.now(),
@@ -133,7 +133,7 @@ def create_habit(request):
         
         response_serializer = HabitSerializer(habit) # Creamos el serializador de respuesta
          
-        return Response(response_serializer.data , status=status.HTTP_201_CREATED)   
+        return Response({"data" : response_serializer.data}, status=status.HTTP_201_CREATED)   
        
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -166,19 +166,8 @@ def update_habit(request, habit_id):
         
         habit = habit_serializer.save()
         
-        """ # Check if the `achieved` field was updated and if the goal is reached
-        if 'achieved' in habit_data and habit.achieved >= habit.goal:
-            # Save the progress as 100% and mark it as completed
-            habit_progress = HabitProgress.objects.create(
-                habit=habit,
-                date=timezone.now(),
-                progress=100,
-                is_completed=True
-            )
-            habit_progress.save() """
-
         response_serializer = HabitSerializer(habit)
-        return Response(response_serializer.data, status=status.HTTP_200_OK)
+        return Response({ "message" : "Hábito actualizado." ,"data" : response_serializer.data}, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -255,7 +244,7 @@ def get_habit_progress(request, habit_id):
         habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
         
         habit_progress_serializer = HabitProgressInfoSerializer(habit_progress)
-        return Response(habit_progress_serializer.data, status=status.HTTP_200_OK)
+        return Response({"data" : habit_progress_serializer.data}, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -276,21 +265,27 @@ def get_progress_by_category(request, category):
             return Response({"message": "No hay hábitos en la categoría seleccionada"}, status=status.HTTP_200_OK)
         
         habits_completed = 0
+        habits_incopmleted = 0
         
         habits_progress = []
         for habit in habits:
             habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
             if habit.is_completed:
                 habits_completed += 1
+            else:
+                habits_incopmleted += 1
             
             habits_progress.append(habit_progress)
         
         habits_progress_serializer = HabitProgressListSerializer(habits_progress, many=True)
         
+        habits_completed = (habits_completed * 100) / len(habits)
+        habits_incopmleted = (habits_incopmleted * 100) / len(habits)
         
         return Response({
             "data": habits_progress_serializer.data,
             "habits_completed": habits_completed,
+            "habits_incopmleted": habits_incopmleted
         }, status=status.HTTP_200_OK)
         
     except Exception as e:

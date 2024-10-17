@@ -6,7 +6,7 @@ router = DefaultRouter()
 
 urlpatterns = [
     *router.urls,
-    path('user/create_user/', create_user),
+    path('user/create-user/', create_user),
     path('user/login/', login),
     path('user/', get_user),
     path('user/logout/', logout)

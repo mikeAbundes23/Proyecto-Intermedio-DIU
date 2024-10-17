@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -15,13 +16,13 @@ class User(AbstractBaseUser , PermissionsMixin):
     password = models.CharField(max_length=255, null=False)
     ongoing_streak = models.IntegerField(default=0)
     longest_streak = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(default=timezone.now)
     
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'name', 'last_name']
     
     def __str__(self):
-        return f"id: {self.id}, name: {self.name}, last_name: {self.last_name}, username: {self.username}, email: {self.email}"
-    
+        return f"id: {self.id}, name: {self.name}, last_name: {self.last_name}, username: {self.username}, email: {self.email}, ongoing_streak: {self.ongoing_streak}, longest_streak: {self.longest_streak}, updated_at: {self.updated_at}"
     class Meta:
         indexes = [
             models.Index(fields=['username', 'email']),

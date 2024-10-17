@@ -6,6 +6,11 @@ class HabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = '__all__'
+        
+class HabitInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Habit
+        fields = ['id', 'habit', 'category', 'achieved', 'goal', 'is_completed', 'frequency', 'is_required_reminder', 'days_elapsed', 'days_elapsed']
 
 # Serializador para la lista de hábitos        
 class HabitListSerializer(serializers.ModelSerializer):
