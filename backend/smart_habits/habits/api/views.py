@@ -9,7 +9,14 @@ from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from ..models import Habit, HabitProgress
-from .serializers import HabitSerializer, HabitListSerializer, HabitProgressSerializer, HabitProgressInfoSerializer
+from .serializers import (
+    HabitSerializer, 
+    HabitListSerializer, 
+    HabitProgressSerializer, 
+    HabitProgressInfoSerializer, 
+    HabitProgressListSerializer
+)
+
 
 from user.models import User
 
@@ -64,7 +71,8 @@ def create_habit(request):
         # Creamos el progreso del hábito para el día actual
         habit_progress = HabitProgress.objects.create(
                 habit=habit,
-                date=timezone.now()
+                updated_at=timezone.now(),
+                progress_array=[0]
             )
         habit_progress.save()
         
@@ -88,7 +96,7 @@ def delete_habit(request, habit_id):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
-
+# Actualizar información general de un hábito
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_habit(request, habit_id):
@@ -126,56 +134,57 @@ def update_habit(request, habit_id):
 def update_progress(request, habit_id):
     try:
         habit = get_object_or_404(Habit, id=habit_id, user=request.user.id)
+        #print(habit)
+        
         achived_data = request.data.get('achieved')        
-        last_progress = habit.progress.last()
-        last_habit_progress = get_object_or_404(HabitProgress, id=last_progress.id)
+        #last_progress = habit.progress.last()
         
-        today_date = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        last_progress_date = last_progress.date.replace(hour=0, minute=0, second=0, microsecond=0)
+        # Objeto con la información del progreso del hábito
+        habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
         
-
+        # Objeto con la información nueva del último progreso del hábito
         habit_data = request.data
+        habit_progress_data = {}
         
-        # Calculamos el progreso del hábito
+        progress_array = habit_progress.progress_array # Array con el los porcentajes de progreso
+        
+        
+        # Asegurarno que la información no pasa de 30 días
+        if len(progress_array) == 30:
+            progress_array.pop(0)
+   
         progress = int((achived_data * 100) / habit.goal)
-        print(progress)
-        
-        is_completed = False
-        
-        # Verificamos si el progreso es mayor o igual al 100%
+    
         if progress >= 100:
             progress = 100
-            is_completed = True
-         
-        # Actualizamos el hábito actual   
-        habit_serializer = HabitSerializer(habit, data=habit_data, partial=True)
+            habit_data['is_completed'] = True
+        else:
+            habit_data['is_completed'] = False
+            
+        progress_updated_at =  habit_progress.updated_at.replace(hour=0, minute=0, second=0, microsecond=0)
+        today_date = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        habit_progress_data['updated_at'] = timezone.now()
+        
+        # Si es un día distito, creamos un nuevo progreso
+        if progress_updated_at == today_date:
+            progress_array[-1] = progress
+        else:
+            progress_array.append(progress)
+            
+        habit_progress_data['progress_array'] = progress_array
+        
+        # Actualizamos el hábito
+        habit_serializer = HabitSerializer(habit, data=habit_data, partial=True)       
         if not habit_serializer.is_valid():
-                return Response(habit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(habit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         habit_serializer.save()
         
-        # Verificamos si ya existe un progreso para el día actual
-        if today_date != last_progress_date:
-            habit_progress = HabitProgress.objects.create(
-                habit=habit,
-                date=timezone.now(),
-                progress=progress,
-                is_completed=is_completed
-            )
-            habit_progress.save()
-        else:
-            # Creamos el objeto de progreso del hábito
-            habit_progress_data = {}           
-            habit_progress_data['progress'] = progress
-            habit_progress_data['is_completed'] = is_completed
-             
-            habit_progress_serializer = HabitProgressSerializer(last_habit_progress, data=habit_progress_data, partial=True)
-            
-            if not habit_progress_serializer.is_valid():
-                return Response(habit_progress_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-            habit_progress_serializer.save()
-
-                    
+        # Actualizamos el progreso del hábito
+        habit_progress_serializer = HabitProgressSerializer(habit_progress, data=habit_progress_data, partial=True)
+        if not habit_progress_serializer.is_valid():
+            return Response(habit_progress_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        habit_progress_serializer.save()
+                            
         return Response({"message": "Progreso actualizado correctamente"}, status=status.HTTP_200_OK)
         
     except Exception as e:
@@ -188,11 +197,46 @@ def get_habit_progress(request, habit_id):
     try:
         habit = get_object_or_404(Habit, id=habit_id, user=request.user.id)
         
-        habit_progress = habit.progress.all()
+        habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
         
-        habit_progress_serializer = HabitProgressInfoSerializer(habit_progress, many=True)
+        habit_progress_serializer = HabitProgressInfoSerializer(habit_progress)
         return Response(habit_progress_serializer.data, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
+# Obtener el progreso de los habitos por su categoría o por su frecuencia
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_progress_by_category(request, category):
+    try:
+        
+        if category == 'all': 
+            habits = Habit.objects.filter(user=request.user.id)
+        else: # Información de los hábitos por categoría
+            habits = Habit.objects.filter(user=request.user.id, category=category)
+        #print(habits)
+        
+        if not habits:
+            return Response({"message": "No hay hábitos en la categoría seleccionada"}, status=status.HTTP_200_OK)
+        
+        habits_completed = 0
+        
+        habits_progress = []
+        for habit in habits:
+            habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
+            if habit.is_completed:
+                habits_completed += 1
+            
+            habits_progress.append(habit_progress)
+        
+        habits_progress_serializer = HabitProgressListSerializer(habits_progress, many=True)
+        
+        
+        return Response({
+            "data": habits_progress_serializer.data,
+            "habits_completed": habits_completed,
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

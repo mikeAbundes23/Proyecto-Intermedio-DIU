@@ -23,3 +23,12 @@ Objeto para crear un hábito:
   "frequency" : "d",
   "goal" : "1"
 }
+
+Objeto para modificar el progreso:
+
+La idea es que desde el front se tomme el achieved actual + 1,
+para simular el progreso del hábito.
+
+{
+  "achieved" : 1 
+}

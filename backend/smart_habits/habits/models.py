@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from django.contrib.postgres.fields import ArrayField
 
 from django.utils import timezone
 
@@ -29,15 +30,15 @@ class Habit(models.Model):
     goal = models.IntegerField(null=False)
     achieved = models.IntegerField(default=0)
     is_required_reminder = models.BooleanField(default=False)
+    is_completed = models.BooleanField(default=False, null=False)
     
     def __str__(self):
         return f"id: {self.id}, user: {self.user}, habit: {self.habit}, category: {self.category}, frequency: {self.frequency}, start_date: {self.start_date}, goal: {self.goal}, achieved: {self.achieved}, is_required_reminder: {self.is_required_reminder}"
     
 class HabitProgress(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name='progress')
-    date = models.DateTimeField(default=timezone.now)
-    progress = models.IntegerField(default=0)  
-    is_completed = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(default=timezone.now)
+    progress_array = ArrayField(models.IntegerField(), default=list, blank=True)  
     
     def __str__(self):
-        return f"habit: {self.habit}, date: {self.date}, progress: {self.progress}, is_completed: {self.is_completed}"
+        return f"id: {self.id}, habit: {self.habit}, updated_at: {self.updated_at}, progress_array: {self.progress_array}"

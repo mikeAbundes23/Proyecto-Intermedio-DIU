@@ -13,6 +13,8 @@ class User(AbstractBaseUser , PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, null=False)
     email = models.EmailField(max_length=255, unique=True, null=False)
     password = models.CharField(max_length=255, null=False)
+    ongoing_streak = models.IntegerField(default=0)
+    longest_streak = models.IntegerField(default=0)
     
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'name', 'last_name']

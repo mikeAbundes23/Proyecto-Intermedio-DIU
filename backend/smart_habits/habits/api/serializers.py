@@ -18,8 +18,20 @@ class HabitProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = HabitProgress
         fields = '__all__'
+        
+
+class HabitNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Habit
+        fields = ['habit']
 
 class HabitProgressInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = HabitProgress
-        fields = ['date', 'progress', 'is_completed']
+        fields = ['updated_at', 'progress_array']
+        
+class HabitProgressListSerializer(serializers.ModelSerializer):
+    habit = HabitNameSerializer()
+    class Meta:
+        model = HabitProgress
+        fields = ['habit', 'progress_array']
