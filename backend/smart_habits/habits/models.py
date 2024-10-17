@@ -31,9 +31,11 @@ class Habit(models.Model):
     achieved = models.IntegerField(default=0)
     is_required_reminder = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False, null=False)
+    days_elapsed = models.IntegerField(default=1)
+    
     
     def __str__(self):
-        return f"id: {self.id}, user: {self.user}, habit: {self.habit}, category: {self.category}, frequency: {self.frequency}, start_date: {self.start_date}, goal: {self.goal}, achieved: {self.achieved}, is_required_reminder: {self.is_required_reminder}"
+        return f"id: {self.id}, user: {self.user}, habit: {self.habit}, category: {self.category}, frequency: {self.frequency}, start_date: {self.start_date}, goal: {self.goal}, achieved: {self.achieved}, is_required_reminder: {self.is_required_reminder}, is_completed: {self.is_completed}, days_elapsed: {self.days_elapsed}"
     
 class HabitProgress(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name='progress')

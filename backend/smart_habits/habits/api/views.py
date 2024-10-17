@@ -30,6 +30,61 @@ def get_habits(request):
     try:
         habits = Habit.objects.filter(user=request.user.id)
         
+        
+        for habit in habits:
+            #print(habit)
+            
+            habit_date = habit.start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+            today_date = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+            
+            # Se reinicia el día del hábito
+            if habit_date != today_date:
+            
+                #print(habit_date)
+                habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
+                #achived = habit.achieved
+                #goal = habit.goal
+                #progress = int((achived * 100) / goal)
+                
+                #if progress >= 100:
+                    #progress = 100
+                
+                habit_data = {}
+                
+                progress_array = habit_progress.progress_array
+                if len(progress_array) == 30:
+                    progress_array.pop(0)
+                    
+                #progress_array[-1] = progress
+                progress_array.append(0)
+                    
+                habit_progress.progress_array = progress_array
+                habit_progress.updated_at = today_date
+                habit_progress.save()
+                    
+                
+                days_elapsed = habit.days_elapsed + 1
+                
+                if habit.frequency == 'm' and habit.days_elapsed == 30:
+                    days_elapsed = 1
+                    habit_data['achieved'] = 0
+                    habit_data['is_completed'] = False
+                elif habit.frequency == 'w' and habit.days_elapsed == 7:
+                    days_elapsed = 1
+                    habit_data['achieved'] = 0
+                    habit_data['is_completed'] = False
+                elif habit.frequency == 'd' and habit.days_elapsed == 1:
+                    days_elapsed = 1
+                    habit_data['achieved'] = 0
+                    habit_data['is_completed'] = False
+                    
+                habit_data['days_elapsed'] = days_elapsed
+                habit_data['start_date'] = today_date
+                habit_serializer = HabitSerializer(habit, data=habit_data, partial=True)
+                if not habit_serializer.is_valid():
+                    return Response(habit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                habit_serializer.save()
+        
         habits_serializer = HabitListSerializer(habits, many=True)
         return Response(habits_serializer.data, status=status.HTTP_200_OK)
         
