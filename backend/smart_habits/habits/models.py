@@ -24,6 +24,7 @@ class Habit(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='habits')
     habit = models.CharField(max_length=255, null=False)
+    description = models.TextField(null=True)
     category = models.CharField(max_length=255, choices=CATEGORY_CHOICES)
     frequency = models.CharField(max_length=1, choices=FREQUENCY_CHOICES)
     start_date = models.DateTimeField(default=timezone.now)
@@ -35,7 +36,7 @@ class Habit(models.Model):
     
     
     def __str__(self):
-        return f"id: {self.id}, user: {self.user}, habit: {self.habit}, category: {self.category}, frequency: {self.frequency}, start_date: {self.start_date}, goal: {self.goal}, achieved: {self.achieved}, is_required_reminder: {self.is_required_reminder}, is_completed: {self.is_completed}, days_elapsed: {self.days_elapsed}"
+        return f"id: {self.id}, user: {self.user}, habit: {self.habit}, description: {self.description}, category: {self.category}, frequency: {self.frequency}, start_date: {self.start_date}, goal: {self.goal}, achieved: {self.achieved}, is_required_reminder: {self.is_required_reminder}, is_completed: {self.is_completed}, days_elapsed: {self.days_elapsed}"
     
 class HabitProgress(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name='progress')
