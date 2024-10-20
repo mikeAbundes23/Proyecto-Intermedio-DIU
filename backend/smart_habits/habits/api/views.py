@@ -177,11 +177,11 @@ def update_habit(request, habit_id):
 @permission_classes([IsAuthenticated])
 def update_progress(request, habit_id):
     try:
-        habit = get_object_or_404(Habit, id=habit_id, user=request.user.id)
-        #print(habit)
-        
+        habit = get_object_or_404(Habit, id=habit_id, user=request.user.id) 
         achived_data = request.data.get('achieved')        
-        #last_progress = habit.progress.last()
+        user = get_object_or_404(User, id=request.user.id)
+        print(user)
+        
         
         # Objeto con la información del progreso del hábito
         habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
@@ -192,11 +192,7 @@ def update_progress(request, habit_id):
         
         progress_array = habit_progress.progress_array # Array con el los porcentajes de progreso
         
-        
-        # Asegurarno que la información no pasa de 30 días
-        if len(progress_array) == 30:
-            progress_array.pop(0)
-   
+        # Progreso actual del hábito
         progress = int((achived_data * 100) / habit.goal)
     
         if progress >= 100:
@@ -207,13 +203,20 @@ def update_progress(request, habit_id):
             
         progress_updated_at =  habit_progress.updated_at.replace(hour=0, minute=0, second=0, microsecond=0)
         today_date = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        habit_progress_data['updated_at'] = timezone.now()
+        
+        # Actualizamos la fecha de acutalización del hábito y el progreso
+        habit_progress_data['updated_at'] = today_date
+        habit_data['start_date'] = today_date
         
         # Si es un día distito, creamos un nuevo progreso
         if progress_updated_at == today_date:
             progress_array[-1] = progress
         else:
             progress_array.append(progress)
+            
+        # Asegurarno que la información no pasa de 30 días
+        if len(progress_array) > 30:
+            progress_array.pop(0)
             
         habit_progress_data['progress_array'] = progress_array
         
@@ -228,7 +231,20 @@ def update_progress(request, habit_id):
         if not habit_progress_serializer.is_valid():
             return Response(habit_progress_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         habit_progress_serializer.save()
-                            
+        
+        # Ver que solo ha pasado un día para actualizar la racha
+        if (today_date - user.updated_at).days == 1:
+            user.ongoing_streak += 1
+        else: # se reinicia la racha
+            user.ongoing_streak = 1
+            
+        # Verificar si la racha actual es mayor a la racha más larga
+        if user.ongoing_streak > user.longest_streak:
+            user.longest_streak = user.ongoing_streak
+            
+        user.updated_at = today_date
+        user.save()
+                  
         return Response({"message": "Progreso actualizado correctamente"}, status=status.HTTP_200_OK)
         
     except Exception as e:

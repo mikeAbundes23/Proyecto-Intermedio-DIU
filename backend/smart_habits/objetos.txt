@@ -19,6 +19,7 @@ Objeto para crear un hábito:
 
 {
   "habit" : "Leer",
+  "description" : "Esto es una descripción"
   "category" : "school",
   "frequency" : "d",
   "goal" : "1"
