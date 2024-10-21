@@ -1,3 +1,4 @@
+import random
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,14 +16,11 @@ from .serializers import (
     HabitListSerializer, 
     HabitProgressSerializer, 
     HabitProgressInfoSerializer, 
-    HabitProgressListSerializer
+    HabitProgressListSerializer,
+    HabitReminderSerializer,
+    HabitNotificationSerializer
 )
-
-
 from user.models import User
-
-#TO-DO ver que pasa cuano se cambia de día, hay que reiniciar el progreso del hábito
-
 
 # Obtener la lista de hábitos que pertenecen al usuario logueado
 @api_view(['GET'])
@@ -303,6 +301,64 @@ def get_progress_by_category(request, category):
             "habits_completed": habits_completed,
             "habits_incopmleted": habits_incopmleted
         }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_habit_notifications(request):
+    try:
+        habits = Habit.objects.filter(user=request.user.id, is_required_reminder=True, is_completed=False)
+        
+        if not habits:
+            return Response({"message": "No hay hábitos por los que notificar"}, status=status.HTTP_200_OK)
+        
+        frases_motivacion = {
+            1: "Hoy es el día para acercarte un poco más.",
+            2: "Cada pequeño paso cuenta más de lo que imaginas.",
+            3: "Lo que siembras hoy, lo recogerás mañana.",
+            4: "A veces, lo más difícil es lo que más necesitas.",
+            5: "El cambio comienza cuando menos lo esperas.",
+            6: "Hazlo ahora, porque después será diferente.",
+            7: "Es solo un momento, pero su impacto durará.",
+            8: "Lo que parece pequeño, puede ser grande con el tiempo.",
+            9: "Un hábito hoy, una vida mañana.",
+            10: "La constancia es la clave para descubrir lo que está oculto."
+        }
+
+        limit = 0
+        
+        if len(habits) > 3:
+            limit = 3
+        else:
+            limit = len(habits)        
+        
+        notifications = {}
+        
+        i  = 0
+        while i < limit:
+            notifications[habits[i].habit] = frases_motivacion[random.randint(1, 10)]
+            i += 1
+            
+        return Response({"data": notifications}, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def reminder(request):
+    try:
+        habits = Habit.objects.filter(user=request.user.id, is_required_reminder=True, is_completed=False)
+        
+        if not habits:
+            return Response({"message": "No hay hábitos con recordatorio"}, status=status.HTTP_200_OK)
+        
+        habit = habits[random.randint(0, len(habits) - 1)]
+        
+        habitt_serializer = HabitReminderSerializer(habit)
+        return Response({"data": habitt_serializer.data}, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

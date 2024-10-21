@@ -9,7 +9,10 @@ from .views import (
         get_habit_progress, 
         update_habit, 
         update_progress, 
-        get_progress_by_category)
+        get_progress_by_category,
+        get_habit_notifications,
+        reminder
+        )
 
 
 router = DefaultRouter()
@@ -24,4 +27,6 @@ urlpatterns = [
     path('habits/update/<int:habit_id>/', update_habit),
     path('habits/update/progress/<int:habit_id>/', update_progress),
     path('habits/progress/by-category/<str:category>/', get_progress_by_category),
+    path('habits/notifications/', get_habit_notifications),
+    path('habits/reminder/', reminder) 
 ]
