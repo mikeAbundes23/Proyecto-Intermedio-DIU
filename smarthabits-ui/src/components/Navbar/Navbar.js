@@ -6,6 +6,7 @@ import LoginModal from '../Modals/LoginModal';
 import SigninModal from '../Modals/SignInModal';
 import UserButtons from './UserButtons';
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
@@ -17,7 +18,6 @@ const Navbar = () => {
 
   const handleCloseSignin = () => setShowSignin(false);
   const handleShowSignin = () => setShowSignin(true);
-
   return (
     <>
       <nav className="navbar">
@@ -30,6 +30,10 @@ const Navbar = () => {
             <UserButtons handleLogout={logout} />
           ) : (
             <>
+              {/* Button to move to the habits interface */}
+              <button className="navbar-button" onClick={() => navigate('/habits')} id="habitsBtn">
+                Habits
+              </button>
               <button className="navbar-button" onClick={handleShowSignin} id="signinBtn">
                 Registrarse
               </button>
