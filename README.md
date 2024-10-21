@@ -1,8 +1,16 @@
 <h1  align="center">
 SmartHabits
 <br>
-Proyecto Intermedio de Diseño de Interfaces de Usuario
+Proyecto Intermedio de
+  
+Diseño de Interfaces de Usuario
 </h1>
+
+<h2 align="center">Equipo 5: KirbyCreatives</h2>
+
+<p align="center">
+  <img src="PapitasLogo.png" />
+</p>
 
 
 ## Desarrolladores
@@ -14,12 +22,12 @@ Proyecto Intermedio de Diseño de Interfaces de Usuario
 - [Vázquez Dávila José Adolfo](https://github.com/Jose117053)
 - [Villafán Flores María Fernanda](https://github.com/FernandaVillafan)
 
-## Intalación y ejecución del proyecto:
+## Instalación y Ejecución del Proyecto
 
 Clonar el proyecto con el link:
 `git@github.com:mikeAbundes23/Proyecto-Intermedio-DIU.git`
 
-## Técnologias utilizadas en el backend
+## Tecnologías utilizadas en el Back-End
 
 Package                       |Version
 ----------------------------- |-----------
@@ -43,24 +51,25 @@ sqlparse                      |0.5.1
 tzdata                        |2024.2
 urllib3                       |2.2.3
 
-## Versión de python
+## Versión de Python
 Python 3.11.4
 
-## Cración de entorno virtual
+## Creación de Entorno Virtual
 
-Crear un entorno virtual para poder instalar las dependendias necesarias del backend: `python3 -m venv venv`
+Crear un entorno virtual para poder instalar las dependendias necesarias del Back-End: `python3 -m venv venv`
 
-Activar el entorno virtual: `.\venv\Scripts\activate` 
+Activar el entorno virtual con el comando: `.\venv\Scripts\activate`.
 
-navegar a la direcotrio ***backned*** con `cd .\backend\`
+Navegar al directorio ***backend*** con el comando: `cd .\backend\`.
 
-Instalación de dependencias: `pip install -r requirements.txt`
+Instalación de dependencias con el comando: `pip install -r requirements.txt`.
 
-## Ejecución del backend
+## Ejecución del Back-End
 
-Una vez que se haya creado el entorno virtual con las dependencias necesarias vamos dentro del directorio ***smart_habits*** con  `cd .\smart_habits\` y ahora podemos ejecutar el backend con el comando `python manage.py runserver`
+Una vez que se haya creado el entorno virtual con las dependencias necesarias, vamos dentro del directorio ***smart_habits*** con  `cd .\smart_habits\` y ahora podemos ejecutar el Back-End con el comando: `python manage.py runserver`.
 
-## Usario público
+## Usuario Público
 
-username : irving_abundes
-password : 12345678
+__username :__ `irving_abundes`
+
+__password :__ `12345678`
