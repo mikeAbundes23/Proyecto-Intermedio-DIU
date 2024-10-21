@@ -9,7 +9,7 @@ Diseño de Interfaces de Usuario
 <h2 align="center">Equipo 5: KirbyCreatives</h2>
 
 <p align="center">
-  <img src="PapitasLogo.png" />
+  <img src="Logo.png" />
 </p>
 
 
