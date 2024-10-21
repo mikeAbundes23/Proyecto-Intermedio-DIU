@@ -122,6 +122,7 @@ DATABASES = {
     'PORT': getenv('PGPORT', 5432),
     'OPTIONS': {
       'sslmode': 'require',
+      'options': '-c search_path=smarthabitsdb,public -c endpoint=ep-old-mouse-a5gbisi0',
     },
   }
 }
