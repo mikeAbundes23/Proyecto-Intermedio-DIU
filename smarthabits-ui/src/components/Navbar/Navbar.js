@@ -3,7 +3,7 @@ import './Navbar.css';
 import logo from '../../images/Icono.png';
 import letras from '../../images/Letras.png';
 import LoginModal from '../Modals/LoginModal';
-import SigninModal from '../Modals/SignInModal';
+import SignUpModal from '../Modals/SignUpModal';
 import UserButtons from './UserButtons';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -11,13 +11,22 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
   const [showLogin, setShowLogin] = useState(false);
-  const [showSignin, setShowSignin] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
 
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
 
-  const handleCloseSignin = () => setShowSignin(false);
-  const handleShowSignin = () => setShowSignin(true);
+  const handleCloseSignin = () => setShowSignUp(false);
+  const handleShowSignUp = () => setShowSignUp(true);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    logout();
+    navigate('/');
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -27,14 +36,10 @@ const Navbar = () => {
         </div>
         <div className="navbar-buttons">
           {isAuthenticated ? (
-            <UserButtons handleLogout={logout} />
+            <UserButtons handleLogout={handleLogout} />
           ) : (
             <>
-              {/* Button to move to the habits interface */}
-              <button className="navbar-button" onClick={() => navigate('/habits')} id="habitsBtn">
-                Habits
-              </button>
-              <button className="navbar-button" onClick={handleShowSignin} id="signinBtn">
+              <button className="navbar-button" onClick={handleShowSignUp} id="signinBtn">
                 Registrarse
               </button>
               <button className="navbar-button" onClick={handleShowLogin} id="loginBtn">
@@ -44,8 +49,8 @@ const Navbar = () => {
           )}
         </div>
       </nav>
-      <SigninModal show={showSignin} handleClose={handleCloseSignin} />
-      <LoginModal show={showLogin} handleClose={handleCloseLogin} />
+      <SignUpModal show={showSignUp} handleClose={handleCloseSignin} setShowLogin={setShowLogin} />
+      <LoginModal show={showLogin} handleClose={handleCloseLogin} setShowSignUp={setShowSignUp} />
     </>
   );
 };

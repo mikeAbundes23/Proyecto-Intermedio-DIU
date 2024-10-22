@@ -1,33 +1,71 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import './SignInModal.css';
+import './SignUpModal.css';
 import emailIcon from '../../images/mail.png';
 import passwordIcon from '../../images/password.png';
 import usernameIcon from '../../images/username.png';
 import nameIcon from '../../images/user.png';
 import lastnameIcon from '../../images/user02.png';
+import axios from 'axios';
 
-const SignInModal = ({ show, handleClose }) => {
+const SignUpModal = ({ show, handleClose, setShowLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // Nuevo estado para confirmar contraseña
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [lastname, setLastname] = useState('');
+  const [error, setError] = useState(null); // Para manejar mensajes de error
 
-  const handleSubmit = (event) => {
+  // Función para abrir el modal de login
+  const handleOpenLogin = () => {
+    handleClose(); // Cierra el modal de registro
+    setShowLogin(true); // Abre el modal de inicio de sesión
+  };
+
+  // Función para manejar el envío del formulario de registro
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Previene el envío del formulario por defecto
-    console.log("Submit SignIn");
-    console.log('email', email);
-    console.log('password', password);
-    console.log('username', username);
-    console.log('name', name);
-    console.log('lastname', lastname);
-    setEmail('');
-    setPassword('');
-    setUsername('');
-    setName('');
-    setLastname('');
-    handleClose();
+
+    // Validar que las contraseñas coincidan
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden.');
+      return;
+    }
+
+    try {
+      // Realizar la solicitud POST al endpoint de creación de usuario
+      const response = await axios.post('http://127.0.0.1:8000/api/user/create-user/', {
+        name: name,
+        last_name: lastname,
+        username: username,
+        password: password,
+        password_confirmation: confirmPassword,
+        email: email,
+      });
+
+      // Comprobar la respuesta
+      if (response.data.message === "Usuario creado con éxito") {
+        console.log('Registro exitoso:', response.data.message);
+
+        // Limpiar el formulario y cerrar el modal después del registro exitoso
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setUsername('');
+        setName('');
+        setLastname('');
+        handleClose();
+
+        // Abre el modal de inicio de sesión después del registro
+        setShowLogin(true);
+      } else {
+        setError('No se pudo crear el usuario. Intenta nuevamente.');
+      }
+    } catch (error) {
+      setError('Error en el registro. Por favor, revisa los datos ingresados.');
+      console.error('Error en el registro:', error);
+    }
   };
 
   const handleCloseModal = () => {
@@ -35,11 +73,12 @@ const SignInModal = ({ show, handleClose }) => {
     // Limpiar las entradas al cerrar el modal
     setEmail('');
     setPassword('');
+    setConfirmPassword('');
     setUsername('');
     setName('');
     setLastname('');
+    setError(null); // Limpia el mensaje de error
   };
-
 
   return (
     <Modal show={show} onHide={handleCloseModal} centered>
@@ -65,15 +104,15 @@ const SignInModal = ({ show, handleClose }) => {
             />
           </div>
           <div className="input-group mb-3">
-            <span className="input-group-text" id="name-addon">
-              <img src={lastnameIcon} alt="name-icon" className="input-icon" />
+            <span className="input-group-text" id="lastname-addon">
+              <img src={lastnameIcon} alt="lastname-icon" className="input-icon" />
             </span>
             <input
               type="text"
               id="lastname"
               className="form-control rounded-input"
               placeholder="Apellido(s)"
-              aria-label="Nombre"
+              aria-label="Apellido"
               aria-describedby="lastname-addon"
               value={lastname}
               onChange={(e) => setLastname(e.target.value)}
@@ -96,7 +135,6 @@ const SignInModal = ({ show, handleClose }) => {
               required
             />
           </div>
-
           <div className="input-group mb-3">
             <span className="input-group-text" id="password-addon">
               <img src={passwordIcon} alt="password-icon" className="input-icon" />
@@ -114,7 +152,23 @@ const SignInModal = ({ show, handleClose }) => {
               minLength={8}
             />
           </div>
-
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="confirm-password-addon">
+              <img src={passwordIcon} alt="confirm-password-icon" className="input-icon" />
+            </span>
+            <input
+              type="password"
+              id="confirmPassword"
+              className="form-control rounded-input"
+              placeholder="Confirmar Contraseña"
+              aria-label="Confirmar Contraseña"
+              aria-describedby="confirm-password-addon"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              minLength={8}
+            />
+          </div>
           <div className="input-group mb-3">
             <span className="input-group-text" id="username-addon">
               <img src={usernameIcon} alt="username-icon" className="input-icon" />
@@ -134,20 +188,27 @@ const SignInModal = ({ show, handleClose }) => {
             />
           </div>
 
+          {error && <p className="text-danger">{error}</p>}
 
-          {/* Mueve el botón de enviar dentro del formulario */}
           <Button type="submit" className="form-btn" variant="primary">
             Enviar
           </Button>
         </form>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center border-0">
-        <span className='footer-text'>
-          ¿Ya tienes una cuenta? <a className='text-decoration-none' href="./">Inicia sesión</a>
+        <span className="footer-text">
+          ¿Ya tienes una cuenta?{" "}
+          <span
+            className="text-primary text-decoration-none"
+            style={{ cursor: "pointer" }}
+            onClick={handleOpenLogin}
+          >
+            Inicia sesión
+          </span>
         </span>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default SignInModal;
+export default SignUpModal;

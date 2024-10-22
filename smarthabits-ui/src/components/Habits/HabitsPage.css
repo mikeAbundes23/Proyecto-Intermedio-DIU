@@ -1,0 +1,128 @@
+/* Container for the entire habits page */
+.habits-page-container {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Title Section */
+.title-section h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 24px;
+}
+
+/* Buttons Container */
+.buttons-container {
+  margin: 36px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.create-button {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 12px;
+}
+
+.action-button {
+  background-color: #00796b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 12px;
+}
+
+.action-button:hover {
+  background-color: #004d40;
+}
+
+/* Habits Section */
+.habits-section h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.habits-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin: 20px;
+}
+
+.habit-card {
+  background-color: #f8d8a5; /* Color beige por defecto */
+  border-radius: 8px;
+  padding: 16px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.habit-card.completed {
+  background-color: #a0e7a0; /* Color verde si se completa el objetivo */
+}
+
+.habit-info {
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.habit-goal {
+  font-size: 12px;
+}
+
+.habit-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.habit-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.habit-progress button {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.details-button {
+  background-color: #f98e42;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.details-button:hover {
+  background-color: #f77a2e;
+}
+
+.habits-title-container {
+  background-color: #feae6f; /* Naranja */
+  height: 50px;
+  padding: 10px 0;
+  margin: 40px 20px;
+}
+
+.habits-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black; /* Color del texto en blanco */
+}

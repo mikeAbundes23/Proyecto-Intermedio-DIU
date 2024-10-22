@@ -3,35 +3,53 @@ import { Modal, Button } from 'react-bootstrap';
 import './LoginModal.css';
 import emailIcon from '../../images/mail.png';
 import passwordIcon from '../../images/password.png';
-import { test, login } from '../../services/smarthabitsAPIService';
 import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const LoginModal = ({ show, handleClose }) => {
-  const [email, setEmail] = useState('');
+const LoginModal = ({ show, handleClose, setShowSignUp }) => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  
+  const navigate = useNavigate();
+
   const { login } = useContext(AuthContext);
+
+  // Función para cerrar el modal de login y abrir el de registro
+  const openSignupModal = () => {
+    handleClose(); // Cierra el modal de login
+    setShowSignUp(true); // Abre el modal de registro
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       console.log("Submit login");
-      console.log('email', email);
-      console.log('password', password);
-      
-      // Llama a la API para hacer login
-      //const data = await login(email, password);
-      const data = await test(email, password);
-      console.log('Login exitoso:', data);
+      console.log('username:', username);
+      console.log('password:', password);
 
-      // Guarda el token en una cookie y actualiza el estado global de autenticación
-      login(data?.accessToken); // Llama a la función `login` del contexto para guardar la cookie y el estado
+      // Make a POST request to the login endpoint
+      const response = await axios.post('http://127.0.0.1:8000/api/user/login/', {
+        username: username,  // Use 'email' here assuming your backend expects 'username' field
+        password: password,
+      });
 
-      // Limpiar el formulario y cerrar el modal
-      setEmail('');
+      const { access } = response.data;  // Extract the access token from response
+
+      console.log('Login exitoso:', access);
+
+      // Store the access token in local storage
+      localStorage.setItem('access_token', access);
+
+      // Update global authentication state using your existing login function
+      login(access); // Assuming this function updates global auth state and stores the token in a cookie
+
+      // Clear the form fields and close the modal
+      setUsername('');
       setPassword('');
       handleClose();
+
+      navigate('/habits');
     } catch (error) {
       setError('Credenciales incorrectas. Intenta nuevamente.');
       console.error('Error en el login:', error);
@@ -41,7 +59,7 @@ const LoginModal = ({ show, handleClose }) => {
   const handleCloseModal = () => {
     handleClose(); // Cierra el modal
     // Limpiar las entradas al cerrar el modal
-    setEmail('');
+    setUsername('');
     setPassword('');
   };
 
@@ -53,18 +71,18 @@ const LoginModal = ({ show, handleClose }) => {
       <Modal.Body>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="input-group mb-3">
-            <span className="input-group-text" id="email-addon">
-              <img src={emailIcon} alt="email-icon" className="input-icon" />
+            <span className="input-group-text" id="username-addon">
+              <img src={emailIcon} alt="username-icon" className="input-icon" />
             </span>
             <input
-              type="email"
-              id="email"
+              type="text"
+              id="username"
               className="form-control rounded-input"
-              placeholder="Correo"
-              aria-label="Correo"
-              aria-describedby="email-addon"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Usuario"
+              aria-label="Usuario"
+              aria-describedby="username-addon"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -94,9 +112,17 @@ const LoginModal = ({ show, handleClose }) => {
           </Button>
         </form>
       </Modal.Body>
+
       <Modal.Footer className="d-flex justify-content-center border-0">
-        <span className='footer-text'>
-          ¿No tienes una cuenta? <a className='text-decoration-none' href="./">Regístrate</a>
+        <span className="footer-text">
+          ¿No tienes una cuenta?{" "}
+          <span
+            className="text-primary text-decoration-none"
+            style={{ cursor: "pointer" }}
+            onClick={openSignupModal}
+          >
+            Regístrate
+          </span>
         </span>
       </Modal.Footer>
     </Modal>
