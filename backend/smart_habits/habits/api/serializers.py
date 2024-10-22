@@ -27,7 +27,7 @@ class HabitNotificationSerializer(serializers.ModelSerializer):
 class HabitListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
-        fields = ['id', 'habit', 'category', 'achieved', 'goal', 'is_completed']
+        fields = ['id', 'habit', 'category', 'achieved', 'goal', 'is_completed', 'frequency', 'description']
         
 # Serializador para obtener el progreso de un hábito
 class HabitProgressSerializer(serializers.ModelSerializer):
