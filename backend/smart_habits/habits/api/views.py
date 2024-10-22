@@ -5,6 +5,7 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from datetime import timedelta
 
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -34,11 +35,12 @@ def get_habits(request):
         
         
         for habit in habits:
-            #print(habit)
             
             habit_date = habit.start_date.replace(hour=0, minute=0, second=0, microsecond=0)
-            today_date = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
-            
+            today_date = timezone.now()
+            today_date = today_date - timedelta(hours=6)
+            today_date = today_date.replace(hour=0, minute=0, second=0, microsecond=0)
+ 
             # Se reinicia el día del hábito
             if habit_date != today_date:
             
@@ -52,28 +54,31 @@ def get_habits(request):
                 if len(progress_array) == 30:
                     progress_array.pop(0)
                     
-                progress_array.append(0)
+                progress_array.append(progress_array[-1])
+                  
+                days_elapsed = habit.days_elapsed + 1
+                
+                # Reinicio de la información del hábito cuando ha pasado su frecuencia
+                # Refactorizar, se puede unificar
+                if habit.frequency == 'm' and days_elapsed > 30:
+                    days_elapsed = 1
+                    habit_data['achieved'] = 0
+                    habit_data['is_completed'] = False
+                    progress_array[-1] = 0
+                elif habit.frequency == 'w' and days_elapsed > 7:
+                    days_elapsed = 1
+                    habit_data['achieved'] = 0
+                    habit_data['is_completed'] = False
+                    progress_array[-1] = 0
+                elif habit.frequency == 'd' and days_elapsed > 1:
+                    days_elapsed = 1
+                    habit_data['achieved'] = 0
+                    habit_data['is_completed'] = False
+                    progress_array[-1] = 0
                     
                 habit_progress.progress_array = progress_array
                 habit_progress.updated_at = today_date
                 habit_progress.save()
-                    
-                
-                days_elapsed = habit.days_elapsed + 1
-                
-                # Reinicio de la información del hábito cuando ha pasado su frecuencia
-                if habit.frequency == 'm' and habit.days_elapsed == 30:
-                    days_elapsed = 1
-                    habit_data['achieved'] = 0
-                    habit_data['is_completed'] = False
-                elif habit.frequency == 'w' and habit.days_elapsed == 7:
-                    days_elapsed = 1
-                    habit_data['achieved'] = 0
-                    habit_data['is_completed'] = False
-                elif habit.frequency == 'd' and habit.days_elapsed == 1:
-                    days_elapsed = 1
-                    habit_data['achieved'] = 0
-                    habit_data['is_completed'] = False
                     
                 habit_data['days_elapsed'] = days_elapsed
                 habit_data['start_date'] = today_date
@@ -112,7 +117,9 @@ def create_habit(request):
         habit_data['user'] = user.id # Agregamos el usuario al diccionario de datos
         
         start_date = timezone.now() 
-        habit_data['start_date'] = start_date.replace(hour=0, minute=0, second=0, microsecond=0) # Establecemos la fecha de inicio desde el día actual
+        start_date = start_date - timedelta(hours=6)
+        start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        habit_data['start_date'] = start_date # Establecemos la fecha de inicio desde el día actual
         
         habit_serializer = HabitSerializer(data=habit_data) # Creamos el serializador
         
@@ -124,7 +131,7 @@ def create_habit(request):
         # Creamos el registro del progreso del hábito
         habit_progress = HabitProgress.objects.create(
                 habit=habit,
-                updated_at=timezone.now(),
+                updated_at=start_date,
                 progress_array=[0]
             )
         habit_progress.save()
@@ -178,7 +185,7 @@ def update_progress(request, habit_id):
         habit = get_object_or_404(Habit, id=habit_id, user=request.user.id) 
         achived_data = request.data.get('achieved')        
         user = get_object_or_404(User, id=request.user.id)
-        print(user)
+        
         
         
         # Objeto con la información del progreso del hábito
@@ -200,8 +207,10 @@ def update_progress(request, habit_id):
             habit_data['is_completed'] = False
             
         progress_updated_at =  habit_progress.updated_at.replace(hour=0, minute=0, second=0, microsecond=0)
-        today_date = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        
+        today_date = timezone.now() 
+        today_date = today_date - timedelta(hours=6)
+        today_date = today_date.replace(hour=0, minute=0, second=0, microsecond=0) 
+               
         # Actualizamos la fecha de acutalización del hábito y el progreso
         habit_progress_data['updated_at'] = today_date
         habit_data['start_date'] = today_date
