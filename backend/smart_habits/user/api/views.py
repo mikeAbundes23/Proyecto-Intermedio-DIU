@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate
 
 from user.api.serializers import CreateUserSerializer, UserSerializer
 from ..models import User
+from habits.models import Habit
 
 
 @api_view(['POST'])
@@ -81,6 +82,13 @@ def get_user(request):
         user = get_object_or_404(User, id=user_id) # Obtener el usuario
         user_serializer = UserSerializer(user)
         
-        return Response({"data" : user_serializer.data}, status=status.HTTP_200_OK)
+        habits = Habit.objects.filter(user_id=user_id)
+        
+        habits_completed = (habits.filter(is_completed=True).count() * 100) / len(habits)
+        
+        return Response({
+            "data" : user_serializer.data,
+            "habits_completed": habits_completed,
+            }, status=status.HTTP_200_OK)
     except Exception as _:
         return Response({'message': 'Error al intentar obtener el usuario'}, status=status.HTTP_400_BAD_REQUEST)

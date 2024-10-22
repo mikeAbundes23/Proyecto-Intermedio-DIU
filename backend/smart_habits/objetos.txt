@@ -23,6 +23,7 @@ Objeto para crear un hábito:
   "category" : "school",
   "frequency" : "d",
   "goal" : "1"
+  "is_required_reminder" :  true
 }
 
 Objeto para modificar el progreso:
