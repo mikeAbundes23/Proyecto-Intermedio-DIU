@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+// ! DEPRECATED
+
 const api_url = process.env.REACT_APP_API_URL;
 
 // Función para hacer login
@@ -17,17 +19,17 @@ export const login = async (email, password) => {
 };
 
 // Función de prueba
-export const test = async (username,password) => {
-    try {
-      console.log(api_url);
-      const response = await axios.post(`${api_url}/auth/login`, {
-        username: 'emilys',
-        password: 'emilyspass',
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error al hacer login:', error);
-      throw error;
-    }
-  };
-  
+export const test = async (username, password) => {
+  try {
+    console.log(api_url);
+    const response = await axios.post(`${api_url}/auth/login`, {
+      username: 'emilys',
+      password: 'emilyspass',
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al hacer login:', error);
+    throw error;
+  }
+};
+

@@ -1,0 +1,21 @@
+.progress-graphs-container {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.graphs {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bar-graph,
+.pie-graph {
+  width: 45%;
+}
+
+.bar-graph h3,
+.pie-graph h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}

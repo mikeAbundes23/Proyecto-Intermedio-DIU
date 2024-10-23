@@ -4,12 +4,19 @@ import "./HabitsPage.css";
 import Navbar from "../Navbar/Navbar";
 import CreateHabitButton from "./CreateHabitButton";
 import HabitCard from "./HabitCard";
+import { useNavigate } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
 
 const HabitsPage = () => {
   const [habits, setHabits] = useState([]);
   const [name, setName] = useState(""); // Estado para el nombre del usuario
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleProgressClick = () => {
+    navigate("/progress"); // Redirige a la página de progreso
+  };
 
   // Función para obtener hábitos y nombre del usuario al mismo tiempo
   const fetchData = async () => {
@@ -68,7 +75,9 @@ const HabitsPage = () => {
 
         <div className="buttons-container">
           <CreateHabitButton onHabitCreated={handleHabitCreated} />
-          <button className="action-button">Progreso</button>
+          <button className="action-button" onClick={handleProgressClick}>
+            Progreso
+          </button>
         </div>
 
         <div className="habits-section">
@@ -76,7 +85,7 @@ const HabitsPage = () => {
             <h2 className="habits-title">HÁBITOS</h2>
           </div>
           {error && <p className="text-danger">{error}</p>}
-          {isLoading && <p>Cargando hábitos...</p>}
+          {isLoading && <Spinner />}
           {!isLoading && (
             <div className="habits-grid">
               {habits && habits.length > 0 ? (

@@ -1,0 +1,98 @@
+.filter-dropdown-container {
+  margin: 40px 0px;
+  width: 100%;
+}
+
+.filter-button-header {
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.filter-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.filter-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.days-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px -20px;
+  margin-bottom: 20px;
+}
+
+.days-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 20px;
+  padding: 10px 0;
+  font-size: 16px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.icon-calendar {
+  margin-right: 5px;
+}
+
+.days-button.active {
+  background-color: #028391;
+  color: #fff;
+}
+
+.filter-dropdown .dropdown-toggle-custom {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  text-align: left;
+  color: #000; /* Cambiar color de texto a negro */
+}
+
+.filter-dropdown .dropdown-menu {
+  background-color: #fff;
+}
+
+.filter-dropdown .dropdown-menu .dropdown-item {
+  color: #000 !important; /* Asegura que el texto sea negro */
+}
+
+.filter-dropdown .dropdown-menu .dropdown-item:hover {
+  background-color: #f0f0f0; /* Fondo gris claro al pasar el mouse */
+}
+
+.view-graphs-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Espacio superior opcional */
+}
+
+.view-graphs-button {
+  width: 150px;
+  padding: 8px 0;
+  background-color: #028391 !important; /* Asegurar el color con !important */
+  color: #fff !important; /* Asegurar el color del texto con !important */
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Suaviza el cambio de color al pasar el mouse */
+}
+
+.view-graphs-button:hover {
+  background-color: #01606a !important; /* Asegurar el color del hover con !important */
+}

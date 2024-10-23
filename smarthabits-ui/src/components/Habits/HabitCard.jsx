@@ -3,11 +3,13 @@ import habitIcon from "../../images/habit-icon.png";
 import HabitDetailsModal from "./HabitDetailsModal";
 import axios from "axios";
 import { useState } from "react";
+import { Spinner } from "react-bootstrap";
 
 const HabitCard = ({ habit, setHabits, setError, habits }) => {
   // Estados para el modal de detalles
   const [selectedHabit, setSelectedHabit] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Función para abrir el modal de detalles
   const openDetailsModal = (habit) => {
@@ -44,6 +46,7 @@ const HabitCard = ({ habit, setHabits, setError, habits }) => {
     }
 
     try {
+      setIsLoading(true);
       const response = await axios.put(
         `http://127.0.0.1:8000/api/habits/update/progress/${id}/`,
         { achieved: newAchieved },
@@ -65,6 +68,8 @@ const HabitCard = ({ habit, setHabits, setError, habits }) => {
     } catch (err) {
       setError("Failed to update progress. Please try again.");
       console.error("Error in updateHabitProgress:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -81,11 +86,19 @@ const HabitCard = ({ habit, setHabits, setError, habits }) => {
         <img src={habitIcon} alt="Habit icon" />
         <span className="habit-name">{habit.habit}</span>
       </div>
-      <div className="habit-progress">
-        <button onClick={() => decrementHabit(habit)}>-</button>
-        <span>{habit.achieved}</span>
-        <button onClick={() => incrementHabit(habit)}>+</button>
-      </div>
+
+      {isLoading ? (
+        <Spinner animation="border" />
+      ) : (
+        <>
+          <div className="habit-progress">
+            <button onClick={() => decrementHabit(habit)}>-</button>
+            <span>{habit.achieved}</span>
+            <button onClick={() => incrementHabit(habit)}>+</button>
+          </div>
+        </>
+      )}
+
       <button
         className="details-button"
         onClick={() => openDetailsModal(habit)}

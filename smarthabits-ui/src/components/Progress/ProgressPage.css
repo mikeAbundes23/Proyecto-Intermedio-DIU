@@ -1,0 +1,42 @@
+.progress-section {
+  padding: 20px 80px;
+}
+
+.progress-page h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.progress-item {
+  margin-bottom: 20px;
+}
+
+.progress-item p {
+  font-size: 18px;
+  margin: 0;
+}
+
+.progress-item h3 {
+  font-size: 24px;
+  margin: 5px 0;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #1b3b6f;
+  font-size: 36px;
+  margin: 20px 20px 0px 20px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  color: #555;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
