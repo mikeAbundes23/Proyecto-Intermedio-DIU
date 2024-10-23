@@ -24,7 +24,7 @@ Chart.register(
   ArcElement
 );
 
-const ProgressGraphs = ({ selectedCategory, selectedHabit }) => {
+const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
   const [barData, setBarData] = useState({});
   const [pieData, setPieData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,7 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit }) => {
     } else {
       fetchProgressByHabit();
     }
-  }, [selectedCategory, selectedHabit]);
+  }, [selectedCategory, selectedHabit, selectedDays]);
 
   // Función para obtener el progreso por categoría
   const fetchProgressByCategory = async () => {
@@ -64,10 +64,9 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit }) => {
       const labels = data.map((item) => item.habit.habit);
       const completedData = data.map((item) => {
         // Calculate average progress
-        const totalProgress = item.progress_array.reduce(
-          (sum, value) => sum + value,
-          0
-        );
+        const totalProgress = item.progress_array
+          .slice(-selectedDays)
+          .reduce((sum, value) => sum + value, 0);
         const averageProgress = totalProgress / item.progress_array.length;
         return averageProgress;
       });
@@ -128,7 +127,7 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit }) => {
         return;
       }
 
-      const progressArray = data.progress_array;
+      const progressArray = data.progress_array.slice(-selectedDays);
       console.log(progressArray);
 
       // Preparar datos para la gráfica de barras

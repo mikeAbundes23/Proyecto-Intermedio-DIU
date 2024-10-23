@@ -5,14 +5,17 @@ import "./FilterDropdown.css";
 import ProgressGraphs from "./ProgressGraphs";
 
 const FilterDropdown = () => {
-  const [selectedDays, setSelectedDays] = useState("7 días");
+  const [selectedDays, setSelectedDays] = useState(7);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedHabit, setSelectedHabit] = useState("all");
   const [habits, setHabits] = useState([]);
 
   // Manejar el cambio de filtros
   const handleDaysChange = (days) => setSelectedDays(days);
-  const handleCategoryChange = (category) => setSelectedCategory(category);
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setSelectedHabit("all"); // Reiniciar el hábito seleccionado al cambiar la categoría
+  };
 
   const handleHabitSelection = (habit) => setSelectedHabit(habit.id);
 
@@ -53,27 +56,21 @@ const FilterDropdown = () => {
             {/* Botones de rango de fechas */}
             <div className="days-buttons">
               <button
-                className={`days-button ${
-                  selectedDays === "7 días" ? "active" : ""
-                }`}
-                onClick={() => handleDaysChange("7 días")}
+                className={`days-button ${selectedDays === 7 ? "active" : ""}`}
+                onClick={() => handleDaysChange(7)}
               >
                 <FiCalendar className="icon-calendar" />7 días
               </button>
               <button
-                className={`days-button ${
-                  selectedDays === "15 días" ? "active" : ""
-                }`}
-                onClick={() => handleDaysChange("15 días")}
+                className={`days-button ${selectedDays === 15 ? "active" : ""}`}
+                onClick={() => handleDaysChange(15)}
               >
                 <FiCalendar className="icon-calendar" />
                 15 días
               </button>
               <button
-                className={`days-button ${
-                  selectedDays === "30 días" ? "active" : ""
-                }`}
-                onClick={() => handleDaysChange("30 días")}
+                className={`days-button ${selectedDays === 30 ? "active" : ""}`}
+                onClick={() => handleDaysChange(30)}
               >
                 <FiCalendar className="icon-calendar" />
                 30 días
@@ -95,24 +92,23 @@ const FilterDropdown = () => {
                 <Dropdown.Item onClick={() => handleCategoryChange("all")}>
                   all
                 </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => handleCategoryChange("Ejercicio")}
-                >
-                  Ejercicio
+                <Dropdown.Item onClick={() => handleCategoryChange("school")}>
+                  school
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleCategoryChange("Lectura")}>
-                  Lectura
+                <Dropdown.Item onClick={() => handleCategoryChange("work")}>
+                  work
                 </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => handleCategoryChange("Meditación")}
-                >
-                  Meditación
+                <Dropdown.Item onClick={() => handleCategoryChange("sports")}>
+                  sports
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleCategoryChange("Estudio")}>
-                  Estudio
+                <Dropdown.Item onClick={() => handleCategoryChange("cleaning")}>
+                  cleaning
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleCategoryChange("Dieta")}>
-                  Dieta
+                <Dropdown.Item onClick={() => handleCategoryChange("leisure")}>
+                  leisure
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleCategoryChange("other")}>
+                  other
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -157,6 +153,7 @@ const FilterDropdown = () => {
       <ProgressGraphs
         selectedCategory={selectedCategory}
         selectedHabit={selectedHabit}
+        selectedDays={selectedDays}
       />
     </div>
   );
