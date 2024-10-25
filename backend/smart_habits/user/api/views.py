@@ -13,6 +13,9 @@ from ..models import User
 from habits.models import Habit
 
 
+"""
+    Funcion Login que debe recibir el username y el password
+"""
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
@@ -20,11 +23,9 @@ def login(request):
         username = request.data.get('username')
         password = request.data.get('password')
         
-        # Verificar si el nombre de usuario y la contraseña están presentes
         if not username or not password:
             return Response({"error": "Nombre de usuario y contraseña son obligatorios"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Obtener el usuario
         user = get_object_or_404(User, username=username)
         
         # Verificar la contraseña
@@ -48,6 +49,9 @@ def logout(request):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
+"""
+    Funcion para crear un nuevo usuario y guardarlo en la base de datos
+"""
 @api_view(['POST'])
 def create_user(request):
     try:
@@ -73,13 +77,15 @@ def create_user(request):
     except Exception as _:
         return Response({'message': 'Error al intentar crear un nuevo usuario'}, status=status.HTTP_400_BAD_REQUEST)
     
-
+"""
+    Funcion para obtener la informacion general del usuario loggeado
+"""
 @api_view(['GET'])
 @permission_classes([IsAuthenticated]) 
 def get_user(request):
     try:
-        user_id = request.user.id # Obtener el id del usuario autenticado
-        user = get_object_or_404(User, id=user_id) # Obtener el usuario
+        user_id = request.user.id 
+        user = get_object_or_404(User, id=user_id) # Obtener el usuario de la base de datos
         user_serializer = UserSerializer(user)
         
         habits = Habit.objects.filter(user_id=user_id)

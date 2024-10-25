@@ -23,7 +23,9 @@ from .serializers import (
 )
 from user.models import User
 
-# Obtener la lista de hábitos que pertenecen al usuario logueado
+"""
+    Función para obtener la información de todos los hábitos del usuario logueado
+"""
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_habits(request):
@@ -94,7 +96,10 @@ def get_habits(request):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
-# Obtener un hábito por su id    
+"""
+    Función para obtener la información de un hábito por su id
+    - int habit_id: ID del hábito
+"""  
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_habit(request, habit_id):
@@ -107,7 +112,9 @@ def get_habit(request, habit_id):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
-# Crear un hábito    
+"""
+    Función para crear un hábito
+""" 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_habit(request):
@@ -126,7 +133,7 @@ def create_habit(request):
         if not habit_serializer.is_valid(): 
             return Response(habit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 
-        habit = habit_serializer.save(user=user) # Guardamos el hábito 
+        habit = habit_serializer.save(user=user) # Guardamos el hábito en la base de datos
 
         # Creamos el registro del progreso del hábito
         habit_progress = HabitProgress.objects.create(
@@ -134,16 +141,19 @@ def create_habit(request):
                 updated_at=start_date,
                 progress_array=[0]
             )
-        habit_progress.save()
+        habit_progress.save() # Guardamos el progreso del hábito en la base de datos
         
-        response_serializer = HabitSerializer(habit) # Creamos el serializador de respuesta
+        response_serializer = HabitSerializer(habit)
          
         return Response({"data" : response_serializer.data}, status=status.HTTP_201_CREATED)   
        
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-# Eliminar un hábito
+"""
+    Función para eliminar un hábito por su id
+    - int habit_id: ID del hábito
+"""
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_habit(request, habit_id):
@@ -156,7 +166,10 @@ def delete_habit(request, habit_id):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
-# Actualizar información general de un hábito
+"""
+    Función para actualizar la información general de un hábito por su id
+    - int habit_id: ID del hábito
+"""
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_habit(request, habit_id):
@@ -177,7 +190,11 @@ def update_habit(request, habit_id):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-# Actualizar el progreso de un hábito
+
+"""
+    Función para actualizar el progreso de un hábito por su id
+    - int habit_id: ID del hábito
+"""
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_progress(request, habit_id):
@@ -257,7 +274,10 @@ def update_progress(request, habit_id):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
    
-# Obtener el la información del progreso de un hábito 
+"""
+    Función para obtener el progreso de un hábito por su id
+    - int habit_id: ID del hábito
+"""
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_habit_progress(request, habit_id):
@@ -272,7 +292,12 @@ def get_habit_progress(request, habit_id):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
-# Obtener el progreso de los habitos por su categoría o por su frecuencia
+
+"""
+    Función para obtener el progreso de todos los o un filtrado
+    de los hábitos por su categoría .
+    - str category: Categoría de los hábitos
+"""
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_progress_by_category(request, category):
@@ -313,7 +338,12 @@ def get_progress_by_category(request, category):
         
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
+ 
+ 
+""" 
+    Funcion para obtener un listado de hábitos que pertenecen al usuario logueado,
+    que no han sido completados y que tienen un recordatorio activo. 
+"""
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_habit_notifications(request):

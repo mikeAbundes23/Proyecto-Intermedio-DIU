@@ -7,12 +7,13 @@ class HabitSerializer(serializers.ModelSerializer):
         model = Habit
         fields = '__all__'
         
+# Serializador para obtener la información general de un hábito
 class HabitInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = ['id', 'habit', 'category', 'achieved', 'description', 'goal', 'is_completed', 'frequency', 'is_required_reminder', 'days_elapsed', 'days_elapsed']
 
-
+# Serializador para obtener el recordatorio de un hábito
 class HabitReminderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
@@ -35,17 +36,19 @@ class HabitProgressSerializer(serializers.ModelSerializer):
         model = HabitProgress
         fields = '__all__'
         
-
+# Serializador del Nombre de un Hábito
 class HabitNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = ['habit']
 
+# Serializador unicamente con la fecha y el progreso de un hábito
 class HabitProgressInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = HabitProgress
         fields = ['updated_at', 'progress_array']
         
+# Serializador para la lista de progresos de un hábito
 class HabitProgressListSerializer(serializers.ModelSerializer):
     habit = HabitNameSerializer()
     class Meta:
