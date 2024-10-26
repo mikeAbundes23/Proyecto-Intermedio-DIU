@@ -1,11 +1,10 @@
-Objeto para iniciar sesión:
+- Objeto para iniciar sesión:
 {
   "username" : "irving_abundes",
   "password" : "12345678"
 }
 
-Objeto para crear un usuario: 
-
+- Objeto para crear un usuario: 
 {
   "name" : "Irving",
   "last_name" : "Abundes",
@@ -14,9 +13,7 @@ Objeto para crear un usuario:
   "password_confirmation" : "12345678",
   "email" : "irvingabundes23@gmail.com"
 }
-
-Objeto para crear un hábito:
-
+- Objeto para crear un hábito:
 {
   "habit" : "Leer",
   "description" : "Esto es una descripción"
@@ -26,11 +23,10 @@ Objeto para crear un hábito:
   "is_required_reminder" :  true
 }
 
-Objeto para modificar el progreso:
+- Objeto para modificar el progreso:
 
 La idea es que desde el front se tomme el achieved actual + 1,
 para simular el progreso del hábito.
-
 {
   "achieved" : 1 
 }

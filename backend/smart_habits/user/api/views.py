@@ -12,9 +12,8 @@ from user.api.serializers import CreateUserSerializer, UserSerializer
 from ..models import User
 from habits.models import Habit
 
-
 """
-    Funcion Login que debe recibir el username y el password
+    Función Login que debe recibir el username y el password.
 """
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -50,7 +49,7 @@ def logout(request):
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 """
-    Funcion para crear un nuevo usuario y guardarlo en la base de datos
+    Función para crear un nuevo usuario y guardarlo en la base de datos.
 """
 @api_view(['POST'])
 def create_user(request):
@@ -78,7 +77,7 @@ def create_user(request):
         return Response({'message': 'Error al intentar crear un nuevo usuario'}, status=status.HTTP_400_BAD_REQUEST)
     
 """
-    Funcion para obtener la informacion general del usuario loggeado
+    Función para obtener la informacion general del usuario loggeado.
 """
 @api_view(['GET'])
 @permission_classes([IsAuthenticated]) 

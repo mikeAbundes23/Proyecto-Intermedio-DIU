@@ -34,7 +34,6 @@ class Habit(models.Model):
     is_completed = models.BooleanField(default=False, null=False)
     days_elapsed = models.IntegerField(default=1)
     
-    
     def __str__(self):
         return f"id: {self.id}, user: {self.user}, habit: {self.habit}, description: {self.description}, category: {self.category}, frequency: {self.frequency}, start_date: {self.start_date}, goal: {self.goal}, achieved: {self.achieved}, is_required_reminder: {self.is_required_reminder}, is_completed: {self.is_completed}, days_elapsed: {self.days_elapsed}"
     

@@ -6,7 +6,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.hashers import make_password, check_password
 import json
 
-
 class User(AbstractBaseUser , PermissionsMixin):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False)
