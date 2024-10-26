@@ -90,7 +90,7 @@ Una vez instalado todas las librerías necesarias para correr el proyecto, es ne
 		* Igualmente, si la instalación se realizó de manera correcta, entonces el programa ya debería estar ejecutándose.
 
 ## Uso de la aplicación
-Para poder acceder al sitio web, solo necesitamos redirigirnos a la siguiente página `[HOME](http://localhost:3000/)` con la que ya podemos empezar a interactuar.
+Para poder acceder al sitio web, solo necesitamos redirigirnos a la siguiente página [HOME](http://localhost:3000/) con la que ya podemos empezar a interactuar.
 
 - Aquí podemos encontrar un usuario que ya está registrado en la base de datos con el que podremos iniciar sesión:
 
