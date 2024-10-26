@@ -10,5 +10,4 @@ urlpatterns = [
     path('user/login/', login),
     path('user/', get_user),
     path('user/logout/', logout)
-    
 ]
