@@ -1,18 +1,30 @@
 import React from 'react';
-import './Home.css';
-import image1 from '../../images/carousel-home-fondo.png';
-import image2 from '../../images/home2.jpg';
-import image3 from '../../images/home3.jpg';
-import Navbar from '../Navbar/Navbar';
 import { Helmet } from 'react-helmet';
+
+// Importamos el archivo CSS
+import './Home.css';
+
+// Importamos los íconos (imágenes png)
+import image1 from '../../images/home01.png';
+import image2 from '../../images/home02.jpg';
+import image3 from '../../images/home03.jpg';
+
+// Importamos el componente del navbar
+import Navbar from '../Navbar/Navbar';
 
 const Home = () => {
   return (
+
+    // Página Principal
     <div className="home-container">
+      {/* Nombre de la vista */}
       <Helmet>
-        <title>Smarthabits - Home</title>
+        <title>SmartHabits - Home</title>
       </Helmet>
+
+      {/* Componente NavBar */}
       <Navbar/>
+
       {/* Primera sección: Texto centrado */}
       <section className="text-center my-5">
         <p className='home-title'>Create Life Changing Habits</p>
@@ -25,9 +37,11 @@ const Home = () => {
             <div className="carousel-item active">
               <img src={image1} className="d-block w-100" alt="Imagen 1" />
             </div>
+
             <div className="carousel-item">
               <img src={image2} className="d-block w-100" alt="Imagen 2" />
             </div>
+
             <div className="carousel-item">
               <img src={image3} className="d-block w-100" alt="Imagen 3" />
             </div>
@@ -38,6 +52,7 @@ const Home = () => {
             <span id="prevIcon" className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
           </button>
+
           <button id="next" className="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
             <span id="nextIcon" className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Next</span>

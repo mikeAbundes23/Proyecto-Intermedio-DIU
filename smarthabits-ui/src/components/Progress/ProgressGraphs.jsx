@@ -11,9 +11,10 @@ import {
   ArcElement,
 } from "chart.js";
 import axios from "axios";
+
+// Importamos el archivo CSS
 import "./ProgressGraphs.css";
 
-// Register the required components
 Chart.register(
   CategoryScale,
   LinearScale,
@@ -25,10 +26,14 @@ Chart.register(
 );
 
 const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
+  // Estados necesarios para las gráficas
   const [barData, setBarData] = useState({});
   const [pieData, setPieData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [statusMessage, setStatusMessage] = useState("Cargando los datos...");
 
+  // Función para actualizar los datos de las gráficas cuando 
+  // cualquiera de los filtros cambia
   useEffect(() => {
     if (selectedHabit === "all") {
       fetchProgressByCategory();
@@ -42,7 +47,10 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
     const token = localStorage.getItem("access_token");
 
     if (!token) return;
+
     setIsLoading(true);
+    setStatusMessage("Cargando los datos...");
+
     try {
       const response = await axios.get(
         `http://127.0.0.1:8000/api/habits/progress/by-category/${selectedCategory}/`,
@@ -52,64 +60,76 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
           },
         }
       );
+
       const { data, habits_completed, habits_incopmleted } = response.data;
 
       if (!data || data.length === 0) {
-        console.error("No hay datos disponibles por categoría.");
-        setIsLoading(false);
+        setStatusMessage("No hay hábitos disponibles en esta categoría")
+        setBarData(null);
+        setPieData(null);
         return;
       }
 
-      // Preparar datos para la gráfica de barras
+      // Preparamos los datos para la gráfica de barras
       const labels = data.map((item) => item.habit.habit);
       const completedData = data.map((item) => {
-        // Calculate average progress
         const totalProgress = item.progress_array
           .slice(-selectedDays)
           .reduce((sum, value) => sum + value, 0);
+
         const averageProgress = totalProgress / item.progress_array.length;
         return averageProgress;
       });
-      const goalData = data.map(() => 100); // Representar el objetivo como 100%
 
+      const goalData = data.map(() => 100); // Representamos el objetivo como 100%
+
+      // Preparamos los datos para la gráfica de barras
       setBarData({
         labels,
         datasets: [
           {
             label: "Progreso (%)",
             data: completedData,
-            backgroundColor: "#028391",
+            backgroundColor: "#6599d1",
           },
           {
             label: "Objetivo (%)",
             data: goalData,
-            backgroundColor: "#82c7d1",
+            backgroundColor: "#028391",
           },
         ],
       });
 
-      // Preparar datos para la gráfica de pastel
+      // Preparamos los datos para la gráfica de pastel
       setPieData({
         labels: ["Completados", "Pendientes"],
         datasets: [
           {
             data: [habits_completed, habits_incopmleted],
-            backgroundColor: ["#028391", "#82c7d1"],
+            backgroundColor: ["#6599d1", "#028391"],
           },
         ],
       });
+
+      setStatusMessage(null);
     } catch (error) {
-      console.error("Error al obtener datos por categoría:", error);
+      setStatusMessage("Error al cargar los datos. Por favor, inténtalo de nuevo.");
+      console.error("Error en fetchProgressByCategory: ", error);
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   // Función para obtener el progreso por hábito
   const fetchProgressByHabit = async () => {
+    const token = localStorage.getItem("access_token");
+
+    if (!token) return;
+
     setIsLoading(true);
+    setStatusMessage("Cargando los datos...");
+
     try {
-      const token = localStorage.getItem("access_token");
       const response = await axios.get(
         `http://127.0.0.1:8000/api/habits/progress/${selectedHabit}/`,
         {
@@ -118,19 +138,20 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
           },
         }
       );
+
       const { data } = response.data;
 
-      // Verificar si el arreglo de progreso está presente
+      // Verificamos si el arreglo de progreso está presente
       if (!data || !data.progress_array) {
-        console.error("No hay datos de progreso disponibles para este hábito.");
-        setIsLoading(false);
+        setStatusMessage("No hay datos de progreso disponibles para este hábito");
+        setBarData(null);
+        setPieData(null);
         return;
       }
 
       const progressArray = data.progress_array.slice(-selectedDays);
-      console.log(progressArray);
 
-      // Preparar datos para la gráfica de barras
+      // Preparamos los datos para la gráfica de barras
       setBarData({
         labels: progressArray.map((_, i) => `Día ${i + 1}`),
         datasets: [
@@ -142,13 +163,14 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
         ],
       });
 
-      // Calcular la completitud total del hábito seleccionado
+      // Calculamos la completitud total del hábito seleccionado
       const totalProgress = progressArray.reduce(
         (sum, value) => sum + value,
         0
       );
       const averageCompletion = totalProgress / progressArray.length;
 
+      // Preparamos los datos para la gráfica de pastel
       setPieData({
         labels: ["Progreso Promedio", "Pendiente"],
         datasets: [
@@ -158,56 +180,102 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
           },
         ],
       });
+
+      setStatusMessage(null);
     } catch (error) {
-      console.error("Error al obtener datos por hábito:", error);
+      setStatusMessage("Error al cargar los datos. Por favor, inténtalo de nuevo.");
+      console.error("Error en fetchProgressByHabit: ", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
+
+    // Sección de las gráficas
     <div className="progress-graphs-container">
+      {/* Título */}
       <h2>Gráficos y Estadísticas</h2>
-      {isLoading ? (
-        <p>Cargando datos...</p>
+      {statusMessage ? (
+        <p className="text-habits">{statusMessage}</p>
       ) : (
+        // Gráficas
         <div className="graphs">
+          {/* Gráfica de barras */}
           <div className="bar-graph">
             <h3>Progreso por Hábito</h3>
-            <Bar
-              data={barData}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    position: "bottom", // Move legend to the bottom
+            <div className="chart-container">
+              <Bar
+                data={barData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: 'bottom',
+                      labels: {
+                        font: {
+                          family: 'Montserrat',
+                          size: 12
+                        },
+                        padding: 20
+                      }
+                    }
                   },
-                },
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    max: 100, // Fijar el valor máximo del eje Y en 100
-                    ticks: {
-                      callback: (value) => `${value}%`, // Mostrar el valor como porcentaje
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      max: 100,
+                      grid: {
+                        color: '#f0f0f0'
+                      },
+                      ticks: {
+                        callback: (value) => `${value}%`,
+                        font: {
+                          family: 'Montserrat'
+                        }
+                      }
                     },
-                  },
-                },
-              }}
-            />
+                    x: {
+                      grid: {
+                        display: false
+                      },
+                      ticks: {
+                        font: {
+                          family: 'Montserrat'
+                        }
+                      }
+                    }
+                  }
+                }}
+              />
+            </div>
           </div>
+
+          {/* Gráfica de pastel */}
           <div className="pie-graph">
             <h3>Progreso General</h3>
-            <Pie
-              data={pieData}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    position: "bottom", // Move legend to the bottom
-                  },
-                },
-              }}
-            />
+            <div className="chart-container">
+              <Pie
+                data={pieData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: 'bottom',
+                      labels: {
+                        font: {
+                          family: 'Montserrat',
+                          size: 12
+                        },
+                        padding: 20
+                      }
+                    }
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
       )}

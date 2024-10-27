@@ -26,9 +26,12 @@ class HabitNotificationSerializer(serializers.ModelSerializer):
 
 # Serializador para la lista de hábitos        
 class HabitListSerializer(serializers.ModelSerializer):
+    frequency_display = serializers.CharField(source='get_frequency_display', read_only=True)
+    category_display = serializers.CharField(source='get_category_display', read_only=True)
+
     class Meta:
         model = Habit
-        fields = ['id', 'habit', 'category', 'achieved', 'goal', 'is_completed', 'frequency', 'description']
+        fields = ['id', 'habit', 'category', 'category_display', 'achieved', 'goal', 'is_completed', 'frequency', 'frequency_display', 'description']
         
 # Serializador para obtener el progreso de un hábito
 class HabitProgressSerializer(serializers.ModelSerializer):

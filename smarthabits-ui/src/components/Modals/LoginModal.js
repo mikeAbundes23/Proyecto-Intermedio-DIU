@@ -1,16 +1,25 @@
 import React, { useState, useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import './LoginModal.css';
-import emailIcon from '../../images/mail.png';
-import passwordIcon from '../../images/password.png';
-import { AuthContext } from '../../context/AuthContext';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
+
+// Importamos el archivo CSS
+import './LoginModal.css';
+
+// Importamos los íconos (imágenes png)
+import userIcon from '../../images/user01.png';
+import passwordIcon from '../../images/password.png';
+
+// Importamos la autenticación
+import { AuthContext } from '../../context/AuthContext';
 
 const LoginModal = ({ show, handleClose, setShowSignUp }) => {
+  // Estados de los datos en el modal
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
@@ -21,6 +30,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
     setShowSignUp(true); // Abre el modal de registro
   };
 
+  // Función para manejar el envío del formulario de inicio de sesión
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -28,52 +38,59 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
       console.log('username:', username);
       console.log('password:', password);
 
-      // Make a POST request to the login endpoint
+      // Se hace una solicitud POST para el endpoint de login
       const response = await axios.post('http://127.0.0.1:8000/api/user/login/', {
-        username: username,  // Use 'email' here assuming your backend expects 'username' field
+        username: username,
         password: password,
       });
 
-      const { access } = response.data;  // Extract the access token from response
+      const { access } = response.data;  // Extraemos el access token de la respuesta
 
       console.log('Login exitoso:', access);
 
-      // Store the access token in local storage
+      // Almacenamos el access token en localStorage
       localStorage.setItem('access_token', access);
 
-      // Update global authentication state using your existing login function
-      login(access); // Assuming this function updates global auth state and stores the token in a cookie
+      // Actualizamos el estado de la autenticación global usando la función login
+      login(access);
 
-      // Clear the form fields and close the modal
+      // Limpiamos los campos del formulario y cerramos el modal
       setUsername('');
       setPassword('');
       handleClose();
 
       navigate('/habits');
     } catch (error) {
-      setError('Credenciales incorrectas. Intenta nuevamente.');
-      console.error('Error en el login:', error);
+      swalMessages.errorMessage('Credenciales incorrectas. Inténtalo nuevamente.');
+      console.error('Error en handleSubmit: ', error);
     }
   };
 
+  // Función para manejar el cerrar el modal
   const handleCloseModal = () => {
     handleClose(); // Cierra el modal
-    // Limpiar las entradas al cerrar el modal
+    // Limpiamos las entradas al cerrar el modal
     setUsername('');
     setPassword('');
   };
 
   return (
+
+    // Modal de Login
     <Modal show={show} onHide={handleCloseModal} centered>
       <Modal.Header closeButton className="border-0">
+        {/* Título del modal */}
         <Modal.Title>Ingresar</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
         <form className="login-form" onSubmit={handleSubmit}>
-          <div className="input-group mb-3">
+          {/* Input de username */}
+          <div className="input-group username mb-3">
             <span className="input-group-text" id="username-addon">
-              <img src={emailIcon} alt="username-icon" className="input-icon" />
+              <img src={userIcon} alt="username-icon" className="input-icon" />
             </span>
+
             <input
               type="text"
               id="username"
@@ -87,10 +104,12 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
             />
           </div>
 
-          <div className="input-group mb-3">
+          {/* Input de contraseña */}
+          <div className="input-group password mb-3">
             <span className="input-group-text" id="password-addon">
               <img src={passwordIcon} alt="password-icon" className="input-icon" />
             </span>
+
             <input
               type="password"
               id="password"
@@ -105,17 +124,18 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
             />
           </div>
 
-          {error && <p className="text-danger">{error}</p>}
-
+          {/* Botón para iniciar sesión */}
           <Button type="submit" className="form-btn" variant="primary">
             Iniciar Sesión
           </Button>
         </form>
       </Modal.Body>
 
+      {/* Texto después del botón */}
       <Modal.Footer className="d-flex justify-content-center border-0">
         <span className="footer-text">
           ¿No tienes una cuenta?{" "}
+
           <span
             className="text-primary text-decoration-none"
             style={{ cursor: "pointer" }}

@@ -2,20 +2,32 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import "./ProgressPage.css";
-import Navbar from "../Navbar/Navbar";
 import { BiChevronLeft } from "react-icons/bi";
 import Spinner from "react-bootstrap/Spinner";
+
+// Importamos el archivo CSS
+import "./ProgressPage.css";
+
+// Importamos el componente del navbar
+import Navbar from "../Navbar/Navbar";
+
+// Importamos el componente de los filtros
 import FilterDropdown from "./FilterDropdown";
 
+// Importamos los íconos (imágenes png)
+import habitCompleteIcon from '../../images/percent.png';
+import streakIcon from '../../images/fire.png';
+import longStreakIcon from '../../images/star.png';
+
 const ProgressPage = () => {
+  // Estados de los datos que se obtienen de los filtros
   const [completedPercentage, setCompletedPercentage] = useState(0);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [longestStreak, setLongestStreak] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); // Hook para manejar la navegación
 
-  // Obtener datos del progreso del usuario
+  // Función para obtener datos del progreso del usuario
   useEffect(() => {
     const fetchProgressData = async () => {
       const token = localStorage.getItem("access_token");
@@ -29,12 +41,15 @@ const ProgressPage = () => {
           },
         });
 
+        // Obtenemos la respuesta de la solicitud
         const userData = response.data;
+        // Establecemos los datos para las gráficas
         setCompletedPercentage(userData.habits_completed || -1);
         setCurrentStreak(userData.data.ongoing_streak || -1);
         setLongestStreak(userData.data.longest_streak || -1);
       } catch (error) {
-        console.error("Error fetching progress data:", error);
+        alert("Failed to get the graphics. Please try again."); // To-do: Quitar
+        console.error("Error en useEffect: ", error);
       } finally {
         setIsLoading(false);
       }
@@ -49,65 +64,79 @@ const ProgressPage = () => {
   };
 
   return (
+
+    // Página del progreso de los hábitos
     <div>
+      {/* Componente NavBar */}
       <Navbar />
+
+      {/* Botón para regresar a la vista anterior */}
       <button className="back-button" onClick={handleGoBack}>
-        <BiChevronLeft size={48} /> {/* Tamaño ajustable */}
+        <BiChevronLeft size={40} />
       </button>
+
+      {/* Título de la página */}
       <div className="progress-section">
         <h2>Progreso de tus hábitos</h2>
+        <br />
 
+        {/* Encabezados */}
         <div className="progress-item">
-          <p>% Hábitos Completados</p>
+          <img src={habitCompleteIcon} alt="completados" className="icon-percent" />
+          <strong>Hábitos Completados</strong>
           <h3>{completedPercentage}%</h3>
+          
           <ProgressBar
             now={completedPercentage}
-            style={{ backgroundColor: "#d3d3d3" }}
+            style={{ backgroundColor: "#d1d1d1" }}
           >
             <div
-              className="progress-bar"
+              className="progress-bar-one"
               style={{
-                width: `${completedPercentage}%`,
-                backgroundColor: "#00b4b4",
+                width: `${completedPercentage}%`
               }}
             ></div>
           </ProgressBar>
         </div>
 
         <div className="progress-item">
-          <p>Racha Actual</p>
+          <img src={streakIcon} alt="racha actual" className="icon-fire" />
+          <strong>Racha Actual</strong>
           <h3>{currentStreak} días</h3>
+
           <ProgressBar
             now={(currentStreak / 30) * 100}
-            style={{ backgroundColor: "#d3d3d3" }}
+            style={{ backgroundColor: "#d1d1d1" }}
           >
             <div
-              className="progress-bar"
+              className="progress-bar-two"
               style={{
-                width: `${(currentStreak / 30) * 100}%`,
-                backgroundColor: "#f39c12",
+                width: `${(currentStreak / 30) * 100}%`
               }}
             ></div>
           </ProgressBar>
         </div>
 
         <div className="progress-item">
-          <p>Racha más Larga</p>
+          <img src={longStreakIcon} alt="racha mas larga" className="icon-star" />
+          <strong>Racha más Larga</strong>
           <h3>{longestStreak} días</h3>
+
           <ProgressBar
             now={(longestStreak / 30) * 100}
-            style={{ backgroundColor: "#d3d3d3" }}
+            style={{ backgroundColor: "#d1d1d1" }}
           >
             <div
-              className="progress-bar"
+              className="progress-bar-three"
               style={{
-                width: `${(longestStreak / 30) * 100}%`,
-                backgroundColor: "#1b3b6f",
+                width: `${(longestStreak / 30) * 100}%`
               }}
             ></div>
           </ProgressBar>
         </div>
 
+        <br />
+        {/* Ruedita para mostrar que se están cargando los datos */}
         {isLoading && (
           <div className="spinner-container">
             <Spinner animation="border" role="status">
@@ -115,7 +144,8 @@ const ProgressPage = () => {
             </Spinner>
           </div>
         )}
-
+        
+        {/* Modal de los filtros */}
         <FilterDropdown />
       </div>
     </div>

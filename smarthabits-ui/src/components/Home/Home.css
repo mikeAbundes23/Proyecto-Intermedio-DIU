@@ -1,57 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 .home-container {
-    margin: 0 auto;
-    font-family: var(--home-font);
     color: var(--dark-primary-color);
+    font-family: var(--home-font);
+    margin: 0 auto;
+}
+
+.home-title {
+    font-family: "Nunito", sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
 }
   
 .carousel-section {
-    width: 90%;
-    margin: 0 auto; /* Se centra el carrusel */
-    position: relative; /* Necesario para que los botones se posicionen relativos a este contenedor */
+    margin: 0 auto;
+    position: relative; 
+    width: 85%;
 }
   
 .carousel-inner {
-    display: flex; /* Asegura que las imágenes se alineen correctamente */
     border-radius: 15px;
+    display: flex;
 }
   
 .carousel img {
-    height: 600px; /* Ajusta la altura del carrusel */
-    object-fit: cover; /* Asegura que las imágenes no se distorsionen */
-}
-  
-.home-title {
-    font-size: 2.5rem;
-    font-weight: 600;
+    height: 600px;
+    object-fit: cover;
 }
   
 .home-text {
+    font-family: "Nunito", sans-serif;
     font-size: 2.5rem;
-    font-weight: 400;
     font-style: italic;
-}      
+    font-weight: 400;
+} 
 
 #prev,
-#next{
-    position: absolute;
-    top: 50%; /* Centra verticalmente */
-    transform: translateY(-50%); /* Ajusta la posición para que esté perfectamente centrado */
-    width: 70px;
+#next {
     height: 70px;
     margin-left: 60px;
     margin-right: 60px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 70px;
 }
 
 #prevIcon,
-#nextIcon{
-    width: 100px;
+#nextIcon {
+    background-image: url('../../images/right-arrow.svg');
+    background-size: 100%, 100%;
     height: 100px;
     outline: black;
-    background-size: 100%, 100%;
-    background-image: url('../../images/right-arrow.svg');
+    width: 50px;
 }
 
-#prevIcon{
+#prevIcon {
     transform: rotate(180deg);    
 }
-

@@ -1,21 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 .progress-graphs-container {
   margin-top: 20px;
-  padding: 20px;
+  padding-top: 20px;
+}
+
+.progress-graphs-container h2 {
+  font-family: "Nunito", sans-serif;
+  font-size: 35px;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.text-habits {
+  font-family: "Montserrat", sans-serif;
+  margin-left: 20px;
 }
 
 .graphs {
+  align-items: flex-start;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  gap: 40px;
+  height: 500px;
+  justify-content: space-between;
+  padding: 50px;
 }
 
 .bar-graph,
 .pie-graph {
-  width: 45%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 40%;
 }
 
 .bar-graph h3,
 .pie-graph h3 {
+  font-family: "Montserrat", sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  margin-bottom: 30px;
   text-align: center;
-  margin-bottom: 10px;
+}
+
+.chart-container {
+  flex: 1;
+  position: relative;
+  width: 100%;
 }

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
-import "./HabitDetailsModal.css"; // Importa el archivo CSS para el modal
+
+// Importamos el archivo CSS
+import "./HabitDetailsModal.css"; 
 
 const CreateHabitButton = ({ onHabitCreated }) => {
+  // Estado para mostrar el modal
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   // Estados para el nuevo hábito
@@ -16,10 +19,12 @@ const CreateHabitButton = ({ onHabitCreated }) => {
     is_required_reminder: false,
   });
 
+  // Función para mostrar el modal para crear hábitos
   const openCreateModal = () => {
     setShowCreateModal(true);
   };
 
+  // Función para cerrar el modal de crear un hábito
   const closeCreateModal = () => {
     setNewHabit({
       habit: "",
@@ -44,10 +49,8 @@ const CreateHabitButton = ({ onHabitCreated }) => {
   // Función para enviar el nuevo hábito al backend
   const createHabit = async () => {
     const token = localStorage.getItem("access_token");
-    if (!token) {
-      alert("No token found, please log in.");
-      return;
-    }
+
+    if (!token) return;
 
     // Validación de campos requeridos
     if (
@@ -56,7 +59,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
       !newHabit.category ||
       !newHabit.frequency
     ) {
-      alert("Por favor, completa todos los campos requeridos.");
+      alert("Por favor, completa todos los campos requeridos."); // To-do: Quitar
       return;
     }
 
@@ -74,37 +77,52 @@ const CreateHabitButton = ({ onHabitCreated }) => {
 
       const createdHabit = response.data;
 
-      // Comprobar si la respuesta contiene todos los campos necesarios
+      // Comprobamos si la respuesta contiene todos los campos necesarios
       if (!createdHabit.habit || !createdHabit.description) {
-        alert(
-          "La respuesta del backend no contiene toda la información necesaria."
-        );
+        alert("La respuesta del backend no contiene toda la información necesaria."); // To-do: Quitar
         return;
       }
 
-      onHabitCreated(createdHabit); // Notificar al componente principal del nuevo hábito
-      closeCreateModal(); // Cerrar el modal después de crear el hábito
+      onHabitCreated(createdHabit); // Notificamos al componente principal del nuevo hábito
+      closeCreateModal(); // Cerramos el modal después de crear el hábito
     } catch (err) {
-      alert("Failed to create habit. Please try again.");
-      console.error("Error in createHabit:", err);
+      alert("Failed to create habit. Please try again."); // To-do: Quitar
+      console.error("Error en createHabit: ", err);
     }
   };
 
   return (
+    
     <>
-      <Button className="create-button" onClick={openCreateModal}>
+      {/* Botón para crear hábitos */}
+      <Button className="btn-primary create-habits" onClick={openCreateModal}>
         Crear hábito
       </Button>
 
-      {/* Modal para Crear un Nuevo Hábito */}
+      {/* Modal para crear un nuevo hábito */}
       <Modal show={showCreateModal} onHide={closeCreateModal} centered>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="border-0">
           <Modal.Title>Nuevo Hábito</Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
           <Form>
+            {/* Notificaciones */}
+            <Form.Group controlId="formNotifications" className="mb-3">
+              <Form.Check
+                type="checkbox"
+                label="Notificaciones"
+                name="is_required_reminder"
+                checked={newHabit.is_required_reminder}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <br />
+
+            {/* Nombre del hábito */}
             <Form.Group controlId="formHabitName" className="mb-3">
-              <Form.Label>Nombre</Form.Label>
+              <Form.Label>Nombre <span className="span-red">*</span></Form.Label>
+
               <Form.Control
                 type="text"
                 name="habit"
@@ -115,8 +133,10 @@ const CreateHabitButton = ({ onHabitCreated }) => {
               />
             </Form.Group>
 
+            {/* Descripción del hábito */}
             <Form.Group controlId="formHabitDescription" className="mb-3">
-              <Form.Label>Descripción</Form.Label>
+              <Form.Label>Descripción <span className="span-red">*</span></Form.Label>
+
               <Form.Control
                 type="text"
                 name="description"
@@ -127,65 +147,63 @@ const CreateHabitButton = ({ onHabitCreated }) => {
               />
             </Form.Group>
 
-            <Form.Group controlId="formHabitCategory" className="mb-3">
-              <Form.Label>Categoría</Form.Label>
-              <Form.Select
-                name="category"
-                value={newHabit.category}
+            {/* Repeticiones del hábito */}
+            <Form.Group controlId="formHabitGoal" className="mb-3">
+              <Form.Label>Número de repeticiones <span className="span-red">*</span></Form.Label>
+
+              <Form.Control
+                type="number"
+                name="goal"
+                value={newHabit.goal}
                 onChange={handleInputChange}
+                placeholder="Repeticiones del hábito..."
+                min="1"
                 required
-              >
-                <option value="">Selecciona una categoría...</option>
-                <option value="school">Escuela</option>
-                <option value="work">Trabajo</option>
-                <option value="sports">Deporte</option>
-                <option value="cleaning">Limpieza</option>
-                <option value="leisure">Ocio</option>
-                <option value="other">Otro</option>
-              </Form.Select>
+              />
             </Form.Group>
 
+            {/* Frecuencia del hábito */}
             <Form.Group controlId="formHabitFrequency" className="mb-3">
-              <Form.Label>Frecuencia</Form.Label>
+              <Form.Label>Frecuencia <span className="span-red">*</span></Form.Label>
+
               <Form.Select
                 name="frequency"
                 value={newHabit.frequency}
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Selecciona una frecuencia...</option>
-                <option value="d">Diaria</option>
-                <option value="w">Semanal</option>
-                <option value="m">Mensual</option>
+                <option value="" disabled className="form-select">Selecciona una frecuencia...</option>
+                <option value="d" className="form-select-option">diaria</option>
+                <option value="w" className="form-select-option">semanal</option>
+                <option value="m" className="form-select-option">mensual</option>
               </Form.Select>
             </Form.Group>
 
-            <Form.Group controlId="formHabitGoal" className="mb-3">
-              <Form.Label>Número de repeticiones</Form.Label>
-              <Form.Control
-                type="number"
-                name="goal"
-                value={newHabit.goal}
-                onChange={handleInputChange}
-                min="1"
-                placeholder="Repeticiones del hábito..."
-                required
-              />
-            </Form.Group>
+            {/* Categoría del hábito */}
+            <Form.Group controlId="formHabitCategory" className="mb-3">
+              <Form.Label>Categoría <span className="span-red">*</span></Form.Label>
 
-            <Form.Group controlId="formNotifications" className="mb-3">
-              <Form.Check
-                type="checkbox"
-                label="Notificaciones"
-                name="is_required_reminder"
-                checked={newHabit.is_required_reminder}
+              <Form.Select
+                name="category"
+                value={newHabit.category}
                 onChange={handleInputChange}
-              />
+                required
+              >
+                <option value="" disabled className="form-select">Selecciona una categoría...</option>
+                <option value="school" className="form-select-option">Escuela</option>
+                <option value="work" className="form-select-option">Trabajo</option>
+                <option value="sports" className="form-select-option">Deporte</option>
+                <option value="cleaning" className="form-select-option">Limpieza</option>
+                <option value="leisure" className="form-select-option">Ocio</option>
+                <option value="other" className="form-select-option">Otro</option>
+              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="success" onClick={createHabit}>
+
+        {/* Botón para enviar los datos ingresados */}
+        <Modal.Footer className="border-0">
+          <Button className="btn-primary" variant="success" onClick={createHabit}>
             Enviar
           </Button>
         </Modal.Footer>

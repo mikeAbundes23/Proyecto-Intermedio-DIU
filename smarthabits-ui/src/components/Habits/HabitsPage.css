@@ -1,52 +1,60 @@
-/* Container for the entire habits page */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+/* Estilos para la página completa */
 .habits-page-container {
   padding: 20px;
   text-align: center;
 }
 
-/* Title Section */
 .title-section h1 {
+  font-family: "Nunito", sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
   margin: 24px;
 }
 
-/* Buttons Container */
 .buttons-container {
-  margin: 36px;
   display: flex;
-  justify-content: center;
   gap: 16px;
+  justify-content: left;
+  margin: 10px;
 }
 
-.create-button {
-  color: white;
-  padding: 10px 20px;
-  border: none;
+/* Estilos para el botón de crear hábito y progreso */
+.create-habits {
+  background-color: var(--primary-color) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  margin: 0px 60px 0px 15px;
+  padding: 7px 20px !important;
+}
+
+.progress-habits {
+  background-color: var(--primary-color) !important;
+  border: none !important;
   border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin: 12px;
-}
-
-.action-button {
-  background-color: #00796b;
   color: white;
-  padding: 10px 20px;
+  padding: 7px 20px !important;
+}
+
+.create-habits:hover,
+.progress-habits:hover {
+  background-color: #216870 !important;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin: 12px;
 }
 
-.action-button:hover {
-  background-color: #004d40;
+/* Estilos para la sección de los hábitos */
+.habits-title-container {
+  background-color: #feae6f;
+  height: 50px;
+  margin: 40px 20px;
+  padding: 10px 0;
 }
 
-/* Habits Section */
-.habits-section h2 {
-  font-size: 1.5rem;
+.habits-title {
+  color: black;
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px !important;
   font-weight: bold;
   margin-bottom: 16px;
 }
@@ -58,71 +66,73 @@
   margin: 20px;
 }
 
+.text-habits {
+  font-family: "Montserrat", sans-serif;
+  margin-left: 20px;
+}
+
 .habit-card {
-  background-color: #f8d8a5; /* Color beige por defecto */
+  align-items: center;
+  background-color: #f8d8a5;
   border-radius: 8px;
-  padding: 16px;
-  width: 150px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
+  padding: 16px;
+  width: 230px;
 }
 
 .habit-card.completed {
-  background-color: #a0e7a0; /* Color verde si se completa el objetivo */
+  background-color: #ACE9A7;
 }
 
 .habit-info {
-  margin-bottom: 8px;
-  text-align: center;
+  text-align: left;
+  width: 210px;
 }
 
 .habit-goal {
-  font-size: 12px;
+  float: right;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
 }
 
 .habit-name {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
   font-weight: bold;
-  font-size: 16px;
+  margin-left: 8px;
 }
 
 .habit-progress {
-  display: flex;
   align-items: center;
+  display: flex;
   gap: 10px;
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
 .habit-progress button {
   background-color: transparent;
   border: none;
-  font-size: 20px;
   cursor: pointer;
+  font-size: 35px;
+}
+
+.habit-progress span {
+  font-size: 20px;
 }
 
 .details-button {
-  background-color: #f98e42;
-  color: black;
+  background-color: #FEAE6F;
   border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 8px;
+  color: #5D4848;
   cursor: pointer;
+  font-weight: 500;
+  padding: 5px 10px;
+  width: 120px;
 }
 
 .details-button:hover {
-  background-color: #f77a2e;
-}
-
-.habits-title-container {
-  background-color: #feae6f; /* Naranja */
-  height: 50px;
-  padding: 10px 0;
-  margin: 40px 20px;
-}
-
-.habits-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: black; /* Color del texto en blanco */
+  background-color: #e69659;
 }

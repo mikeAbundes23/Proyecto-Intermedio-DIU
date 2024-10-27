@@ -1,65 +1,63 @@
-/* src/components/Navbar.css */
-.navbar {
-    display: flex;
-    justify-content: space-between;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
-    align-items: center;
-    padding: 10px 20px;
-    background-color: var(--primary-color); /* Cambia el color de fondo según sea necesario */
-    color: var(--light-text-color); /* Color del texto */
-  }
+.navbar {
+  align-items: center;
+  background-color: var(--primary-color);
+  color: var(--light-text-color);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;  
+}
   
-  .navbar-logo {
-    display: flex;
-    align-items: center;
-    margin-left: 100px;
+.navbar-logo {
+  align-items: center;
+  display: flex;
+  margin-left: 100px;
+}
+
+.logo {
+  height: 50px;
+  margin-right: 10px;
+  width: 50px;
+}
+
+.app-name {
+  height: auto;
+  max-width: 150px;
+  object-fit: contain;
+}
+
+.navbar-buttons {
+  display: flex;
+  margin-right: 100px;
+}
+
+.navbar-button {
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-size: medium;
+  font-weight: 500;
+  margin-left: 10px;
+  padding: 8px 16px;
+  transition: background-color 0.3s;
+}
+
+.navbar-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Media query para hacer el navbar responsivo */
+@media (max-width: 600px) {
+  .navbar {
+    align-items: flex-start; 
+    flex-direction: column; 
   }
-  
-  .logo {
-    width: 50px; /* Ajusta el tamaño del logo según sea necesario */
-    height: 50px; /* Ajusta el tamaño del logo según sea necesario */
-    margin-right: 10px; /* Espaciado entre logo y nombre de la app */
-  }
-  
-  .app-name {
-    max-width:200px; /* Ajusta el ancho máximo para que no sea muy grande */
-    height: auto; /* Asegúrate de que la altura se ajuste automáticamente */
-    object-fit: contain; /* Mantén las proporciones originales sin distorsión */
-  }
-  
+
   .navbar-buttons {
-    display: flex;
-    margin-right: 100px;
+    margin-top: 10px; 
   }
-  
-  .navbar-button {
-    margin-left: 10px; /* Espaciado entre botones */
-    padding: 8px 16px;
-    background-color: transparent; /* Cambia si deseas un fondo */
-    color: white; /* Color del texto */
-    border: none;
-    /*border: 1px solid white; /* Estilo del borde */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer;
-    transition: background-color 0.3s; /* Animación para el hover */
-    font-family: var(--font);
-    font-weight: 500;
-    font-size: medium;
-  }
-  
-  .navbar-button:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Color al pasar el ratón */
-  }
-  
-  /* Media query para hacer el navbar responsivo */
-  @media (max-width: 600px) {
-    .navbar {
-      flex-direction: column; /* Cambia la dirección a columna en pantallas pequeñas */
-      align-items: flex-start; /* Alinea los elementos a la izquierda */
-    }
-  
-    .navbar-buttons {
-      margin-top: 10px; /* Añade espacio entre logo y botones en pantallas pequeñas */
-    }
-  }
-  
+} 

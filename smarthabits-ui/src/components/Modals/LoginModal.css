@@ -1,68 +1,88 @@
-.modal-content{
-    font-family: var(--font);
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+.modal-content {
+  font-family: "Montserrat", sans-serif;
 }
+
+.modal-header {
+  background-color: transparent !important;
+}
+
+.modal-title {
+  font-family: "Montserrat", sans-serif;
+  margin-left: 20px;
+}
+
 .login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Estilos para los inputs redondeados */
-  .input-group .rounded-input {
-    border-radius: 30px; /* Borde redondeado */
-    padding: 10px 20px;
-    font-size: 16px;
-  }
-  
-  /* Ajustar el tamaño del icono dentro del campo de entrada */
-  .input-icon {
-    width: 20px;  /* Ancho del icono */
-    height: auto; /* Mantener proporciones */
-  }
-  
-  /* Alinear los campos de entrada al centro */
-  .input-group {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 400px; /* Limitar el ancho del formulario */
-  }
-  
-  /* Estilo de la parte izquierda del input donde va el icono */
-  .input-group-text {
-    background-color: #f1f1f1;
-    border-top-left-radius: 30px;  /* Redondear esquinas del grupo */
-    border-bottom-left-radius: 30px;
-    padding: 10px 15px;
-  }
-
-form .btn{
-    margin-top: 20px;
-    background-color: var(--primary-color);
-    border: none;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
-form .btn:hover{
-    background-color: var(--primary-accent-color);
-    border: none;
+.input-group {
+  align-items: center;
+  display: flex;
+  max-width: 400px;
+  width: 100%;
 }
 
-.modal-footer{
-    flex-direction: column;
+.input-group.username {
+  margin-top: 25px;
 }
 
-.footer-text{
-    padding: 5px;
-    font-style: italic;
+.input-group.password {
+  padding-bottom: 10px;
+}
+
+.input-group-text {
+  background-color: #f1f1f1;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+  padding: 10px 15px;
+}
+
+.input-icon {
+  height: auto;
+  width: 20px;
+}
+
+.input-group .rounded-input {
+  border-radius: 0px 30px 30px 0px !important;
+  font-size: 16px;
+  padding: 10px 20px;
+}
+
+form .btn {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 7px 30px 7px 30px;
+}
+
+form .btn:hover {
+  background-color: #216870 !important;
+  border: none;
+}
+
+.modal-footer {
+  flex-direction: column;
+}
+
+.footer-text {
+  color: #6F6E6E;
+  font-family: "Nunito", sans-serif;
+  font-style: italic;
+  padding: 5px;
+}
+
+.text-primary {
+  font-weight: bold;
 }
 
 #password-addon,
-#email-addon{
-    background-color: var( --light-accent-color);
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-}
-
-.modal-title{
-    margin-left: 20px;
+#username-addon {
+  background-color: var( --light-accent-color);
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
 }

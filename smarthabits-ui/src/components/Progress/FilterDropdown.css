@@ -1,26 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 .filter-dropdown-container {
   margin: 40px 0px;
   width: 100%;
 }
 
 .filter-button-header {
+  align-items: center;
+  display: flex;
   font-size: 18px;
   font-weight: bold;
-  display: flex;
-  align-items: center;
 }
 
-.filter-title {
+.filter-button-header h2 {
+  font-family: "Nunito", sans-serif;
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 0;
 }
 
-.filter-label {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 5px;
+.filter-button-header img,
+.days-buttons img {
+  height: 30px;
+  margin: 0px 6px 0px 0px;
+  width: 30px;
+}
+
+.accordion-body strong {
+  font-size: 19px;
+  font-weight: 200;
 }
 
 .days-buttons {
@@ -28,71 +36,75 @@
   justify-content: space-between;
   margin: 0px -20px;
   margin-bottom: 20px;
+  padding-top: 5px;
 }
 
 .days-button {
-  flex: 1;
-  display: flex;
   align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  flex: 1;
   justify-content: center;
   margin: 0 20px;
   padding: 10px 0;
-  font-size: 16px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
   position: relative;
 }
 
-.icon-calendar {
-  margin-right: 5px;
+.days-button.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
 }
 
-.days-button.active {
-  background-color: #028391;
-  color: #fff;
+.days-button.active span {
+  color: white;
+}
+
+.days-buttons span {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 3px;
 }
 
 .filter-dropdown .dropdown-toggle-custom {
-  width: 100%;
   background-color: #fff;
   border: 1px solid #ccc;
+  color: #000;
   text-align: left;
-  color: #000; /* Cambiar color de texto a negro */
+  width: 100%;
 }
 
-.filter-dropdown .dropdown-menu {
-  background-color: #fff;
+.filter-dropdown {
+  margin: 5px 0px 0px 0px;
 }
 
-.filter-dropdown .dropdown-menu .dropdown-item {
-  color: #000 !important; /* Asegura que el texto sea negro */
+.dropdown-toggle-custom::after {
+  float: right;
+  margin-top: 10px;
 }
 
-.filter-dropdown .dropdown-menu .dropdown-item:hover {
-  background-color: #f0f0f0; /* Fondo gris claro al pasar el mouse */
+.dropdown-menu,
+.dropdown-item {
+  background-color: #01204e !important;
+  color: white !important;
 }
 
 .view-graphs-container {
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 20px; /* Espacio superior opcional */
+  margin-top: 20px;
 }
 
 .view-graphs-button {
-  width: 150px;
-  padding: 8px 0;
-  background-color: #028391 !important; /* Asegurar el color con !important */
-  color: #fff !important; /* Asegurar el color del texto con !important */
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Suaviza el cambio de color al pasar el mouse */
+  background-color: var(--primary-color) !important;
+  border-radius: 10px !important;
+  padding: 7px 30px 7px 30px !important;
 }
 
 .view-graphs-button:hover {
-  background-color: #01606a !important; /* Asegurar el color del hover con !important */
+  background-color: #216870 !important;
 }

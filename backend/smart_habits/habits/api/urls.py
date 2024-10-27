@@ -14,7 +14,6 @@ from .views import (
         reminder
         )
 
-
 router = DefaultRouter()
 
 urlpatterns = [

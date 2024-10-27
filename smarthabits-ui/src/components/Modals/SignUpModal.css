@@ -1,7 +1,9 @@
 #name-addon,
 #lastname-addon,
-#username-addon{
+#username-addon,
+#email-addon,
+#confirm-password-addon {
     background-color: var( --light-accent-color);
-    border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
+    border-top-left-radius: 30px;
 }
