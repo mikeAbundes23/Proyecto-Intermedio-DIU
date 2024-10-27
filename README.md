@@ -56,19 +56,21 @@ urllib3                       |2.2.3
 
 En una terminal, clonar el repositorio de GitHub: `git clone git@github.com:mikeAbundes23/Proyecto-Intermedio-DIU.git`.
 
+Entrar a la carpeta ***Proyecto-Intermedio-DIU***: `cd Proyecto-Intermedio-DIU`.
+
 ## Librerías necesarias para correr el Back-End
 
 Crear un entorno virtual: `python3 -m venv venv`.
 
-Activar el entorno virtual: `.\venv\Scripts\activate`.
+Activar el entorno virtual: `source ./venv/bin/activate`.
 
-Navegar al directorio ***backend***: `cd .\backend\`.
+Navegar al directorio ***backend***: `cd backend`.
 
 Instalar las dependencias necesarias para correr el Back-End: `pip install -r requirements.txt`.
 
 ## Librerías necesarias para correr el Front-End
 
-<p>Falta aquí</p>
+En una terminal, instalar las dependencias necesarias para correr el Front-End: `npm install`.
 
 ## Base de Datos
 
@@ -78,16 +80,17 @@ Se encuentra en la siguiente página de [Neon](https://neon.tech/), donde con el
 
 Una vez instalado todas las librerías necesarias para correr el proyecto, es necesario realizar los siguientes pasos para su correcta ejecución:
 1. Para la base de datos no es necesario configurar nada, pues ya se tienen las credenciales necesarias ya cargadas para utilizar la BD en el proyecto.
-2. Dentro del entorno virtual ya creado, ir dentro del directorio ***smart_habits*** con  `cd .\smart_habits\`.
+2. Dentro del entorno virtual ya creado, ir dentro del directorio ***smart_habits*** con  `cd smart_habits`.
 3. Ejecutar el Back-End con `python manage.py runserver`.
    * Si la instalación se cumplió en su totalidad, entonces el _Back-End_ debería empezar a ejecutarse.
 4. Será necesario tener otra terminal para correr el Front-End:
-   * Dentro de una terminal, ir al directorio ***smarthabits-ui*** con `cd .\smarthabits-ui\`.
-   * Ejecutar el Front-End con `Falta aquí`.
+   * Después de haber instalado las librerías necesarias:
+   	* En una terminal, ir al directorio ***smarthabits-ui*** con `cd smarthabits-ui`.
+   * Ejecutar el Front-End con `npm start`.
 		* Igualmente, si la instalación se realizó de manera correcta, entonces el programa ya debería estar ejecutándose.
 
 ## Uso de la aplicación
-Para poder acceder al sitio web, solo necesitamos redirigirnos a la siguiente página `Falta aquí` con la que ya podemos empezar a interactuar.
+Para poder acceder al sitio web, solo necesitamos redirigirnos a la siguiente página [HOME](http://localhost:3000/) con la que ya podemos empezar a interactuar.
 
 - Aquí podemos encontrar un usuario que ya está registrado en la base de datos con el que podremos iniciar sesión:
 
