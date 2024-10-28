@@ -36,6 +36,7 @@ const Navbar = () => {
   // Función para cerrar la sesión
   const handleLogout = () => {
     localStorage.removeItem('access_token');
+    localStorage.removeItem(process.env.REACT_APP_USER_NOTIFICATIONS_OBJECT_NAME);
     navigate('/');
     logout();
   };

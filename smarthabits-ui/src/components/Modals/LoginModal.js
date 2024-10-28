@@ -68,7 +68,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
         }
       );
       // Almacenamos estas notificaciones en local storage
-      localStorage.setItem('user_notifications', JSON.stringify(notificationsResponse.data))
+      localStorage.setItem(process.env.REACT_APP_USER_NOTIFICATIONS_OBJECT_NAME, JSON.stringify(notificationsResponse.data))
 
       navigate('/habits');
     } catch (error) {
