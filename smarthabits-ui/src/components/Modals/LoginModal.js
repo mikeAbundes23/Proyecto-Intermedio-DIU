@@ -59,6 +59,17 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
       setPassword('');
       handleClose();
 
+      // Obtenemos las notificaciones a mostrar para el usuario
+      const notificationsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/habits/notifications/`,
+        {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        }
+      );
+      // Almacenamos estas notificaciones en local storage
+      localStorage.setItem('user_notifications', JSON.stringify(notificationsResponse.data))
+
       navigate('/habits');
     } catch (error) {
       swalMessages.errorMessage('Credenciales incorrectas. Inténtalo nuevamente.');
