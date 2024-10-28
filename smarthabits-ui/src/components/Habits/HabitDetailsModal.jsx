@@ -28,7 +28,7 @@ const HabitDetailsModal = ({
 
     try {
       // Usamos la nueva URL para eliminar el hábito
-      await axios.delete(`http://127.0.0.1:8000/api/habits/delete/${id}/`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/habits/delete/${id}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

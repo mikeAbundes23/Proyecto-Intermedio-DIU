@@ -42,7 +42,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
 
     try {
       // Realizamos la solicitud POST al endpoint de creación de usuario
-      const response = await axios.post('http://127.0.0.1:8000/api/user/create-user/', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/create-user/`, {
         name: name,
         last_name: lastname,
         username: username,

@@ -49,7 +49,7 @@ const HabitCard = ({ habit, setHabits, habits }) => {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/habits/update/progress/${id}/`,
+        `${process.env.REACT_APP_API_URL}/api/habits/update/progress/${id}/`,
         { achieved: newAchieved },
         {
           headers: {
