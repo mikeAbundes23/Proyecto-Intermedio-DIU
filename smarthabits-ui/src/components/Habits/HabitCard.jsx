@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
+
 // Importamos los íconos (imágenes png)
 import habitIcon from "../../images/routine.png";
 import HabitDetailsModal from "./HabitDetailsModal";
@@ -66,10 +69,14 @@ const HabitCard = ({ habit, setHabits, habits }) => {
             habit.id === id ? { ...habit, achieved: newAchieved } : habit
           )
         );
+      } else {
+        swalMessages.errorMessage("Hubo un problema al actualizar el progreso");
       }
     } catch (err) {
-      alert("Failed to update progress. Please try again.");
       console.error("Error en updateHabitProgress: ", err);
+      swalMessages.errorMessage(
+        err.response?.data?.message || "Error al actualizar el progreso. Por favor, inténtalo más tarde."
+      );
     } finally {
       setIsLoading(false);
     }

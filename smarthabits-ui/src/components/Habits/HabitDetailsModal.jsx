@@ -2,6 +2,9 @@ import React from "react";
 import { Modal, Button, ProgressBar } from "react-bootstrap";
 import axios from "axios";
 
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
+
 // Importamos el archivo CSS
 import "./HabitDetailsModal.css";
 
@@ -27,18 +30,28 @@ const HabitDetailsModal = ({
     if (!token) return;
 
     try {
-      // Usamos la nueva URL para eliminar el hábito
-      await axios.delete(`http://127.0.0.1:8000/api/habits/delete/${id}/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // Mostramos en cartel para confirmar la eliminación
+      const result = await swalMessages.confirmMessage();
+      if (result.isConfirmed) {
+        // Usamos la nueva URL para eliminar el hábito
+        await axios.delete(`http://127.0.0.1:8000/api/habits/delete/${id}/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      setHabits(habits.filter((habit) => habit.id !== id));
-      onClose(); // Cerramos el modal después de eliminar
+        setHabits(habits.filter((habit) => habit.id !== id));
+        onClose(); // Cerramos el modal después de eliminar
+        // Mostramos el mensaje de confirmación de la eliminación
+        swalMessages.successMessage('Hábito eliminado exitosamente');
+      } else {
+        swalMessages.errorMessage('Hubo un problema al eliminar el hábito');
+      }
     } catch (err) {
-      alert("Failed to delete habit. Please try again.");
       console.error("Error en deleteHabit: ", err);
+      swalMessages.errorMessage(
+        err.response?.data?.message || 'Error al eliminar el hábito. Por favor, inténtalo más tarde.'
+      );
     }
   };
 

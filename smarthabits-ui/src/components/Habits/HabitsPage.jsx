@@ -3,9 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 
-// Importamos el archivo para los mensajes (alert)
-import swalMessages from '../../services/SwalMessages';
-
 // Importamos el archivo CSS
 import "./HabitsPage.css";
 // Importamos el componente del navbar
@@ -68,7 +65,25 @@ const HabitsPage = () => {
 
   // Función para agregar un hábito recién creado a la lista
   const handleHabitCreated = (newHabit) => {
-    setHabits([...habits, newHabit]);
+    // Refrescamos la lista completa de hábitos
+    fetchData();
+
+    setHabits(prevHabits => {
+      // Nos aseguramos de que el nuevo hábito tenga un id único
+      if (!newHabit.id) {
+        console.warn('Nuevo hábito sin ID:', newHabit);
+        return prevHabits;
+      }
+      
+      // Verificamos si el hábito ya existe
+      const habitExists = prevHabits.some(habit => habit.id === newHabit.id);
+      if (habitExists) {
+        return prevHabits;
+      }
+      
+      // Agregamos el nuevo hábito al arreglo
+      return [...prevHabits, newHabit];
+    });
   };
 
   // Función para mostrar los cards de hábitos del usuario

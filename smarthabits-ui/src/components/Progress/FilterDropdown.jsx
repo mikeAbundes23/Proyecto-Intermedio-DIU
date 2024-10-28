@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Accordion, Button, Dropdown } from "react-bootstrap";
 
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
+
 // Importamos el archivo CSS
 import "./FilterDropdown.css";
 
@@ -82,6 +85,18 @@ const FilterDropdown = () => {
 
   // Función para aplicar los filtros cuando se presiona el botón
   const handleApplyFilters = () => {
+    // Validamos que haya hábitos disponibles si se seleccionó un hábito específico
+    if (selectedHabit !== "all" && !habits.find(h => h.id === selectedHabit)) {
+      swalMessages.errorMessage("El hábito seleccionado ya no está disponible");
+      return;
+    }
+
+    // Validamos que haya hábitos en la categoría seleccionada
+    if (selectedCategory !== "all" && !habits.some(h => h.category === selectedCategory)) {
+      swalMessages.errorMessage("No hay hábitos en la categoría seleccionada");
+      return;
+    }
+
     setAppliedFilters({
       days: selectedDays,
       category: selectedCategory,
@@ -110,12 +125,21 @@ const FilterDropdown = () => {
 
       const data = await response.json();
 
-      if (data?.data?.length > 0) {
-        setHabits(data.data); // Guardar los hábitos en el estado
+      if (response.ok && data?.data?.length > 0) {
+        setHabits(data.data); // Guardamos los hábitos en el estado
+        if (data.data.length === 0) {
+          swalMessages.errorMessage("No hay hábitos disponibles para mostrar");
+        }
+      } else {
+        swalMessages.errorMessage(
+          data?.message || "Hubo un problema al obtener la lista de hábitos"
+        );
       }
     } catch (error) {
-      alert("Failed to get the list of habits. Please try again."); // To-do: Quitar
       console.error("Error en fetchHabits: ", error);
+      swalMessages.errorMessage(
+        error.response?.data?.message || "Error al obtener la lista de hábitos. Por favor, inténtalo más tarde."
+      );
     }
   };
 

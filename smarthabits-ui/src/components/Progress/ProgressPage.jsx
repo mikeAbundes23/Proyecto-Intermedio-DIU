@@ -5,6 +5,9 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { BiChevronLeft } from "react-icons/bi";
 import Spinner from "react-bootstrap/Spinner";
 
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
+
 // Importamos el archivo CSS
 import "./ProgressPage.css";
 
@@ -43,13 +46,21 @@ const ProgressPage = () => {
 
         // Obtenemos la respuesta de la solicitud
         const userData = response.data;
-        // Establecemos los datos para las gráficas
-        setCompletedPercentage(userData.habits_completed || -1);
-        setCurrentStreak(userData.data.ongoing_streak || -1);
-        setLongestStreak(userData.data.longest_streak || -1);
+
+        // Validamos que los datos existan
+        if (userData && userData.data) {
+          // Establecemos los datos para las gráficas
+          setCompletedPercentage(userData.habits_completed || -1);
+          setCurrentStreak(userData.data.ongoing_streak || -1);
+          setLongestStreak(userData.data.longest_streak || -1);
+        } else {
+          swalMessages.errorMessage("Hubo un problema al obtener la información del progreso");
+        }
       } catch (error) {
-        alert("Failed to get the graphics. Please try again."); // To-do: Quitar
-        console.error("Error en useEffect: ", error);
+        console.error("Error en fetchProgressData: ", error);
+        swalMessages.errorMessage(
+          error.response?.data?.message || 'Error al obtener la información del progreso. Por favor, inténtalo más tarde.'
+        );
       } finally {
         setIsLoading(false);
       }

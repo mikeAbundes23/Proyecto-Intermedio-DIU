@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
+
 // Importamos el archivo CSS
 import "./HabitDetailsModal.css"; 
 
@@ -59,7 +62,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
       !newHabit.category ||
       !newHabit.frequency
     ) {
-      alert("Por favor, completa todos los campos requeridos."); // To-do: Quitar
+      swalMessages.errorMessage("Por favor, completa todos los campos requeridos");
       return;
     }
 
@@ -75,19 +78,31 @@ const CreateHabitButton = ({ onHabitCreated }) => {
         }
       );
 
-      const createdHabit = response.data;
+      // Verificamos que la respuesta sea exitosa y contenga datos
+      if ((response.status === 201 || response.status === 200) && response.data) {
+        // Aseguramos que el hábito tenga todos los campos necesarios
+        const createdHabit = {
+          ...response.data,
+          achieved: 0, // Aseguramos que tenga un valor inicial
+          id: response.data.id, // Aseguramos que tenga un ID
+        };
 
-      // Comprobamos si la respuesta contiene todos los campos necesarios
-      if (!createdHabit.habit || !createdHabit.description) {
-        alert("La respuesta del backend no contiene toda la información necesaria."); // To-do: Quitar
-        return;
+        // Notificamos al componente principal
+        onHabitCreated(createdHabit);
+        
+        // Mostramos mensaje de éxito
+        swalMessages.successMessage("Hábito creado exitosamente");
+        
+        // Cerramos el modal
+        closeCreateModal();
+      } else {
+        swalMessages.errorMessage("Hubo un problema al crear el hábito");
       }
-
-      onHabitCreated(createdHabit); // Notificamos al componente principal del nuevo hábito
-      closeCreateModal(); // Cerramos el modal después de crear el hábito
     } catch (err) {
-      alert("Failed to create habit. Please try again."); // To-do: Quitar
       console.error("Error en createHabit: ", err);
+      swalMessages.errorMessage(
+        err.response?.data?.message || "Error al crear el hábito. Por favor, verifica los datos."
+      );
     }
   };
 
