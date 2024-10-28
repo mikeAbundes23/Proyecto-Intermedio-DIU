@@ -323,6 +323,7 @@ def get_progress_by_category(request, category):
         
         habits_progress_serializer = HabitProgressListSerializer(habits_progress, many=True)
         
+        # Calcular el porcentaje de hábitos completados regla de tres
         habits_completed = (habits_completed * 100) / len(habits)
         habits_incopmleted = (habits_incopmleted * 100) / len(habits)
         

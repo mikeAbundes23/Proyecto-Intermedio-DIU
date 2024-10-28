@@ -89,8 +89,12 @@ def get_user(request):
         
         habits = Habit.objects.filter(user_id=user_id)
         
-        habits_completed = (habits.filter(is_completed=True).count() * 100) / len(habits)
-        
+ 
+        habits_completed = 0
+        if len(habits) > 0:
+            # Calcular el porcentaje de hábitos completados regla de tres
+            habits_completed = (habits.filter(is_completed=True).count() * 100) / len(habits)
+            
         return Response({
             "data" : user_serializer.data,
             "habits_completed": habits_completed,
