@@ -39,7 +39,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
       console.log('password:', password);
 
       // Se hace una solicitud POST para el endpoint de login
-      const response = await axios.post('http://127.0.0.1:8000/api/user/login/', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/login/`, {
         username: username,
         password: password,
       });

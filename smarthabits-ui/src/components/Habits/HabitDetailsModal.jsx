@@ -30,11 +30,11 @@ const HabitDetailsModal = ({
     if (!token) return;
 
     try {
-      // Mostramos en cartel para confirmar la eliminación
+      // Mostramos el cartel para confirmar la eliminación
       const result = await swalMessages.confirmMessage();
       if (result.isConfirmed) {
         // Usamos la nueva URL para eliminar el hábito
-        await axios.delete(`http://127.0.0.1:8000/api/habits/delete/${id}/`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/habits/delete/${id}/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

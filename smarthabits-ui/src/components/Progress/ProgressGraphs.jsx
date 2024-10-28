@@ -53,7 +53,7 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
 
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/habits/progress/by-category/${selectedCategory}/`,
+        `${process.env.REACT_APP_API_URL}/${selectedCategory}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,7 +131,7 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
 
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/habits/progress/${selectedHabit}/`,
+        `${process.env.REACT_APP_API_URL}/${selectedHabit}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

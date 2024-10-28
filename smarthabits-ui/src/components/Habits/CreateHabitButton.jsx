@@ -68,7 +68,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/habits/create/",
+        `${process.env.REACT_APP_API_URL}/api/habits/create/`,
         newHabit,
         {
           headers: {
