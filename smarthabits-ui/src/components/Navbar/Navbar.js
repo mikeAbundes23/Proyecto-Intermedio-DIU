@@ -37,6 +37,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem(process.env.REACT_APP_USER_NOTIFICATIONS_OBJECT_NAME);
+    localStorage.removeItem('reminderShown');
     navigate('/');
     logout();
   };

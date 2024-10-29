@@ -44,13 +44,11 @@ const HabitDetailsModal = ({
         onClose(); // Cerramos el modal después de eliminar
         // Mostramos el mensaje de confirmación de la eliminación
         swalMessages.successMessage('Hábito eliminado exitosamente');
-      } else {
-        swalMessages.errorMessage('Hubo un problema al eliminar el hábito');
       }
     } catch (err) {
       console.error("Error en deleteHabit: ", err);
       swalMessages.errorMessage(
-        err.response?.data?.message || 'Error al eliminar el hábito. Por favor, inténtalo más tarde.'
+        err.response?.data?.message || 'Error al eliminar el hábito Por favor, inténtalo más tarde'
       );
     }
   };

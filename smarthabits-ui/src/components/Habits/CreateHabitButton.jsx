@@ -101,7 +101,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
     } catch (err) {
       console.error("Error en createHabit: ", err);
       swalMessages.errorMessage(
-        err.response?.data?.message || "Error al crear el hábito. Por favor, verifica los datos."
+        err.response?.data?.message || "Error al crear el hábito Por favor, verifica los datos"
       );
     }
   };

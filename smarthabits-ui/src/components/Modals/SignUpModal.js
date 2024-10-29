@@ -36,7 +36,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
 
     // Validamos que las contraseñas coincidan
     if (password !== confirmPassword) {
-      swalMessages.errorMessage('Las contraseñas no coinciden. Inténtalo nuevamente.');
+      swalMessages.errorMessage('Las contraseñas no coinciden Inténtalo nuevamente');
       return;
     }
 
@@ -70,7 +70,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
         setShowLogin(true);
       }
     } catch (error) {
-      swalMessages.errorMessage('No se pudo completar el registro. Por favor, inténtalo nuevamente.');
+      swalMessages.errorMessage('No se pudo completar el registro Por favor, inténtalo nuevamente');
       console.error('Error en handleSubmit: ', error);
     }
   };

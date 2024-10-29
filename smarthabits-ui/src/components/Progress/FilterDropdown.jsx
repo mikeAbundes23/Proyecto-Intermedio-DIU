@@ -138,7 +138,7 @@ const FilterDropdown = () => {
     } catch (error) {
       console.error("Error en fetchHabits: ", error);
       swalMessages.errorMessage(
-        error.response?.data?.message || "Error al obtener la lista de hábitos. Por favor, inténtalo más tarde."
+        error.response?.data?.message || "Error al obtener la lista de hábitos Por favor, inténtalo más tarde"
       );
     }
   };

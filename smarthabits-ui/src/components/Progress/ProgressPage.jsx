@@ -59,7 +59,7 @@ const ProgressPage = () => {
       } catch (error) {
         console.error("Error en fetchProgressData: ", error);
         swalMessages.errorMessage(
-          error.response?.data?.message || 'Error al obtener la información del progreso. Por favor, inténtalo más tarde.'
+          error.response?.data?.message || 'Error al obtener la información del progreso Por favor, inténtalo más tarde'
         );
       } finally {
         setIsLoading(false);

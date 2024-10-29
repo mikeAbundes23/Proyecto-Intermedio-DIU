@@ -75,7 +75,7 @@ const HabitCard = ({ habit, setHabits, habits }) => {
     } catch (err) {
       console.error("Error en updateHabitProgress: ", err);
       swalMessages.errorMessage(
-        err.response?.data?.message || "Error al actualizar el progreso. Por favor, inténtalo más tarde."
+        err.response?.data?.message || "Error al actualizar el progreso Por favor, inténtalo más tarde"
       );
     } finally {
       setIsLoading(false);

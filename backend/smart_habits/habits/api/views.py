@@ -362,19 +362,16 @@ def get_habit_notifications(request):
             10: "La constancia es la clave para descubrir lo que está oculto."
         }
 
-        limit = 0
-        
-        if len(habits) > 3:
-            limit = 3
-        else:
-            limit = len(habits)        
-        
+        limit = min(len(habits), 3)
         notifications = {}
-        
-        i  = 0
-        while i < limit:
-            notifications[habits[i].habit] = frases_motivacion[random.randint(1, 10)]
-            i += 1
+
+        for i in range(limit):
+            habit = habits[i]
+            notifications[habit.habit] = {
+                'description': habit.description,
+                'message': frases_motivacion[random.randint(1, 10)],
+                'frequency': habit.frequency
+            }
             
         return Response({"data": notifications}, status=status.HTTP_200_OK)
         
