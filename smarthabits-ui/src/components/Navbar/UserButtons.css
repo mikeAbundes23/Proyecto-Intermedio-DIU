@@ -1,109 +1,107 @@
 .user-buttons {
-    display: inline-flex; /* Mantiene los botones en línea */
-    align-items: center; /* Alinea verticalmente los iconos */
+  display: inline-flex; /* Mantiene los botones en línea */
+  align-items: center; /* Alinea verticalmente los iconos */
 }
-
-
 
 .icon-button {
-    background: none; /* Sin fondo */
-    border: none; /* Sin borde */
-    cursor: pointer; /* Cambia el cursor al pasar el ratón */
-    padding: 0 10px; /* Espaciado lateral */
+  background: none; /* Sin fondo */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  padding: 0 10px; /* Espaciado lateral */
 }
 
-.icon-notifications, .icon-user {
-    height: 30px; /* Ajusta el tamaño de los iconos */
-    width: 30px;
+.icon-notifications,
+.icon-user {
+  height: 30px; /* Ajusta el tamaño de los iconos */
+  width: 30px;
 }
 
 .dropdown-menu {
-    min-width: 300px !important; /* Ancho mínimo del dropdown */
-    transform: translate(-160px, 20px);
+  min-width: 300px !important; /* Ancho mínimo del dropdown */
+  transform: translate(-160px, 20px);
 }
 
 .notifications-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    margin-bottom: 10px;
-    padding: 5px !important;
-    margin-left: 10px;
-    margin-right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding: 5px !important;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .notification-count {
-    background-color:red; /* Color de fondo del contador */
-    color: white;
-    border-radius: 50%;
-    padding: 3px 7px; /* Ajusta el tamaño del padding para que el círculo no sea demasiado grande */
-    font-size: 12px;
+  background-color: red; /* Color de fondo del contador */
+  color: white;
+  border-radius: 50%;
+  padding: 3px 7px; /* Ajusta el tamaño del padding para que el círculo no sea demasiado grande */
+  font-size: 12px;
 }
 
 .notification-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 8px 0; /* Espaciado entre las notificaciones */
-    border-bottom: 1px solid #ccc; /* Línea separadora */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 0; /* Espaciado entre las notificaciones */
+  border-bottom: 1px solid #ccc; /* Línea separadora */
 }
 
-
 .notification-title {
-    font-weight: bold;
-    color: black;
+  font-weight: bold;
+  color: black;
 }
 
 .notification-message {
-    display: block;
-    font-size: 12px;
-    color: #666;
+  display: block;
+  font-size: 12px;
+  color: #666;
 }
 
 .delete-notification {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin-left: 10px; /* Espaciado para el ícono de borrar */
-    border-radius: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px; /* Espaciado para el ícono de borrar */
+  border-radius: 5px;
 }
 .dropdown-item:hover {
-    background-color: #19355e !important
-} 
+  background-color: #19355e !important;
+}
 
 .delete-notification:hover {
-    background: #adb5bd;
+  background: #adb5bd;
 }
 
-.notification-item{
-    background: white;
-    padding: 10px !important;
+.notification-item {
+  background: white;
+  padding: 10px !important;
 }
 
-.notification-item:hover{
-    background: #d7dde4;
+.notification-item:hover {
+  background: #d7dde4;
 }
 .icon-button {
-    position: relative; /* Necesario para el posicionamiento del contador de notificaciones */
-    background: none; /* Sin fondo */
-    border: none; /* Sin borde */
-    cursor: pointer; /* Cambia el cursor al pasar el ratón */
-    padding: 0 10px; /* Espaciado lateral */
+  position: relative; /* Necesario para el posicionamiento del contador de notificaciones */
+  background: none; /* Sin fondo */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  padding: 0 10px; /* Espaciado lateral */
 }
 
 .notification-badge {
-    position: absolute; /* Posicionamiento absoluto */
-    top: 0; /* Ajusta según sea necesario */
-    right: 0; /* Ajusta según sea necesario */
-    background-color: red; /* Color del contador */
-    color: white; /* Color del texto dentro del contador */
-    border-radius: 50%; /* Hacer que sea redonda */
-    width: 20px; /* Ancho de la bolita */
-    height: 20px; /* Alto de la bolita */
-    display: flex;
-    justify-content: center; /* Centrar el texto horizontalmente */
-    align-items: center; /* Centrar el texto verticalmente */
-    font-size: 12px; /* Tamaño del texto */
+  position: absolute; /* Posicionamiento absoluto */
+  top: 0; /* Ajusta según sea necesario */
+  right: 0; /* Ajusta según sea necesario */
+  background-color: red; /* Color del contador */
+  color: white; /* Color del texto dentro del contador */
+  border-radius: 50%; /* Hacer que sea redonda */
+  width: 20px; /* Ancho de la bolita */
+  height: 20px; /* Alto de la bolita */
+  display: flex;
+  justify-content: center; /* Centrar el texto horizontalmente */
+  align-items: center; /* Centrar el texto verticalmente */
+  font-size: 12px; /* Tamaño del texto */
 }
