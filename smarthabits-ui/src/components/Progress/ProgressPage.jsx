@@ -95,7 +95,7 @@ const ProgressPage = () => {
         <div className="progress-item">
           <img src={habitCompleteIcon} alt="completados" className="icon-percent" />
           <strong>Hábitos Completados</strong>
-          <h3>{completedPercentage}%</h3>
+          <h3>{completedPercentage === -1 ? 0 : completedPercentage}%</h3>
           
           <ProgressBar
             now={completedPercentage}
