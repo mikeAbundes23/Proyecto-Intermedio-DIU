@@ -27,30 +27,30 @@ Django | 5.1.1
 Python | 3.11.4
 Neon | - 
 PostgreSQL | 16
-Bootstrap | -
+Bootstrap | 5.3.3
 
 ## Tecnologías utilizadas (Back-End)
 Package                       | Versión
 ----------------------------- | -----------
-asgiref                       |3.8.1
-boto3                         |1.35.30
-botocore                      |1.35.30
-Django                        |5.1.1
-django-model-utils            |5.0.0
-djangorestframework           |3.15.2
-djangorestframework-simplejwt |5.3.1
-jmespath                      |1.0.1
-pip                           |24.2
-psycopg2                      |2.9.9
-PyJWT                         |2.9.0
-python-dateutil               |2.9.0.post0
-python-dotenv                 |1.0.1
-s3transfer                    |0.10.2
-setuptools                    |65.5.0
-six                           |1.16.0
-sqlparse                      |0.5.1
-tzdata                        |2024.2
-urllib3                       |2.2.3
+asgiref                       | 3.8.1
+boto3                         | 1.35.30
+botocore                      | 1.35.30
+Django                        | 5.1.1
+django-model-utils            | 5.0.0
+djangorestframework           | 3.15.2
+djangorestframework-simplejwt | 5.3.1
+jmespath                      | 1.0.1
+pip                           | 24.2
+psycopg2                      | 2.9.9
+PyJWT                         | 2.9.0
+python-dateutil               | 2.9.0.post0
+python-dotenv                 | 1.0.1
+s3transfer                    | 0.10.2
+setuptools                    | 65.5.0
+six                           | 1.16.0
+sqlparse                      | 0.5.1
+tzdata                        | 2024.2
+urllib3                       | 2.2.3
 
 ## Instalación
 
