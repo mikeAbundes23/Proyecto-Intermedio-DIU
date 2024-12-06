@@ -13,6 +13,7 @@ import CreateHabitButton from "./CreateHabitButton";
 import HabitCard from "./HabitCard";
 
 const HabitsPage = () => {
+  
   const [habits, setHabits] = useState([]);
   const [name, setName] = useState(""); // Estado para el nombre del usuario
   const [isLoading, setIsLoading] = useState(true);

@@ -23,6 +23,7 @@ import streakIcon from '../../images/fire.png';
 import longStreakIcon from '../../images/star.png';
 
 const ProgressPage = () => {
+  
   // Estados de los datos que se obtienen de los filtros
   const [completedPercentage, setCompletedPercentage] = useState(0);
   const [currentStreak, setCurrentStreak] = useState(0);

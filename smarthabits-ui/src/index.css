@@ -1,0 +1,201 @@
+/* Importamos las fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+/* Variables globales */
+:root {
+    /* Paleta de colores principal */
+    --dark-blue: #01204e;
+    --cyan: #028391;
+    --beige: #f6dcac;
+    --light-orange: #feae6f;
+    --light-blue: #6599d1;
+    
+    /* Colores de estado */
+    --success-color: var(--green);
+    --warning-color: var(--yellow);
+    --error-color: var(--orange);
+    
+    /* Border radius */
+    --radius-card: 10px;
+    --radius-button: 6px;
+}
+
+/* Reset y estilos base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Botones */
+.btn-primary {
+    background-color: var(--cyan) !important;
+    border: none;
+    border-radius: var(--radius-button);
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    margin-top: 15px;
+    padding: 7px 30px;
+}
+
+.btn-primary:hover {
+    background-color: #0398A8 !important;
+}
+
+.btn-secondary {
+    background-color: #FEAE6F;
+    border: none;
+    border-radius: 8px;
+    color: #5D4848;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 5px 10px;
+    width: 120px;
+}
+  
+.btn-secondary:hover {
+    background-color: #e69659;
+}
+
+.btn-danger {
+    border-radius: var(--radius-button);
+    font-weight: 500;
+    margin-top: 15px;
+    padding: 7px 30px;
+}
+
+.navbar-btn {
+    background-color: transparent;
+    border: none;
+    border-radius: var(--radius-button);
+    color: white;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-size: medium;
+    font-weight: 600;
+    margin-left: 10px;
+    padding: 8px 16px;
+    transition: background-color 0.3s;
+}
+
+.navbar-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #1b3b6f;
+    cursor: pointer;
+    font-size: 36px;
+    margin: 20px 20px 0px 20px;
+}
+  
+.back-button:hover {
+    color: #555;
+}
+
+/* Formularios */
+.login-form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    align-items: center;
+    display: flex;
+    max-width: 400px;
+    padding: 8px 0px;
+    width: 100%;
+}
+
+.input-group-text {
+    background-color: var(--beige) !important;
+    border-bottom-left-radius: 30px;
+    border-top-left-radius: 30px;
+    padding: 12px 15px;
+}
+
+.input-icon {
+    height: auto;
+    width: 20px;
+}
+
+.input-group .rounded-input {
+    border-radius: 0px 30px 30px 0px !important;
+    font-size: 16px;
+    padding: 10px 12px;
+}
+
+.form-check {
+    float: right !important;
+}
+
+.form-check input {
+    cursor: pointer;
+}
+
+.span-red {
+    color: rgb(196, 16, 16);
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-control,
+.form-select {
+    border-radius: 15px !important;
+    font-size: 16px !important;
+    padding: 10px 20px;
+}
+
+.form-control::placeholder,
+#formHabitGoal,
+.form-select {
+    color: #797979 !important;
+}
+
+.form-select-option {
+    background-color: #01204E;
+    color: white;
+    font-weight: 500;
+}
+
+/* Modales */
+.modal-content {
+    border-radius: var(--radius-card);
+    font-family: "Montserrat", sans-serif;
+}
+
+.modal-header {
+    padding: 30px 30px 0px 20px !important;
+}
+
+.modal-title {
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.modal-body {
+    margin: 0px 40px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.footer-text {
+    color: #6F6E6E;
+    font-family: "Nunito", sans-serif;
+    font-style: italic;
+    padding-bottom: 10px;
+}
+  
+.text-primary {
+    font-weight: bold;
+    padding-left: 5px;
+}

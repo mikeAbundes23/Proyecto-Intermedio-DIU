@@ -13,6 +13,7 @@ import image3 from '../../images/home03.jpg';
 import Navbar from '../Navbar/Navbar';
 
 const Home = () => {
+  
   return (
 
     // Página Principal
@@ -27,7 +28,7 @@ const Home = () => {
 
       {/* Primera sección: Texto centrado */}
       <section className="text-center my-5">
-        <p className='home-title'>Create Life Changing Habits</p>
+        <p className='home-text title'>Create Life Changing Habits</p>
       </section>
 
       {/* Segunda sección: Carrusel de imágenes */}
@@ -35,15 +36,15 @@ const Home = () => {
         <div id="homeCarousel" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <img src={image1} className="d-block w-100" alt="Imagen 1" />
+              <img src={image1} className="d-block" alt="Imagen 1" />
             </div>
 
             <div className="carousel-item">
-              <img src={image2} className="d-block w-100" alt="Imagen 2" />
+              <img src={image2} className="d-block" alt="Imagen 2" />
             </div>
 
             <div className="carousel-item">
-              <img src={image3} className="d-block w-100" alt="Imagen 3" />
+              <img src={image3} className="d-block" alt="Imagen 3" />
             </div>
           </div>
 
@@ -62,7 +63,7 @@ const Home = () => {
 
       {/* Tercera sección: Texto debajo del carrusel */}
       <section className="text-center my-5">
-        <p className='home-text'>Become your true self</p>
+        <p className='home-text footer'>Become your true self</p>
       </section>
     </div>
   );

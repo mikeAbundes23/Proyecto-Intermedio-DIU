@@ -21,6 +21,7 @@ const HabitDetailsModal = ({
   setHabits,
   habits,
 }) => {
+  
   if (!habit) return null; // Si no hay un hábito seleccionado, no mostrar nada
 
   // Función para eliminar un hábito

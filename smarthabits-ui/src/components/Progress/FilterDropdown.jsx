@@ -37,6 +37,7 @@ const categories = [
 ];
 
 const FilterDropdown = () => {
+  
   // Estados para los filtros seleccionados
   const [selectedDays, setSelectedDays] = useState(7);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -242,7 +243,7 @@ const FilterDropdown = () => {
 
             {/* Botón para ver las gráficas */}
             <div className="view-graphs-container">
-              <Button className="view-graphs-button" onClick={handleApplyFilters}>Ver gráficas</Button>
+              <Button className="btn-primary" onClick={handleApplyFilters}>Ver gráficas</Button>
             </div>
           </Accordion.Body>
         </Accordion.Item>

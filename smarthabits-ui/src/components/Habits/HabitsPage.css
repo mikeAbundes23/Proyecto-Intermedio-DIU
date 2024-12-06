@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-
 /* Estilos para la página completa */
 .habits-page-container {
   padding: 20px;
@@ -15,32 +13,19 @@
 
 .buttons-container {
   display: flex;
-  gap: 16px;
+  gap: 60px;
   justify-content: left;
-  margin: 10px;
+  margin: 10px 10px 10px 20px;
 }
 
-/* Estilos para el botón de crear hábito y progreso */
-.create-habits {
-  background-color: var(--primary-color) !important;
-  border: none !important;
-  border-radius: 10px !important;
-  margin: 0px 60px 0px 15px;
-  padding: 7px 20px !important;
-}
-
+/* Estilos para el botón de progreso */
 .progress-habits {
-  background-color: var(--primary-color) !important;
-  border: none !important;
-  border-radius: 8px;
   color: white;
-  padding: 7px 20px !important;
 }
 
-.create-habits:hover,
-.progress-habits:hover {
-  background-color: #216870 !important;
-  border: none;
+/* Estilos para el modal de Nuevo Hábito */
+.form-label {
+  margin-top: 15px;
 }
 
 /* Estilos para la sección de los hábitos */
@@ -62,23 +47,23 @@
 .habits-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
+  gap: 45px;
   margin: 20px;
 }
 
 .text-habits {
   font-family: "Montserrat", sans-serif;
-  margin-left: 20px;
 }
 
+/* Estilos para los cards de hábitos */
 .habit-card {
   align-items: center;
   background-color: #f8d8a5;
-  border-radius: 8px;
+  border-radius: var(--radius-button);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
+  padding: 20px;
   width: 230px;
 }
 
@@ -87,6 +72,7 @@
 }
 
 .habit-info {
+  padding: 0px 8px;
   text-align: left;
   width: 210px;
 }
@@ -122,17 +108,7 @@
   font-size: 20px;
 }
 
-.details-button {
-  background-color: #FEAE6F;
-  border: none;
-  border-radius: 8px;
-  color: #5D4848;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 5px 10px;
-  width: 120px;
-}
-
-.details-button:hover {
-  background-color: #e69659;
+.spinner {
+  margin-bottom: 20px;
+  margin-top: 10px;
 }

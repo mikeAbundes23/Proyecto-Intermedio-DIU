@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getCookie, setCookie } from '../helpers/auth';
+import { getCookie, setCookie } from '../helpers/Auth';
 
 // Creamos el contexto de autenticación
 export const AuthContext = createContext();

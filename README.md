@@ -22,12 +22,12 @@ Diseño de Interfaces de Usuario
 
 ## Tecnologías utilizadas (Generales)
 Tecnología | Versión
------ | ----
-Django | 5.1.1
-Python | 3.11.4
-Neon | - 
+---------- | ----
+Django     | 5.1.1
+Python     | 3.11.4
+Neon       | - 
 PostgreSQL | 16
-Bootstrap | 5.3.3
+Bootstrap  | 5.3.3
 
 ## Tecnologías utilizadas (Back-End)
 Package                       | Versión

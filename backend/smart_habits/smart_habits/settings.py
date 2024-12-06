@@ -71,7 +71,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-# TO-DO Documentar
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),  # Duración del access token
     # Duración del refresh token (si lo usas)
@@ -81,7 +80,6 @@ SIMPLE_JWT = {
     # Otras configuraciones...
 }
 
-# TO-DO Documentar
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',

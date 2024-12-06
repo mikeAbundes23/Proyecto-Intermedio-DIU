@@ -19,6 +19,7 @@ import UserButtons from './UserButtons';
 import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
+  
   const { isAuthenticated, logout } = useContext(AuthContext);
   // Estados para los modales de Login y Registro
   const [showLogin, setShowLogin] = useState(false);
@@ -61,11 +62,11 @@ const Navbar = () => {
             <UserButtons handleLogout={handleLogout} />
           ) : (
             <>
-              <button className="navbar-button" onClick={handleShowSignUp} id="signinBtn">
+              <button className="navbar-btn" onClick={handleShowSignUp} id="signinBtn">
                 Registrarse
               </button>
 
-              <button className="navbar-button" onClick={handleShowLogin} id="loginBtn">
+              <button className="navbar-btn" onClick={handleShowLogin} id="loginBtn">
                 Iniciar sesión
               </button>
             </>

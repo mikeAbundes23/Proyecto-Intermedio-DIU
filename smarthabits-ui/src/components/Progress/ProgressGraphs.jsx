@@ -26,6 +26,7 @@ Chart.register(
 );
 
 const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
+  
   // Estados necesarios para las gráficas
   const [barData, setBarData] = useState({});
   const [pieData, setPieData] = useState({});

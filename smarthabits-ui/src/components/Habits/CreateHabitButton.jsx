@@ -9,6 +9,7 @@ import swalMessages from '../../services/SwalMessages';
 import "./HabitDetailsModal.css"; 
 
 const CreateHabitButton = ({ onHabitCreated }) => {
+  
   // Estado para mostrar el modal
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -110,7 +111,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
     
     <>
       {/* Botón para crear hábitos */}
-      <Button className="btn-primary create-habits" onClick={openCreateModal}>
+      <Button className="btn-primary" onClick={openCreateModal}>
         Crear hábito
       </Button>
 
@@ -123,7 +124,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
         <Modal.Body>
           <Form>
             {/* Notificaciones */}
-            <Form.Group controlId="formNotifications" className="mb-3">
+            <Form.Group controlId="formNotifications">
               <Form.Check
                 type="checkbox"
                 label="Notificaciones"
@@ -135,7 +136,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
             <br />
 
             {/* Nombre del hábito */}
-            <Form.Group controlId="formHabitName" className="mb-3">
+            <Form.Group controlId="formHabitName">
               <Form.Label>Nombre <span className="span-red">*</span></Form.Label>
 
               <Form.Control
@@ -149,7 +150,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
             </Form.Group>
 
             {/* Descripción del hábito */}
-            <Form.Group controlId="formHabitDescription" className="mb-3">
+            <Form.Group controlId="formHabitDescription">
               <Form.Label>Descripción <span className="span-red">*</span></Form.Label>
 
               <Form.Control
@@ -163,7 +164,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
             </Form.Group>
 
             {/* Repeticiones del hábito */}
-            <Form.Group controlId="formHabitGoal" className="mb-3">
+            <Form.Group controlId="formHabitGoal">
               <Form.Label>Número de repeticiones <span className="span-red">*</span></Form.Label>
 
               <Form.Control
@@ -178,7 +179,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
             </Form.Group>
 
             {/* Frecuencia del hábito */}
-            <Form.Group controlId="formHabitFrequency" className="mb-3">
+            <Form.Group controlId="formHabitFrequency">
               <Form.Label>Frecuencia <span className="span-red">*</span></Form.Label>
 
               <Form.Select
@@ -195,7 +196,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
             </Form.Group>
 
             {/* Categoría del hábito */}
-            <Form.Group controlId="formHabitCategory" className="mb-3">
+            <Form.Group controlId="formHabitCategory" className="mb-6">
               <Form.Label>Categoría <span className="span-red">*</span></Form.Label>
 
               <Form.Select

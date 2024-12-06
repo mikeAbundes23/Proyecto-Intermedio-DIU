@@ -16,6 +16,7 @@ import nameIcon from '../../images/user01.png';
 import lastnameIcon from '../../images/user02.png';
 
 const SignUpModal = ({ show, handleClose, setShowLogin }) => {
+
   // Estados para los datos ingresados
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -99,7 +100,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
       <Modal.Body>
         <form className="login-form" onSubmit={handleSubmit}>
           {/* Nombre(s) del usuario */}
-          <div className="input-group mb-3">
+          <div className="input-group name mb-3">
             <span className="input-group-text" id="name-addon">
               <img src={nameIcon} alt="name-icon" className="input-icon" />
             </span>
@@ -217,7 +218,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
           </div>
 
           {/* Botón para enviar los datos ingresados */}
-          <Button type="submit" className="form-btn" variant="primary">
+          <Button type="submit" className='btn-primary'>
             Enviar
           </Button>
         </form>

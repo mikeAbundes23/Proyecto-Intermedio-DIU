@@ -1,9 +1,3 @@
-#name-addon,
-#lastname-addon,
-#username-addon,
-#email-addon,
-#confirm-password-addon {
-    background-color: var( --light-accent-color);
-    border-bottom-left-radius: 30px;
-    border-top-left-radius: 30px;
+.input-group.name {
+    margin-top: 15px;
 }

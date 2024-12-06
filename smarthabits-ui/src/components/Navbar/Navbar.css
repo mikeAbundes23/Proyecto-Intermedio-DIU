@@ -1,53 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-
 .navbar {
   align-items: center;
-  background-color: var(--primary-color);
-  color: var(--light-text-color);
+  background-color: var(--cyan);
+  color: var(--white);
   display: flex;
   justify-content: space-between;
   padding: 10px 20px;  
 }
-  
+
 .navbar-logo {
+  margin-left: 100px;
+}
+
+.navbar-logo a {
   align-items: center;
   display: flex;
-  margin-left: 100px;
+  justify-content: center;
 }
 
 .logo {
   height: 50px;
   margin-right: 10px;
-  width: 50px;
+  width: auto;
 }
 
 .app-name {
   height: auto;
   max-width: 150px;
-  object-fit: contain;
 }
 
 .navbar-buttons {
   display: flex;
   margin-right: 100px;
-}
-
-.navbar-button {
-  background-color: transparent;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  font-family: "Montserrat", sans-serif;
-  font-size: medium;
-  font-weight: 500;
-  margin-left: 10px;
-  padding: 8px 16px;
-  transition: background-color 0.3s;
-}
-
-.navbar-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Media query para hacer el navbar responsivo */
@@ -60,4 +43,4 @@
   .navbar-buttons {
     margin-top: 10px; 
   }
-} 
+}

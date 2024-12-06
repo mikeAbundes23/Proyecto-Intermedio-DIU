@@ -1,22 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-
-.filter-dropdown-container {
-  margin: 40px 0px;
-  width: 100%;
-}
-
 .filter-button-header {
   align-items: center;
   display: flex;
   font-size: 18px;
   font-weight: bold;
-}
-
-.filter-button-header h2 {
-  font-family: "Nunito", sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 0;
 }
 
 .filter-button-header img,
@@ -26,16 +12,26 @@
   width: 30px;
 }
 
+.filter-button-header h2 {
+  font-family: "Nunito", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.accordion-body {
+  padding: 20px 40px;
+}
+
 .accordion-body strong {
   font-size: 19px;
-  font-weight: 200;
+  font-weight: 500;
 }
 
 .days-buttons {
   display: flex;
   justify-content: space-between;
-  margin: 0px -20px;
-  margin-bottom: 20px;
+  margin: 0px -20px 20px -20px;
   padding-top: 5px;
 }
 
@@ -43,7 +39,7 @@
   align-items: center;
   background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: var(--radius-button);
   cursor: pointer;
   display: flex;
   flex: 1;
@@ -53,58 +49,52 @@
   position: relative;
 }
 
-.days-button.active {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: white;
-}
-
-.days-button.active span {
-  color: white;
-}
-
 .days-buttons span {
   font-size: 18px;
   font-weight: bold;
   margin-top: 3px;
 }
 
+.days-button.active {
+  background-color: var(--cyan);
+  border-color: transparent;
+}
+
+.days-button.active span {
+  color: white;
+}
+
 .filter-dropdown .dropdown-toggle-custom {
   background-color: #fff;
   border: 1px solid #ccc;
+  border-radius: var(--radius-button);
   color: #000;
   text-align: left;
   width: 100%;
 }
 
 .filter-dropdown {
-  margin: 5px 0px 0px 0px;
+  margin-top: 6px;
 }
 
-.dropdown-toggle-custom::after {
-  float: right;
-  margin-top: 10px;
+.dropdown-menu {
+  border-radius: var(--radius-card);
 }
 
 .dropdown-menu,
 .dropdown-item {
-  background-color: #01204e !important;
+  background-color: var(--dark-blue) !important;
   color: white !important;
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  text-decoration: underline;
 }
 
 .view-graphs-container {
   align-items: center;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
-}
-
-.view-graphs-button {
-  background-color: var(--primary-color) !important;
-  border-radius: 10px !important;
-  padding: 7px 30px 7px 30px !important;
-}
-
-.view-graphs-button:hover {
-  background-color: #216870 !important;
+  margin: 10px 0px;
 }

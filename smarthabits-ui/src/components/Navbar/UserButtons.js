@@ -18,6 +18,7 @@ const FREQUENCY_MAP = {
 };
 
 const UserButtons = ({ handleLogout }) => {
+
   // Estados necesarios para controlar los botones en el navbar
   const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -96,11 +97,12 @@ const UserButtons = ({ handleLogout }) => {
   const notificationCount = Object.keys(notifications).length;
 
   return (
+
     <div className='user-buttons'>
       {/* Botón de Notificaciones */}
-      <button className="icon-button" onClick={toggleNotificationsDropdown}>
+      <button className="icon-btn" onClick={toggleNotificationsDropdown}>
         <img src={notificationsIcon} alt="notificaciones" className="icon-notifications" />
-        {notificationCount > 0 && <span className="notification-badge">{notificationCount}</span>}
+        {notificationCount > 0 && <span className="notification-count">{notificationCount}</span>}
       </button>
 
       {/* Dropdown de Notificaciones */}
@@ -127,18 +129,19 @@ const UserButtons = ({ handleLogout }) => {
 
       {/* Botón de Usuario */}
       <Dropdown id="dropdown-user" show={showUserDropdown} align="end">
-        <Dropdown.Toggle as="div" className="icon-button" onClick={toggleUserDropdown}>
+        <Dropdown.Toggle as="div" className="icon-btn" onClick={toggleUserDropdown} split={false}>
           <img src={userIcon} alt="userconfig" className="icon-user" />
         </Dropdown.Toggle>
 
         <Dropdown.Menu id='dropdown-user-menu'>
-          <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
+          <Dropdown.Item id='dropdown-user-item'>Configuración</Dropdown.Item>
+          <Dropdown.Item id='dropdown-user-item' onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
 
       {/* Modal de Notificación Aleatoria */}
       <Modal show={showNotificationModal} onHide={handleCloseModal} centered className="notification-modal">
-        <Modal.Header closeButton className='border-0'>
+        <Modal.Header className='border-0'>
           <Modal.Title>Recordatorio</Modal.Title>
         </Modal.Header>
 

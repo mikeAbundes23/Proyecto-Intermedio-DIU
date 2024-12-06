@@ -1,26 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-
 .user-buttons {
   align-items: center;
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
 }
 
-.icon-button {
+.icon-btn {
   background: none;
   border: none;
   cursor: pointer; 
-  padding: 0 10px;
+  display: flex;
+  padding: 0 15px;
   position: relative;
+}
+
+.icon-btn span {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .icon-notifications,
 .icon-user,
 .icon-close {
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: auto;
 }
 
-.notification-badge {
+.notification-count {
   align-items: center;
   background-color: #dc3545;
   border-radius: 50%;
@@ -31,54 +37,49 @@
   font-weight: bold;
   height: 20px;
   justify-content: center;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 20px;
+  padding: 3px 7px;
+  width: auto;
 }
 
-/* Estilos para el modal de notificaciones */
+/* Estilos para el dropdown de notificaciones */
 .dropdown-notifications {
-  min-width: 300px !important; 
-  transform: translate(-280px, 17px);
+  background-color: var(--dark-blue);
+  border: none;
+  border-radius: var(--radius-card);
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  min-width: 300px; 
+  padding: 0px 0px 10px 0px;
+  position: absolute;
+  transform: translate(-300px, 25px);
 }
 
 .notifications-header {
   align-items: center;
   display: flex;
-  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   justify-content: space-between;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 5px !important;
-}
-
-.notification-count {
-  background-color: #dc3545; 
-  border-radius: 50%;
-  color: white;
-  font-size: 12px;
-  padding: 3px 7px;
+  padding: 12px 15px;
 }
 
 .notification-item {
-  align-items: flex-start;
-  background: white;
-  border-bottom: 1px solid #ccc;
+  align-items: center;
+  background-color: white;
   display: flex;
   justify-content: space-between;
-  padding: 10px !important;
+  padding: 10px 5px 10px 12px;
 }
 
 .notification-item:hover {
   background: #d7dde4;
 }
 
+.notification-content {
+  flex: 1;
+}
+
 .notification-title {
   color: black;
-  font-family: "Montserrat", sans-serif;
   font-size: 14px;
   font-weight: bold;
 }
@@ -92,29 +93,62 @@
 .delete-notification {
   background: none;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
   font-size: 16px;
-  margin-left: 10px;
 }
 
 .delete-notification:hover {
-  background: #adb5bd;
+  background-color: none;
+  cursor: pointer;
 }
 
-.dropdown-item:hover {
-  background-color: #19355e !important;
+/* Estilos para el dropdown de botones del usuario */
+.dropdown-toggle::after {
+  display: none;
+}
+
+#dropdown-user-menu {
+  background-color: var(--dark-blue);
+  border-radius: var(--radius-card);
+  justify-content: space-between;
+  margin-top: 6px;
+  padding: 2px 15px 10px 15px;
+}
+
+#dropdown-user-menu a {
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#dropdown-user-menu a:hover {
+  text-decoration: underline;
+}
+
+#dropdown-user-item {
+  border-bottom: 1px solid white;
+  display: flex;
+  padding: 10px 5px;
+}
+
+#dropdown-user-item:hover {
+  background-color: transparent;
 }
 
 /* Estilos para el modal del recordatorio  */
 .modal-body h4 {
   font-size: larger;
   font-style: italic;
+  padding: 20px 0px 0px 12px;
+}
+
+.info-item {
+  padding-left: 12px;
 }
 
 .info-item img {
   height: 25px;
-  margin-right: 6px;
+  margin: 0px 6px 5px 0px;
   width: 25px;
 }
 

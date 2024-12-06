@@ -11,6 +11,7 @@ import habitIcon from "../../images/routine.png";
 import HabitDetailsModal from "./HabitDetailsModal";
 
 const HabitCard = ({ habit, setHabits, habits }) => {
+  
   // Estados para el modal de detalles
   const [selectedHabit, setSelectedHabit] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -100,9 +101,10 @@ const HabitCard = ({ habit, setHabits, habits }) => {
         <img src={habitIcon} alt="Habit icon" />
         <span className="habit-name">{habit.habit}</span>
       </div>
+
       {/* Mostramos que se están cargando los datos */}
       {isLoading ? (
-        <Spinner animation="border" />
+        <Spinner className="spinner" animation="border" />
       ) : (
         // Mostramos los datos del card del hábito
         <>
@@ -116,7 +118,7 @@ const HabitCard = ({ habit, setHabits, habits }) => {
 
       {/* Botón de Ver detalles */}
       <button
-        className="details-button"
+        className="btn-secondary"
         onClick={() => openDetailsModal(habit)}
       >
         Ver detalles

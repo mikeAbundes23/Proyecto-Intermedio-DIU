@@ -17,6 +17,7 @@ import passwordIcon from '../../images/password.png';
 import { AuthContext } from '../../context/AuthContext';
 
 const LoginModal = ({ show, handleClose, setShowSignUp }) => {
+
   // Estados de los datos en el modal
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -136,7 +137,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
           </div>
 
           {/* Botón para iniciar sesión */}
-          <Button type="submit" className="form-btn" variant="primary">
+          <Button type="submit" className='btn-primary'>
             Iniciar Sesión
           </Button>
         </form>

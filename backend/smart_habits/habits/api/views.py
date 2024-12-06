@@ -35,7 +35,6 @@ def get_habits(request):
         if not habits:
             return Response({"message": "No hay hábitos registrados"}, status=status.HTTP_200_OK)
         
-        
         for habit in habits:
             
             habit_date = habit.start_date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -46,7 +45,6 @@ def get_habits(request):
             # Se reinicia el día del hábito
             if habit_date != today_date:
             
-                #print(habit_date)
                 habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
                 
                 # Objeto con la nueva información del hábito
@@ -137,10 +135,10 @@ def create_habit(request):
 
         # Creamos el registro del progreso del hábito
         habit_progress = HabitProgress.objects.create(
-                habit=habit,
-                updated_at=start_date,
-                progress_array=[0]
-            )
+            habit=habit,
+            updated_at=start_date,
+            progress_array=[0]
+        )
         habit_progress.save() # Guardamos el progreso del hábito en la base de datos
         
         response_serializer = HabitSerializer(habit)
@@ -303,7 +301,6 @@ def get_progress_by_category(request, category):
             habits = Habit.objects.filter(user=request.user.id)
         else: # Información de los hábitos por categoría
             habits = Habit.objects.filter(user=request.user.id, category=category)
-        #print(habits)
         
         if not habits:
             return Response({"message": "No hay hábitos en la categoría seleccionada"}, status=status.HTTP_200_OK)
