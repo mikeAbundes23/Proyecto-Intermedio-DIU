@@ -192,8 +192,7 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
   };
 
   return (
-
-    // Sección de las gráficas
+    
     <div className="progress-graphs-container">
       {/* Título */}
       <h2>Gráficos y Estadísticas</h2>

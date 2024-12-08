@@ -3,18 +3,18 @@ import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// Importamos el archivo para los mensajes (alert)
-import swalMessages from '../../services/SwalMessages';
-
 // Importamos el archivo CSS
 import './LoginModal.css';
+
+// Importamos la autenticación
+import { AuthContext } from '../../context/AuthContext';
+
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
 
 // Importamos los íconos (imágenes png)
 import userIcon from '../../images/user01.png';
 import passwordIcon from '../../images/password.png';
-
-// Importamos la autenticación
-import { AuthContext } from '../../context/AuthContext';
 
 const LoginModal = ({ show, handleClose, setShowSignUp }) => {
 
@@ -34,6 +34,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
   // Función para manejar el envío del formulario de inicio de sesión
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     try {
       console.log("Submit login");
       console.log('username:', username);
@@ -73,7 +74,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
 
       navigate('/habits');
     } catch (error) {
-      swalMessages.errorMessage('Credenciales incorrectas Inténtalo nuevamente');
+      swalMessages.errorMessage('Credenciales incorrectas<br>Inténtalo nuevamente');
       console.error('Error en handleSubmit: ', error);
     }
   };
@@ -88,7 +89,6 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
 
   return (
 
-    // Modal de Login
     <Modal show={show} onHide={handleCloseModal} centered>
       <Modal.Header closeButton className="border-0">
         {/* Título del modal */}

@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 // Importamos el archivo CSS
 import './Navbar.css';
 
-// Importamos los íconos (imágenes png)
-import logo from '../../images/logo-icono.png';
-import letras from '../../images/letras.png';
+// Importamos la autenticación
+import { AuthContext } from '../../context/AuthContext';
 
 // Importamos los modales de Login y Registro
 import LoginModal from '../Modals/LoginModal';
@@ -15,12 +14,15 @@ import SignUpModal from '../Modals/SignUpModal';
 // Importamos los botones del navbar una vez logueado
 import UserButtons from './UserButtons';
 
-// Importamos la autenticación
-import { AuthContext } from '../../context/AuthContext';
+// Importamos los íconos (imágenes png)
+import logo from '../../images/logo-icono.png';
+import letras from '../../images/letras.png';
 
 const Navbar = () => {
   
   const { isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   // Estados para los modales de Login y Registro
   const [showLogin, setShowLogin] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
@@ -31,8 +33,6 @@ const Navbar = () => {
 
   const handleCloseSignin = () => setShowSignUp(false);
   const handleShowSignUp = () => setShowSignUp(true);
-
-  const navigate = useNavigate();
 
   // Función para cerrar la sesión
   const handleLogout = () => {
@@ -45,7 +45,6 @@ const Navbar = () => {
 
   return (
     
-    // Barra de navegación definida
     <>
       <nav className="navbar">
         {/* Logo de la página */}

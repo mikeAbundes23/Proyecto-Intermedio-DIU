@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
-// Importamos el archivo para los mensajes (alert)
-import swalMessages from '../../services/SwalMessages';
-
 // Importamos el archivo CSS
 import "./HabitDetailsModal.css"; 
+
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
 
 const CreateHabitButton = ({ onHabitCreated }) => {
   
@@ -99,10 +99,10 @@ const CreateHabitButton = ({ onHabitCreated }) => {
       } else {
         swalMessages.errorMessage("Hubo un problema al crear el hábito");
       }
-    } catch (err) {
-      console.error("Error en createHabit: ", err);
+    } catch (error) {
+      console.error("Error en createHabit: ", error);
       swalMessages.errorMessage(
-        err.response?.data?.message || "Error al crear el hábito Por favor, verifica los datos"
+        error.response?.data?.message || "Error al crear el hábito<br>Por favor, verifica los datos"
       );
     }
   };

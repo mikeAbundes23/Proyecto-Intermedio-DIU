@@ -5,11 +5,11 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { BiChevronLeft } from "react-icons/bi";
 import Spinner from "react-bootstrap/Spinner";
 
-// Importamos el archivo para los mensajes (alert)
-import swalMessages from '../../services/SwalMessages';
-
 // Importamos el archivo CSS
 import "./ProgressPage.css";
+
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
 
 // Importamos el componente del navbar
 import Navbar from "../Navbar/Navbar";
@@ -39,7 +39,7 @@ const ProgressPage = () => {
       if (!token) return;
 
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/user/", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -60,7 +60,7 @@ const ProgressPage = () => {
       } catch (error) {
         console.error("Error en fetchProgressData: ", error);
         swalMessages.errorMessage(
-          error.response?.data?.message || 'Error al obtener la información del progreso Por favor, inténtalo más tarde'
+          error.response?.data?.message || 'Error al obtener la información del progreso<br>Por favor, inténtalo más tarde'
         );
       } finally {
         setIsLoading(false);
@@ -70,14 +70,13 @@ const ProgressPage = () => {
     fetchProgressData();
   }, []);
 
-  // Función para manejar el clic en el botón de retroceso
+  // Función para manejar el click en el botón de retroceso
   const handleGoBack = () => {
     navigate(-1); // Navega hacia la página anterior
   };
 
   return (
-
-    // Página del progreso de los hábitos
+    
     <div>
       {/* Componente NavBar */}
       <Navbar />

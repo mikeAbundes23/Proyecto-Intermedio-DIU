@@ -5,6 +5,10 @@ import Spinner from "react-bootstrap/Spinner";
 
 // Importamos el archivo CSS
 import "./HabitsPage.css";
+
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
+
 // Importamos el componente del navbar
 import Navbar from "../Navbar/Navbar";
 // Importamos el componente para el botón de crear hábito
@@ -13,11 +17,12 @@ import CreateHabitButton from "./CreateHabitButton";
 import HabitCard from "./HabitCard";
 
 const HabitsPage = () => {
+
+  const navigate = useNavigate();
   
   const [habits, setHabits] = useState([]);
   const [name, setName] = useState(""); // Estado para el nombre del usuario
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   // Función para manejar el cambio de vista "Progreso de hábitos"
   const handleProgressClick = () => {
@@ -37,12 +42,12 @@ const HabitsPage = () => {
       
       // Realizamos ambas solicitudes al mismo tiempo
       const [habitsResponse, userResponse] = await Promise.all([
-        axios.get("http://127.0.0.1:8000/api/habits/", {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/habits/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
-        axios.get("http://127.0.0.1:8000/api/user/", {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/user/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,6 +59,7 @@ const HabitsPage = () => {
       setName(userResponse.data.data.name); // Guardamos el nombre del usuario
     } catch (error) {
       console.error("Error completo en fetchData: ", error);
+      swalMessages.errorMessage("Error al obtener los datos<br>Por favor, inténtalo más tarde");
     } finally {
       setIsLoading(false);
     }
@@ -121,8 +127,7 @@ const HabitsPage = () => {
   };
 
   return (
-
-    // Página Principal del Usuario
+    
     <div>
       {/* Componente NavBar */}
       <Navbar />

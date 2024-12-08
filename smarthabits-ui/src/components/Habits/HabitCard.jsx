@@ -73,10 +73,10 @@ const HabitCard = ({ habit, setHabits, habits }) => {
       } else {
         swalMessages.errorMessage("Hubo un problema al actualizar el progreso");
       }
-    } catch (err) {
-      console.error("Error en updateHabitProgress: ", err);
+    } catch (error) {
+      console.error("Error en updateHabitProgress: ", error);
       swalMessages.errorMessage(
-        err.response?.data?.message || "Error al actualizar el progreso Por favor, inténtalo más tarde"
+        error.response?.data?.message || "Error al actualizar el progreso<br>Por favor, inténtalo más tarde"
       );
     } finally {
       setIsLoading(false);

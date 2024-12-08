@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 
-// Importamos el archivo para los mensajes (alert)
-import swalMessages from '../../services/SwalMessages';
-
 // Importamos el archivo CSS
 import './SignUpModal.css';
+
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
 
 // Importamos los íconos (imágenes png)
 import emailIcon from '../../images/mail.png';
@@ -71,7 +71,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
         setShowLogin(true);
       }
     } catch (error) {
-      swalMessages.errorMessage('No se pudo completar el registro Por favor, inténtalo nuevamente');
+      swalMessages.errorMessage('No se pudo completar el registro<br>Por favor, inténtalo nuevamente');
       console.error('Error en handleSubmit: ', error);
     }
   };
@@ -90,7 +90,6 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
 
   return (
 
-    // Modal de Registro
     <Modal show={show} onHide={handleCloseModal} centered>
       <Modal.Header closeButton className="border-0">
         {/* Título del modal */}

@@ -32,6 +32,7 @@
     background-color: var(--cyan) !important;
     border: none;
     border-radius: var(--radius-button);
+    color: white;
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     margin-top: 15px;

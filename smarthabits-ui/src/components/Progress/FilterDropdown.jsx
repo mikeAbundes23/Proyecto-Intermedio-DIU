@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Accordion, Button, Dropdown } from "react-bootstrap";
 
-// Importamos el archivo para los mensajes (alert)
-import swalMessages from '../../services/SwalMessages';
-
 // Importamos el archivo CSS
 import "./FilterDropdown.css";
+
+// Importamos el componente para mostrar las gráficas
+import ProgressGraphs from "./ProgressGraphs";
+
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
 
 // Importamos los íconos (imágenes png)
 import filterIcon from "../../images/filter.png";
 import calendarIcon from '../../images/calendar.png';
-
-// Importamos el componente para mostrar las gráficas
-import ProgressGraphs from "./ProgressGraphs";
 
 // Objeto para manejar las traducciones de categorías
 const categoryTranslations = {
@@ -118,7 +118,7 @@ const FilterDropdown = () => {
     if (!token) return;
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/habits/", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/habits/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -139,14 +139,13 @@ const FilterDropdown = () => {
     } catch (error) {
       console.error("Error en fetchHabits: ", error);
       swalMessages.errorMessage(
-        error.response?.data?.message || "Error al obtener la lista de hábitos Por favor, inténtalo más tarde"
+        error.response?.data?.message || "Error al obtener la lista de hábitos<br>Por favor, inténtalo más tarde"
       );
     }
   };
 
   return (
-
-    // Modal de los filtros
+    
     <div className="filter-dropdown-container">
       <Accordion>
         <Accordion.Item eventKey="0">

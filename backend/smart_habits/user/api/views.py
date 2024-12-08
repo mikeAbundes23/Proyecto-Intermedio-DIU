@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from django.contrib.auth import authenticate
 
-from user.api.serializers import CreateUserSerializer, UserSerializer
+from user.api.serializers import CreateUserSerializer, UserSerializer, UpdateUserSerializer
 from ..models import User
 from habits.models import Habit
 
@@ -101,3 +101,24 @@ def get_user(request):
             }, status=status.HTTP_200_OK)
     except Exception as _:
         return Response({'message': 'Error al intentar obtener el usuario'}, status=status.HTTP_400_BAD_REQUEST)
+    
+"""
+    Función para actualizar los datos del usuario loggeado.
+"""
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user(request):
+    try:
+        user = request.user
+        update_serializer = UpdateUserSerializer(user, data=request.data, partial=True)
+        
+        if update_serializer.is_valid():
+            updated_user = update_serializer.save()
+            # Devolvemos los datos actualizados usando el UserSerializer
+            user_serializer = UserSerializer(updated_user)
+            return Response({'message': 'Usuario actualizado con éxito'}, status=status.HTTP_200_OK)
+        else:
+            return Response(update_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as _:
+        return Response({'message': 'Error al intentar actualizar el usuario'}, status=status.HTTP_400_BAD_REQUEST)

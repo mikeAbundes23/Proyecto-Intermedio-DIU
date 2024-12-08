@@ -4,19 +4,18 @@ import { Helmet } from 'react-helmet';
 // Importamos el archivo CSS
 import './Home.css';
 
+// Importamos el componente del navbar
+import Navbar from '../Navbar/Navbar';
+
 // Importamos los íconos (imágenes png)
 import image1 from '../../images/home01.png';
 import image2 from '../../images/home02.jpg';
 import image3 from '../../images/home03.jpg';
 
-// Importamos el componente del navbar
-import Navbar from '../Navbar/Navbar';
-
 const Home = () => {
   
   return (
-
-    // Página Principal
+    
     <div className="home-container">
       {/* Nombre de la vista */}
       <Helmet>

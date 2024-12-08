@@ -4,6 +4,7 @@ import HabitsPage from './components/Habits/HabitsPage';
 import Home from './components/Home/Home';
 import ProgressPage from './components/Progress/ProgressPage';
 import ProtectedRoute from "./components/ProtectedRoute";
+import UserPage from './components/User/UserPage';
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProgressPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/update-user"
+            element={
+              <ProtectedRoute>
+                <UserPage />
               </ProtectedRoute>
             }
           />

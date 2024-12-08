@@ -19,3 +19,15 @@ class CreateUserSerializer(serializers.ModelSerializer):
         if error:
             raise serializers.ValidationError(error)
         return data
+    
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['name', 'last_name', 'username', 'email', 'password']
+        
+    def validate(self, data):
+        # Verificamos que ningún campo esté vacío
+        for field_name, value in data.items():
+            if not value or str(value).strip() == "":
+                raise serializers.ValidationError(f"El campo {field_name} no puede estar vacío")
+        return data

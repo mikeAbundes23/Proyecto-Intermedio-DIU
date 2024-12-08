@@ -2,11 +2,11 @@ import React from "react";
 import { Modal, Button, ProgressBar } from "react-bootstrap";
 import axios from "axios";
 
-// Importamos el archivo para los mensajes (alert)
-import swalMessages from '../../services/SwalMessages';
-
 // Importamos el archivo CSS
 import "./HabitDetailsModal.css";
+
+// Importamos el archivo para los mensajes (alert)
+import swalMessages from '../../services/SwalMessages';
 
 // Importamos los íconos (imágenes png)
 import descriptionIcon from '../../images/description.png';
@@ -46,17 +46,16 @@ const HabitDetailsModal = ({
         // Mostramos el mensaje de confirmación de la eliminación
         swalMessages.successMessage('Hábito eliminado exitosamente');
       }
-    } catch (err) {
-      console.error("Error en deleteHabit: ", err);
+    } catch (error) {
+      console.error("Error en deleteHabit: ", error);
       swalMessages.errorMessage(
-        err.response?.data?.message || 'Error al eliminar el hábito Por favor, inténtalo más tarde'
+        error.response?.data?.message || 'Error al eliminar el hábito>br>Por favor, inténtalo más tarde'
       );
     }
   };
 
   return (
-
-    // Modal de 'Información' del hábito
+    
     <Modal show={show} onHide={onClose} centered>
       <Modal.Header closeButton className="border-0">
         {/* Título del modal */}

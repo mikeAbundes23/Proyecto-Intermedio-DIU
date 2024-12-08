@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Dropdown, Modal, Button } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
+
+// Importamos el archivo CSS
+import './UserButtons.css';
 
 // Importamos los íconos (imágenes png)
 import notificationsIcon from '../../images/notifications.png';
@@ -8,9 +12,6 @@ import closeIcon from '../../images/close.png';
 import descriptionIcon from '../../images/description.png';
 import calendarIcon from '../../images/calendar.png';
 
-// Importamos el archivo CSS
-import './UserButtons.css';
-
 const FREQUENCY_MAP = {
   'd': 'Diario',
   'w': 'Semanal',
@@ -18,6 +19,8 @@ const FREQUENCY_MAP = {
 };
 
 const UserButtons = ({ handleLogout }) => {
+
+  const navigate = useNavigate();
 
   // Estados necesarios para controlar los botones en el navbar
   const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
@@ -94,6 +97,11 @@ const UserButtons = ({ handleLogout }) => {
     localStorage.setItem('reminderShown', 'true');
   };
 
+  // Función para manejar la navegación a la vista de configuración de los datos
+  const handleConfigClick = () => {
+    navigate("/update-user");
+  }
+
   const notificationCount = Object.keys(notifications).length;
 
   return (
@@ -134,7 +142,7 @@ const UserButtons = ({ handleLogout }) => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu id='dropdown-user-menu'>
-          <Dropdown.Item id='dropdown-user-item'>Configuración</Dropdown.Item>
+          <Dropdown.Item id='dropdown-user-item' onClick={handleConfigClick}>Configuración</Dropdown.Item>
           <Dropdown.Item id='dropdown-user-item' onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
