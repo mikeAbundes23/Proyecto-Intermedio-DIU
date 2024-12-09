@@ -59,9 +59,7 @@ const ProgressPage = () => {
         }
       } catch (error) {
         console.error("Error en fetchProgressData: ", error);
-        swalMessages.errorMessage(
-          error.response?.data?.message || 'Error al obtener la información del progreso<br>Por favor, inténtalo más tarde'
-        );
+        swalMessages.errorMessage(error.response?.data?.message);
       } finally {
         setIsLoading(false);
       }
@@ -113,7 +111,7 @@ const ProgressPage = () => {
         <div className="progress-item">
           <img src={streakIcon} alt="racha actual" className="icon-fire" />
           <strong>Racha Actual</strong>
-          <h3>{currentStreak} días</h3>
+          <h3>{currentStreak === -1 ? "0" : currentStreak} días</h3>
 
           <ProgressBar
             now={(currentStreak / 30) * 100}
@@ -131,7 +129,7 @@ const ProgressPage = () => {
         <div className="progress-item">
           <img src={longStreakIcon} alt="racha mas larga" className="icon-star" />
           <strong>Racha más Larga</strong>
-          <h3>{longestStreak} días</h3>
+          <h3>{longestStreak === -1 ? "0" : longestStreak} días</h3>
 
           <ProgressBar
             now={(longestStreak / 30) * 100}

@@ -56,12 +56,16 @@ def create_user(request):
     try:
         user_data = request.data
         
+        # Verificar si ya existe el username
+        if User.objects.filter(username=user_data['username']).exists():
+            return Response({'message': 'El username no está disponible'}, status=status.HTTP_400_BAD_REQUEST)
+        
         # Verificar que las contraseñas coincidan
-        if (user_data['password'] != user_data['password_confirmation']):
+        if (user_data['password'] != user_data['confirm_password']):
             return Response({'message': 'Las contraseñas no coinciden'}, status=status.HTTP_400_BAD_REQUEST)
         
         # Eliminar el campo de confirmación de contraseña para que no sea serializado
-        user_data.pop('password_confirmation')
+        user_data.pop('confirm_password')
         
         user_serializer = CreateUserSerializer(data=user_data)
         
@@ -110,15 +114,46 @@ def get_user(request):
 def update_user(request):
     try:
         user = request.user
-        update_serializer = UpdateUserSerializer(user, data=request.data, partial=True)
+        data = request.data.copy()
+        
+        # Si se envió password y confirm_password, verificar que coincidan
+        if 'password' in data and 'confirm_password' in data:
+            if data['password'] != data['confirm_password']:
+                return Response(
+                    {'message': 'Las contraseñas no coinciden'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Si coinciden, eliminar confirm_password antes de la serialización
+            data.pop('confirm_password')
+        elif 'password' in data:
+            # Si solo se envió password sin confirm_password, mandar un error
+            return Response(
+                {'message': 'Se requiere la confirmación de la contraseña'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        update_serializer = UpdateUserSerializer(user, data=data, partial=True)
         
         if update_serializer.is_valid():
             updated_user = update_serializer.save()
-            # Devolvemos los datos actualizados usando el UserSerializer
+            
+            if 'password' in data:
+                updated_user.set_password(data['password'])
+                updated_user.save()
+                
+            # Devolver los datos actualizados usando el UserSerializer
             user_serializer = UserSerializer(updated_user)
-            return Response({'message': 'Usuario actualizado con éxito'}, status=status.HTTP_200_OK)
+            return Response(
+                {'message': 'Usuario actualizado con éxito',
+                 'data': user_serializer.data
+                }, status=status.HTTP_200_OK
+            )
         else:
             return Response(update_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-    except Exception as _:
-        return Response({'message': 'Error al intentar actualizar el usuario'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response(
+            {'message': f'Error al intentar actualizar el usuario: {str(e)}'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )

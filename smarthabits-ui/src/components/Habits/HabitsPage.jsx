@@ -32,10 +32,7 @@ const HabitsPage = () => {
   // Función para obtener hábitos y nombre del usuario al mismo tiempo
   const fetchData = async () => {
     const token = localStorage.getItem('access_token');
-    if (!token) {
-      console.error("No token found, please log in.");
-      return;
-    }
+    if (!token) return;
 
     try {
       setIsLoading(true);
@@ -59,7 +56,7 @@ const HabitsPage = () => {
       setName(userResponse.data.data.name); // Guardamos el nombre del usuario
     } catch (error) {
       console.error("Error completo en fetchData: ", error);
-      swalMessages.errorMessage("Error al obtener los datos<br>Por favor, inténtalo más tarde");
+      swalMessages.errorMessage(error.response?.data?.message);
     } finally {
       setIsLoading(false);
     }

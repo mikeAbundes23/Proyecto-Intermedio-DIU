@@ -35,6 +35,15 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Previene el envío del formulario por defecto
 
+    const userData = {
+      name: name,
+      last_name: lastname,
+      email: email,
+      password: password,
+      confirm_password: confirmPassword,
+      username: username,
+    };
+
     // Validamos que las contraseñas coincidan
     if (password !== confirmPassword) {
       swalMessages.errorMessage('Las contraseñas no coinciden Inténtalo nuevamente');
@@ -43,19 +52,12 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
 
     try {
       // Realizamos la solicitud POST al endpoint de creación de usuario
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/create-user/`, {
-        name: name,
-        last_name: lastname,
-        username: username,
-        password: password,
-        password_confirmation: confirmPassword,
-        email: email,
-      });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/create-user/`,
+        userData
+      );
 
       // Comprobamos la respuesta
       if (response.data.message === "Usuario creado con éxito") {
-        console.log('Registro exitoso:', response.data.message);
-
         // Limpiamos el formulario y cerramos el modal después del registro exitoso
         setEmail('');
         setPassword('');
@@ -71,8 +73,8 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
         setShowLogin(true);
       }
     } catch (error) {
-      swalMessages.errorMessage('No se pudo completar el registro<br>Por favor, inténtalo nuevamente');
       console.error('Error en handleSubmit: ', error);
+      swalMessages.errorMessage(error.response?.data?.message);
     }
   };
 

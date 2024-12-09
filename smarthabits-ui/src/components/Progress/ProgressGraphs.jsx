@@ -65,7 +65,7 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
       const { data, habits_completed, habits_incopmleted } = response.data;
 
       if (!data || data.length === 0) {
-        setStatusMessage("No hay hábitos disponibles en esta categoría")
+        setStatusMessage("No hay hábitos disponibles")
         setBarData(null);
         setPieData(null);
         return;
@@ -114,8 +114,8 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
 
       setStatusMessage(null);
     } catch (error) {
-      setStatusMessage("Error al cargar los datos. Por favor, inténtalo de nuevo.");
       console.error("Error en fetchProgressByCategory: ", error);
+      setStatusMessage("Error al cargar los datos.<br>Por favor, inténtalo de nuevo.");
     } finally {
       setIsLoading(false);
     }
@@ -184,8 +184,8 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
 
       setStatusMessage(null);
     } catch (error) {
-      setStatusMessage("Error al cargar los datos. Por favor, inténtalo de nuevo.");
       console.error("Error en fetchProgressByHabit: ", error);
+      setStatusMessage("Error al cargar los datos.<br>Por favor, inténtalo de nuevo.");
     } finally {
       setIsLoading(false);
     }

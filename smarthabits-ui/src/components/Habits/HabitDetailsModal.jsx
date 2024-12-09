@@ -48,9 +48,7 @@ const HabitDetailsModal = ({
       }
     } catch (error) {
       console.error("Error en deleteHabit: ", error);
-      swalMessages.errorMessage(
-        error.response?.data?.message || 'Error al eliminar el hábito>br>Por favor, inténtalo más tarde'
-      );
+      swalMessages.errorMessage(error.response?.data?.message);
     }
   };
 

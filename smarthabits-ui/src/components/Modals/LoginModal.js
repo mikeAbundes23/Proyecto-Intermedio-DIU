@@ -36,10 +36,6 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
     event.preventDefault();
     
     try {
-      console.log("Submit login");
-      console.log('username:', username);
-      console.log('password:', password);
-
       // Se hace una solicitud POST para el endpoint de login
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/login/`, {
         username: username,
@@ -47,8 +43,6 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
       });
 
       const { access } = response.data;  // Extraemos el access token de la respuesta
-
-      console.log('Login exitoso:', access);
 
       // Almacenamos el access token en localStorage
       localStorage.setItem('access_token', access);
@@ -74,8 +68,8 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
 
       navigate('/habits');
     } catch (error) {
-      swalMessages.errorMessage('Credenciales incorrectas<br>Inténtalo nuevamente');
       console.error('Error en handleSubmit: ', error);
+      swalMessages.errorMessage('Credenciales incorrectas<br>Inténtalo nuevamente');
     }
   };
 
@@ -132,7 +126,6 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={8}
             />
           </div>
 

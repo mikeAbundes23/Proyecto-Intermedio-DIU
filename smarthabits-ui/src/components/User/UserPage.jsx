@@ -9,12 +9,10 @@ import "./UserPage.css";
 // Importamos el archivo para los mensajes (alert)
 import swalMessages from '../../services/SwalMessages';
 
-// Importamos el componente del navbar
+// Importamos los componentes necesarios
 import Navbar from "../Navbar/Navbar";
-
-// Importamos los modales de Login y Registro
-import EditDataModal from '../Modals/EditDataModal';
-import EditImageModal from '../Modals/EditImageModal';
+import EditDataButton from './EditDataButton';
+import EditImageButton from './EditImageButton';
 
 // Importamos los íconos (imágenes png)
 import userIcon from "../../images/user-logo.png";
@@ -30,6 +28,7 @@ const userFields = [
 const UserPage = () => {
 
     const navigate = useNavigate(); // Hook para manejar la navegación
+    
     // Estado para los datos del usuario
     const [user, setUser] = useState({
         name: "",
@@ -39,17 +38,6 @@ const UserPage = () => {
         password: ""
     });
 
-    // Estados para mostrar los modales de 'Editar datos' y 'Editar imagen'
-    const [showEditData, setShowEditData] = useState(false);
-    const [showEditImage, setShowEditImage] = useState(false);
-
-    // Funciones para manejar el abrir y cerrar de los modales de 'Editar datos' y 'Editar imagen'
-    const handleCloseEditData = () => setShowEditData(false);
-    const handleShowEditData = () => setShowEditData(true);
-
-    const handleCloseEditImage = () => setShowEditImage(false);
-    const handleShowEditImage = () => setShowEditImage(true);
-
     // Función para manejar el click en el botón de retroceso
     const handleGoBack = () => {
         navigate(-1); // Navega hacia la página anterior
@@ -58,10 +46,8 @@ const UserPage = () => {
     // Función para obtener los datos del usuario
     const fetchData = async () => {
         const token = localStorage.getItem('access_token');
-        if (!token) {
-            console.error("No token found, please log in.");
-            return;
-        }
+
+        if (!token) return;
 
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/`, {
@@ -74,7 +60,7 @@ const UserPage = () => {
             setUser(response.data.data);
         } catch (error) {
             console.error("Error completo en fetchData: ", error);
-            swalMessages.errorMessage(error.response?.data?.message || "Error al obtener los datos<br>Por favor, inténtalo más tarde");
+            swalMessages.errorMessage(error.response?.data?.message);
         }
     };
 
@@ -82,6 +68,16 @@ const UserPage = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    // Funciones para actualizar la vista de configuración
+    const handleUserUpdated = (user) => {
+        // Refrescamos los datos del usuario
+        fetchData();
+    };
+
+    const handleImageUpdated = () => {
+
+    };
 
     return (
         
@@ -101,9 +97,7 @@ const UserPage = () => {
                             {/* Título de la página */}
                             <h2>Editar perfil</h2>
                             {/* Botón para editar los datos */}
-                            <button className="btn-primary edit-data-btn" onClick={handleShowEditData}>
-                                Editar datos
-                            </button>
+                            <EditDataButton userData={user} onUserUpdated={handleUserUpdated} />
                         </div>
                     </div>
 
@@ -120,9 +114,7 @@ const UserPage = () => {
 
                             {/* Botón para editar la imagen de perfil */}
                             <div className="mt-3">
-                                <button className="btn-primary edit-image-btn" onClick={handleShowEditImage}>
-                                    Editar imagen
-                                </button>
+                                <EditImageButton onImageUpdated={handleImageUpdated} />
                             </div>
                         </div>
 
@@ -144,18 +136,6 @@ const UserPage = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Modales de 'Editar datos' y 'Editar imagen' */}
-            <EditDataModal 
-                show={showEditData} 
-                handleClose={handleCloseEditData} 
-                userData={user}
-                setShowEditImage={setShowEditImage} />
-            <EditImageModal 
-                show={showEditImage} 
-                handleClose={handleCloseEditImage} 
-                onImageUpdate={fetchData}
-                setShowEditData={setShowEditData} />
         </>
     );
 };
