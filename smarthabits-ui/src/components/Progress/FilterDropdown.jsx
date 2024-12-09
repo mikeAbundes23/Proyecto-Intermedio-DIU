@@ -149,7 +149,7 @@ const FilterDropdown = () => {
         <Accordion.Item eventKey="0">
           <Accordion.Header className="filter-button-header">
             {/* Encabezado */}
-            <img src={filterIcon} alt="filtros" className="icon-filter" />
+            <img src={filterIcon} alt="..." className="icon-filter" />
             <h2>Filtros</h2>
           </Accordion.Header>
 
@@ -161,7 +161,7 @@ const FilterDropdown = () => {
                 className={`days-button ${selectedDays === 7 ? "active" : ""}`}
                 onClick={() => handleDaysChange(7)}
               >
-                <img src={calendarIcon} alt="" className="icon-calendar" />
+                <img src={calendarIcon} alt="..." className="icon-calendar" />
                 <span>7 días</span>
               </button>
 
@@ -169,7 +169,7 @@ const FilterDropdown = () => {
                 className={`days-button ${selectedDays === 15 ? "active" : ""}`}
                 onClick={() => handleDaysChange(15)}
               >
-                <img src={calendarIcon} alt="" className="icon-calendar" />
+                <img src={calendarIcon} alt="..." className="icon-calendar" />
                 <span>15 días</span>
               </button>
 
@@ -177,7 +177,7 @@ const FilterDropdown = () => {
                 className={`days-button ${selectedDays === 30 ? "active" : ""}`}
                 onClick={() => handleDaysChange(30)}
               >
-                <img src={calendarIcon} alt="" className="icon-calendar" />
+                <img src={calendarIcon} alt="..." className="icon-calendar" />
                 <span>30 días</span>
               </button>
             </div>

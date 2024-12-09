@@ -91,7 +91,7 @@ const ProgressPage = () => {
 
         {/* Encabezados */}
         <div className="progress-item">
-          <img src={habitCompleteIcon} alt="completados" className="icon-percent" />
+          <img src={habitCompleteIcon} alt="..." className="icon-percent" />
           <strong>Hábitos Completados</strong>
           <h3>{completedPercentage === -1 ? 0 : completedPercentage}%</h3>
           
@@ -109,7 +109,7 @@ const ProgressPage = () => {
         </div>
 
         <div className="progress-item">
-          <img src={streakIcon} alt="racha actual" className="icon-fire" />
+          <img src={streakIcon} alt="..." className="icon-fire" />
           <strong>Racha Actual</strong>
           <h3>{currentStreak === -1 ? "0" : currentStreak} días</h3>
 
@@ -127,7 +127,7 @@ const ProgressPage = () => {
         </div>
 
         <div className="progress-item">
-          <img src={longStreakIcon} alt="racha mas larga" className="icon-star" />
+          <img src={longStreakIcon} alt="..." className="icon-star" />
           <strong>Racha más Larga</strong>
           <h3>{longestStreak === -1 ? "0" : longestStreak} días</h3>
 

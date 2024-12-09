@@ -4,12 +4,12 @@ from ..models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','name', 'last_name', 'username', 'email', 'ongoing_streak', 'longest_streak']
+        fields = ['id','name', 'last_name', 'username', 'email', 'ongoing_streak', 'longest_streak', 'image']
         
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','name', 'last_name', 'username', 'email', 'password']
+        fields = ['id','name', 'last_name', 'username', 'email', 'password', 'image']
         
     def validate(self, data):
         error = {}
@@ -23,7 +23,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['name', 'last_name', 'username', 'email', 'password']
+        fields = ['name', 'last_name', 'username', 'email', 'password', 'image']
         extra_kwargs = {
             'name': {'required': False},
             'last_name': {'required': False},

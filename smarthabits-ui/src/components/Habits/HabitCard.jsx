@@ -96,7 +96,7 @@ const HabitCard = ({ habit, setHabits, habits }) => {
         <span className="habit-goal">Objetivo: {habit.goal}</span>
         <br />
         {/* Nombre e ícono del hábito */}
-        <img src={habitIcon} alt="Habit icon" />
+        <img src={habitIcon} alt="..." />
         <span className="habit-name">{habit.habit}</span>
       </div>
 

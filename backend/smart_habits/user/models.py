@@ -16,12 +16,13 @@ class User(AbstractBaseUser , PermissionsMixin):
     ongoing_streak = models.IntegerField(default=0)
     longest_streak = models.IntegerField(default=0)
     updated_at = models.DateTimeField(default=timezone.now)
+    image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'name', 'last_name']
     
     def __str__(self):
-        return f"id: {self.id}, name: {self.name}, last_name: {self.last_name}, username: {self.username}, email: {self.email}, ongoing_streak: {self.ongoing_streak}, longest_streak: {self.longest_streak}, updated_at: {self.updated_at}"
+        return f"id: {self.id}, name: {self.name}, last_name: {self.last_name}, username: {self.username}, email: {self.email}, ongoing_streak: {self.ongoing_streak}, longest_streak: {self.longest_streak}, updated_at: {self.updated_at}, image: {self.image}"
     class Meta:
         indexes = [
             models.Index(fields=['username', 'email']),

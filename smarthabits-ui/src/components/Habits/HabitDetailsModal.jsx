@@ -71,7 +71,7 @@ const HabitDetailsModal = ({
               <div className="col-6">
                 {/* Descripción del hábito */}
                 <div className="mb-3 info-item">
-                  <img src={descriptionIcon} alt="descripcion" className="icon-description" />
+                  <img src={descriptionIcon} alt="..." className="icon-description" />
                   <strong>Descripción</strong>
                   <br />
                   <span>{habit.description || "No disponible"}</span>
@@ -79,7 +79,7 @@ const HabitDetailsModal = ({
 
                 {/* Frecuencia del hábito */}
                 <div className="mb-3 info-item">
-                  <img src={calendarIcon} alt="frecuencia" className="icon-frequency" />
+                  <img src={calendarIcon} alt="..." className="icon-frequency" />
                   <strong>Frecuencia</strong>
                   <br />
                   <span>{habit.frequency_display || "No especificada"}</span>
@@ -89,7 +89,7 @@ const HabitDetailsModal = ({
               <div className="col-6">
                 {/* Repeticiones del hábito */}
                 <div className="mb-3 info-item">
-                  <img src={repeatIcon} alt="repeticiones" className="icon-repeat" />
+                  <img src={repeatIcon} alt="..." className="icon-repeat" />
                   <strong>Repeticiones</strong>
                   <br />
                   <span>{habit.goal}</span>
@@ -97,7 +97,7 @@ const HabitDetailsModal = ({
 
                 {/* Categoría del hábito */}
                 <div className="mb-3 info-item-category">
-                  <img src={categoryIcon} alt="categoria" className="icon-category" />
+                  <img src={categoryIcon} alt="..." className="icon-category" />
                   <strong>Categoría</strong>
                   <br />
                   <span>{habit.category_display}</span>

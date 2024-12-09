@@ -18,7 +18,7 @@ const FREQUENCY_MAP = {
   'm': 'Mensual'
 };
 
-const UserButtons = ({ handleLogout }) => {
+const UserButtons = ({ userData, handleLogout }) => {
 
   const navigate = useNavigate();
 
@@ -109,7 +109,7 @@ const UserButtons = ({ handleLogout }) => {
     <div className='user-buttons'>
       {/* Botón de Notificaciones */}
       <button className="icon-btn" onClick={toggleNotificationsDropdown}>
-        <img src={notificationsIcon} alt="notificaciones" className="icon-notifications" />
+        <img src={notificationsIcon} alt="..." className="icon-notifications" />
         {notificationCount > 0 && <span className="notification-count">{notificationCount}</span>}
       </button>
 
@@ -138,7 +138,14 @@ const UserButtons = ({ handleLogout }) => {
       {/* Botón de Usuario */}
       <Dropdown id="dropdown-user" show={showUserDropdown} align="end">
         <Dropdown.Toggle as="div" className="icon-btn" onClick={toggleUserDropdown} split={false}>
-          <img src={userIcon} alt="userconfig" className="icon-user" />
+          {userData.image ? (
+            <img 
+              src={`${process.env.REACT_APP_API_URL}/${userData.image}`} 
+              alt="..." 
+              className="icon-img" />
+          ) : (
+            <img src={userIcon} alt="..." className="icon-user" />
+          )}
         </Dropdown.Toggle>
 
         <Dropdown.Menu id='dropdown-user-menu'>
@@ -158,14 +165,14 @@ const UserButtons = ({ handleLogout }) => {
           <br />
 
           <div className="mb-3 info-item">
-            <img src={descriptionIcon} alt="descripcion" className="icon-description" />
+            <img src={descriptionIcon} alt="..." className="icon-description" />
             <strong>Descripción</strong>
             <br />
             <span>{randomNotification?.description}</span>
           </div>
 
           <div className="mb-3 info-item">
-            <img src={calendarIcon} alt="frecuencia" className="icon-frequency" />
+            <img src={calendarIcon} alt="..." className="icon-frequency" />
             <strong>Frecuencia</strong>
             <br />
             <span>{randomNotification?.frequency_display}</span>

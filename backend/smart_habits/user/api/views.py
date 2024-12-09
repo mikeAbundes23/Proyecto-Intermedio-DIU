@@ -157,3 +157,39 @@ def update_user(request):
             {'message': f'Error al intentar actualizar el usuario: {str(e)}'}, 
             status=status.HTTP_400_BAD_REQUEST
         )
+        
+"""
+    Función para actualizar la foto de perfil del usuario loggeado.
+"""
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user_image(request):
+    try:
+        user = request.user
+        image = request.FILES.get('image')
+        
+        if not image:
+            return Response(
+                {'message': 'No se ha proporcionado ninguna imagen'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        # Actualizar la imagen del usuario
+        user.image = image
+        user.save()
+        
+        # Devolver los datos actualizados usando el UserSerializer
+        user_serializer = UserSerializer(user)
+        return Response(
+            {
+                'message': 'Imagen actualizada con éxito',
+                'data': user_serializer.data
+            }, 
+            status=status.HTTP_200_OK
+        )
+        
+    except Exception as e:
+        return Response(
+            {'message': f'Error al intentar actualizar la imagen: {str(e)}'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )

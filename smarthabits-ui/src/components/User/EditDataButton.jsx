@@ -20,7 +20,8 @@ const EditDataButton = ({ userData, onUserUpdated }) => {
         username: "",
         email: "",
         password: "",
-        confirm_password: ""
+        confirm_password: "",
+        image: null
     });
 
     // Estados para manejar los campos del formulario
@@ -77,6 +78,7 @@ const EditDataButton = ({ userData, onUserUpdated }) => {
         setHasChanges(hasFieldChanges || hasPasswordChanges);
     };
 
+    // Función para manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
 

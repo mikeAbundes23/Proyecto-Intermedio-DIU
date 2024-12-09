@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 // Importamos el archivo CSS
 import './Navbar.css';
@@ -27,6 +28,16 @@ const Navbar = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
 
+  // Estado para los datos del usuario
+  const [user, setUser] = useState({
+    name: "",
+    last_name: "",
+    username: "",
+    email: "",
+    password: "",
+    image: null
+  });
+
   // Funciones para manejar el abrir y cerrar de los modales de Login y Registro
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
@@ -43,6 +54,31 @@ const Navbar = () => {
     logout();
   };
 
+  // Función para obtener los datos del usuario
+  const fetchData = async () => {
+    const token = localStorage.getItem('access_token');
+
+    if (!token) return;
+
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }); 
+      
+      // Establecemos los datos del usuario
+      setUser(response.data.data);
+    } catch (error) {
+      console.error("Error completo en fetchData: ", error);
+    }
+  };
+
+  // Función para obtener los datos al cargar la página
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     
     <>
@@ -50,15 +86,15 @@ const Navbar = () => {
         {/* Logo de la página */}
         <div className="navbar-logo">
           <a href='/habits'>
-            <img src={logo} alt="Logo" className="logo" />
-            <img src={letras} alt="Logo" className="app-name" />
+            <img src={logo} alt="..." className="logo" />
+            <img src={letras} alt="..." className="app-name" />
           </a>
         </div>
 
         {/* Botones de Iniciar sesión y Registro */}
         <div className="navbar-buttons">
           {isAuthenticated ? (
-            <UserButtons handleLogout={handleLogout} />
+            <UserButtons userData={user} handleLogout={handleLogout} />
           ) : (
             <>
               <button className="navbar-btn" onClick={handleShowSignUp} id="signinBtn">

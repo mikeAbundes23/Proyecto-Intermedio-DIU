@@ -35,7 +35,8 @@ const UserPage = () => {
         last_name: "",
         username: "",
         email: "",
-        password: ""
+        password: "",
+        image: null
     });
 
     // Función para manejar el click en el botón de retroceso
@@ -75,8 +76,11 @@ const UserPage = () => {
         fetchData();
     };
 
-    const handleImageUpdated = () => {
-
+    const handleImageUpdated = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setUser((prev) => ({ ...prev, image: file }));
+        }
     };
 
     return (
@@ -104,17 +108,25 @@ const UserPage = () => {
                     <div className="row">
                         <div className="col-md-4 text-center user-image-div">
                             {/* Imagen de perfil */}
-                            <div className="position-relative d-inline-block">
-                                <img 
-                                    src={userIcon}
-                                    alt="..."
-                                    className="rounded-circle img-fluid user-image"
-                                />
+                            <div className="d-inline-block">
+                                {user.image ? (
+                                    <img 
+                                        src={`${process.env.REACT_APP_API_URL}/${user.image}`}
+                                        alt="..."
+                                        className="rounded-circle img-fluid user-image"
+                                    />
+                                ) : (
+                                    <img 
+                                        src={userIcon}
+                                        alt="..."
+                                        className="rounded-circle img-fluid user-icon"
+                                    />
+                                )}
                             </div>
 
                             {/* Botón para editar la imagen de perfil */}
                             <div className="mt-3">
-                                <EditImageButton onImageUpdated={handleImageUpdated} />
+                                <EditImageButton userData={user} onImageUpdated={handleImageUpdated} />
                             </div>
                         </div>
 

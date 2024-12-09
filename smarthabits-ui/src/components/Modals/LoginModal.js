@@ -94,7 +94,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
           {/* Input de username */}
           <div className="input-group username mb-3">
             <span className="input-group-text" id="username-addon">
-              <img src={userIcon} alt="username-icon" className="input-icon" />
+              <img src={userIcon} alt="..." className="input-icon" />
             </span>
 
             <input
@@ -113,7 +113,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
           {/* Input de contraseña */}
           <div className="input-group password mb-3">
             <span className="input-group-text" id="password-addon">
-              <img src={passwordIcon} alt="password-icon" className="input-icon" />
+              <img src={passwordIcon} alt="..." className="input-icon" />
             </span>
 
             <input

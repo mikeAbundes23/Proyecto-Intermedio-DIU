@@ -35,15 +35,15 @@ const Home = () => {
         <div id="homeCarousel" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <img src={image1} className="d-block" alt="Imagen 1" />
+              <img src={image1} className="d-block" alt="..." />
             </div>
 
             <div className="carousel-item">
-              <img src={image2} className="d-block" alt="Imagen 2" />
+              <img src={image2} className="d-block" alt="..." />
             </div>
 
             <div className="carousel-item">
-              <img src={image3} className="d-block" alt="Imagen 3" />
+              <img src={image3} className="d-block" alt="..." />
             </div>
           </div>
 

@@ -103,7 +103,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
           {/* Nombre(s) del usuario */}
           <div className="input-group name mb-3">
             <span className="input-group-text" id="name-addon">
-              <img src={nameIcon} alt="name-icon" className="input-icon" />
+              <img src={nameIcon} alt="..." className="input-icon" />
             </span>
 
             <input
@@ -122,7 +122,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
           {/* Apellido(s) del usuario */}
           <div className="input-group mb-3">
             <span className="input-group-text" id="lastname-addon">
-              <img src={lastnameIcon} alt="lastname-icon" className="input-icon" />
+              <img src={lastnameIcon} alt="..." className="input-icon" />
             </span>
 
             <input
@@ -141,7 +141,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
           {/* Correo del usuario */}
           <div className="input-group mb-3">
             <span className="input-group-text" id="email-addon">
-              <img src={emailIcon} alt="email-icon" className="input-icon" />
+              <img src={emailIcon} alt="..." className="input-icon" />
             </span>
 
             <input
@@ -160,7 +160,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
           {/* Contraseña del usuario */}
           <div className="input-group mb-3">
             <span className="input-group-text" id="password-addon">
-              <img src={passwordIcon} alt="password-icon" className="input-icon" />
+              <img src={passwordIcon} alt="..." className="input-icon" />
             </span>
 
             <input
@@ -180,7 +180,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
           {/* Confirmar contraseña */}
           <div className="input-group mb-3">
             <span className="input-group-text" id="confirm-password-addon">
-              <img src={passwordIcon} alt="confirm-password-icon" className="input-icon" />
+              <img src={passwordIcon} alt="..." className="input-icon" />
             </span>
 
             <input
@@ -200,7 +200,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
           {/* Nombre de usuario */}
           <div className="input-group mb-3">
             <span className="input-group-text" id="username-addon">
-              <img src={usernameIcon} alt="username-icon" className="input-icon" />
+              <img src={usernameIcon} alt="..." className="input-icon" />
             </span>
 
             <input
