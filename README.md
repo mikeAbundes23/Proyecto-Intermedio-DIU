@@ -36,10 +36,12 @@ asgiref                       | 3.8.1
 boto3                         | 1.35.30
 botocore                      | 1.35.30
 Django                        | 5.1.1
+django-cors-headers           | 3.14.0
 django-model-utils            | 5.0.0
 djangorestframework           | 3.15.2
 djangorestframework-simplejwt | 5.3.1
 jmespath                      | 1.0.1
+pillow                        | 11.0.0
 pip                           | 24.2
 psycopg2                      | 2.9.9
 PyJWT                         | 2.9.0
