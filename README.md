@@ -74,7 +74,7 @@ En una terminal, instalar las dependencias necesarias para correr el Front-End: 
 
 ## Base de Datos
 
-Se encuentra en la siguiente página de [Neon](https://neon.tech/), donde con el ***correo:*** `smarthabits24@gmail.com` y la ***contraseña:*** `SmartHabits23#23` se puede ver toda la estructura de la Base de Datos.
+Se encuentra en la siguiente página de [Neon](https://neon.tech/), donde con el ***correo:*** `smarthabits24@gmail.com` y la ***contraseña:*** `smarthabits23#23` se puede ver toda la estructura de la Base de Datos.
 
 ## Ejecución del Proyecto
 
