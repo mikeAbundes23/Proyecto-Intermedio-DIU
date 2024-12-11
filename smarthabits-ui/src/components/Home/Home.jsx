@@ -8,9 +8,9 @@ import './Home.css';
 import Navbar from '../Navbar/Navbar';
 
 // Importamos los íconos (imágenes png)
-import image1 from '../../images/home01.png';
-import image2 from '../../images/home02.jpg';
-import image3 from '../../images/home03.jpg';
+import image1 from '../../images/home01.jpeg';
+import image2 from '../../images/home02.jpeg';
+import image3 from '../../images/home03.jpeg';
 
 const Home = () => {
   
@@ -32,7 +32,7 @@ const Home = () => {
 
       {/* Segunda sección: Carrusel de imágenes */}
       <section className="carousel-section">
-        <div id="homeCarousel" className="carousel slide" data-bs-ride="carousel">
+        <div id="homeCarousel" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-internal="5000">
           <div className="carousel-inner">
             <div className="carousel-item active">
               <img src={image1} className="d-block" alt="..." />

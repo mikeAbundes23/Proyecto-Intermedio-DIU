@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown, Modal, Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
+// Importamos el contexto
+import { useUser } from '../../context/UserContext';
+
 // Importamos el archivo CSS
 import './UserButtons.css';
 
@@ -18,9 +21,10 @@ const FREQUENCY_MAP = {
   'm': 'Mensual'
 };
 
-const UserButtons = ({ userData, handleLogout }) => {
+const UserButtons = ({ handleLogout }) => {
 
   const navigate = useNavigate();
+  const { userData } = useUser();
 
   // Estados necesarios para controlar los botones en el navbar
   const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
@@ -31,56 +35,46 @@ const UserButtons = ({ userData, handleLogout }) => {
 
   // Función para manejar las notificaciones
   useEffect(() => {
-    const storedNotifications = JSON.parse(localStorage.getItem(process.env.REACT_APP_USER_NOTIFICATIONS_OBJECT_NAME))?.data || {};
-    setNotifications(storedNotifications);
+    const loadNotifications = () =>  {
+      const storedNotifications = JSON.parse(localStorage.getItem(process.env.REACT_APP_USER_NOTIFICATIONS_OBJECT_NAME))?.data || {};
+      setNotifications(storedNotifications);
 
-    // Verificamos si ya se mostró un recordatorio en esta sesión
-    const reminderShown = localStorage.getItem('reminderShown');
+      // Verificamos si ya se mostró un recordatorio en esta sesión
+      const reminderShown = localStorage.getItem('reminderShown');
 
-    // Mostramos una notificación aleatoria si hay al menos una y no se ha mostrado aún
-    if (Object.keys(storedNotifications).length > 0 && !reminderShown) {
-      const randomKey = Object.keys(storedNotifications)[Math.floor(Math.random() * Object.keys(storedNotifications).length)];
-      const notificationData = storedNotifications[randomKey];
+      // Mostramos una notificación aleatoria si hay al menos una y no se ha mostrado aún
+      if (Object.keys(storedNotifications).length > 0 && !reminderShown) {
+        const randomKey = Object.keys(storedNotifications)[
+          Math.floor(Math.random() * Object.keys(storedNotifications).length)
+        ];
 
-      // Procesamos la notificación usando FREQUENCY_MAP
-      const processedNotification = {
-        title: randomKey,
-        description: notificationData.description,
-        message: notificationData.message,
-        frequency: notificationData.frequency,
-        // Usamos FREQUENCY_MAP para convertir el código a texto
-        frequency_display: FREQUENCY_MAP[notificationData.frequency] || "No especificada"
-      };
+        const notificationData = storedNotifications[randomKey];
+        setRandomNotification({
+          title: randomKey,
+          description: notificationData.description,
+          message: notificationData.message,
+          frequency: notificationData.frequency,
+          frequency_display: FREQUENCY_MAP[notificationData.frequency] || "No especificada"
+        });
 
-      setRandomNotification(processedNotification);
-      setShowNotificationModal(true); // Mostrar el modal
-
-      // Marcamos que ya se mostró el recordatorio
-      localStorage.setItem('reminderShown', 'true');
-    }
-  }, []);
-
-  // Limpiamos el indicador de recordatorio cuando se cierra sesión
-  useEffect(() => {
-    const handleStorageChange = (e) => {
-      if (e.key === 'access_token' && !e.newValue) {
-        localStorage.removeItem('reminderShown');
+        setShowNotificationModal(true);
+        // Marcamos que ya se mostró el recordatorio
+        localStorage.setItem('reminderShown', 'true');
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    loadNotifications();
   }, []);
 
-  // Funciones para manejar los dropdowns (notificaciones y del usuario)
-  const toggleNotificationsDropdown = () => {
-    setShowNotificationsDropdown(!showNotificationsDropdown);
-    setShowUserDropdown(false); // Cierra el dropdown de usuario
-  };
-
-  const toggleUserDropdown = () => {
-    setShowUserDropdown(!showUserDropdown);
-    setShowNotificationsDropdown(false); // Cierra el dropdown de notificaciones
+  // Función para manejar los dropdowns (notificaciones y del usuario)
+  const toggleDropdown = (dropdownType) => {
+    if (dropdownType === 'notifications') {
+      setShowNotificationsDropdown(!showNotificationsDropdown);
+      setShowUserDropdown(false); // Cierra el dropdown de usuario
+    } else {
+      setShowUserDropdown(!showUserDropdown);
+      setShowNotificationsDropdown(false); // Cierra el dropdown de notificaciones
+    }
   };
 
   // Función para eliminar una notificación de la lista
@@ -108,7 +102,7 @@ const UserButtons = ({ userData, handleLogout }) => {
 
     <div className='user-buttons'>
       {/* Botón de Notificaciones */}
-      <button className="icon-btn" onClick={toggleNotificationsDropdown}>
+      <button className="icon-btn" onClick={() => toggleDropdown('notifications')}>
         <img src={notificationsIcon} alt="..." className="icon-notifications" />
         {notificationCount > 0 && <span className="notification-count">{notificationCount}</span>}
       </button>
@@ -137,12 +131,17 @@ const UserButtons = ({ userData, handleLogout }) => {
 
       {/* Botón de Usuario */}
       <Dropdown id="dropdown-user" show={showUserDropdown} align="end">
-        <Dropdown.Toggle as="div" className="icon-btn" onClick={toggleUserDropdown} split={false}>
-          {userData.image ? (
+        <Dropdown.Toggle as="div" className="icon-btn" onClick={() => toggleDropdown('user')}>
+          {userData?.image ? (
             <img 
               src={`${process.env.REACT_APP_API_URL}/${userData.image}`} 
               alt="..." 
-              className="icon-img" />
+              className="icon-img"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = userIcon;
+              }}
+            />
           ) : (
             <img src={userIcon} alt="..." className="icon-user" />
           )}

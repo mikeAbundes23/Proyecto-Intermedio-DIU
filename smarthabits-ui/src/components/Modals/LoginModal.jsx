@@ -8,6 +8,7 @@ import './LoginModal.css';
 
 // Importamos la autenticación
 import { AuthContext } from '../../context/AuthContext';
+import { useUser } from '../../context/UserContext';
 
 // Importamos el archivo para los mensajes (alert)
 import swalMessages from '../../services/SwalMessages';
@@ -24,12 +25,7 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
-
-  // Función para cerrar el modal de login y abrir el de registro
-  const openSignupModal = () => {
-    handleClose(); // Cierra el modal de login
-    setShowSignUp(true); // Abre el modal de registro
-  };
+  const { updateUserData } = useUser();
 
   // Función para manejar el envío del formulario de inicio de sesión
   const handleSubmit = async (event) => {
@@ -50,10 +46,15 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
       // Actualizamos el estado de la autenticación global usando la función login
       login(access);
 
-      // Limpiamos los campos del formulario y cerramos el modal
-      setUsername('');
-      setPassword('');
-      handleClose();
+      // Obtenemos los datos del usuario y actualizamos el contexto
+      const userResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/`,
+        {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        }
+      );
+      updateUserData(userResponse.data.data);
 
       // Obtenemos las notificaciones a mostrar para el usuario
       const notificationsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/habits/notifications/`,
@@ -66,10 +67,13 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
       // Almacenamos estas notificaciones en local storage
       localStorage.setItem(process.env.REACT_APP_USER_NOTIFICATIONS_OBJECT_NAME, JSON.stringify(notificationsResponse.data))
 
+      setUsername('');
+      setPassword('');
+      handleClose();
       navigate('/habits');
     } catch (error) {
       console.error('Error en handleSubmit: ', error);
-      swalMessages.errorMessage('Credenciales incorrectas<br>Inténtalo nuevamente');
+      swalMessages.errorMessage(error.response?.data?.message);
     }
   };
 
@@ -144,7 +148,10 @@ const LoginModal = ({ show, handleClose, setShowSignUp }) => {
           <span
             className="text-primary text-decoration-none"
             style={{ cursor: "pointer" }}
-            onClick={openSignupModal}
+            onClick={() => {
+              handleCloseModal();
+              setShowSignUp(true);
+            }}
           >
             Regístrate
           </span>

@@ -36,7 +36,6 @@ def get_habits(request):
             return Response({"message": "No hay hábitos registrados"}, status=status.HTTP_200_OK)
         
         for habit in habits:
-            
             habit_date = habit.start_date.replace(hour=0, minute=0, second=0, microsecond=0)
             today_date = timezone.now()
             today_date = today_date - timedelta(hours=6)
@@ -44,7 +43,6 @@ def get_habits(request):
  
             # Se reinicia el día del hábito
             if habit_date != today_date:
-            
                 habit_progress = get_object_or_404(HabitProgress, habit=habit.id)
                 
                 # Objeto con la nueva información del hábito
@@ -89,10 +87,10 @@ def get_habits(request):
                 habit_serializer.save()
         
         habits_serializer = HabitListSerializer(habits, many=True)
-        return Response({"data":habits_serializer.data}, status=status.HTTP_200_OK)
+        return Response({"data": habits_serializer.data}, status=status.HTTP_200_OK)
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar obtener la información de los hábitos'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 """
     Función para obtener la información de un hábito por su id.
@@ -107,8 +105,8 @@ def get_habit(request, habit_id):
         habit_serializer = HabitInfoSerializer(habit)
         return Response({"data": habit_serializer.data}, status=status.HTTP_200_OK)
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar obtener la información de este hábito'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 """
     Función para crear un hábito.
@@ -143,10 +141,10 @@ def create_habit(request):
         
         response_serializer = HabitSerializer(habit)
          
-        return Response({"data" : response_serializer.data}, status=status.HTTP_201_CREATED)   
+        return Response({'message' : 'Hábito creado exitosamente'}, status=status.HTTP_201_CREATED)   
        
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar crear el hábito'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 """
     Función para eliminar un hábito por su id.
@@ -159,10 +157,10 @@ def delete_habit(request, habit_id):
         habit = get_object_or_404(Habit, id=habit_id, user=request.user.id)
         habit.delete()
         
-        return Response({"message": "Hábito eliminado correctamente"}, status=status.HTTP_200_OK)
+        return Response({"message": "Hábito eliminado exitosamente"}, status=status.HTTP_200_OK)
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar borrar el hábito'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 """
     Función para actualizar la información general de un hábito por su id.
@@ -183,10 +181,14 @@ def update_habit(request, habit_id):
         habit = habit_serializer.save()
         
         response_serializer = HabitSerializer(habit)
-        return Response({ "message" : "Hábito actualizado." ,"data" : response_serializer.data}, status=status.HTTP_200_OK)
+        return Response(
+            { "message" : "¡El hábito ha sido actualizado correctamente!" ,
+              "data" : response_serializer.data
+            }, status=status.HTTP_200_OK
+        )
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar actualizar el hábito'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 """
     Función para actualizar el progreso de un hábito por su id.
@@ -207,7 +209,7 @@ def update_progress(request, habit_id):
         habit_data = request.data
         habit_progress_data = {}
         
-        progress_array = habit_progress.progress_array # Array con el los porcentajes de progreso
+        progress_array = habit_progress.progress_array # Array con los porcentajes de progreso
         
         # Progreso actual del hábito
         progress = int((achived_data * 100) / habit.goal)
@@ -223,7 +225,7 @@ def update_progress(request, habit_id):
         today_date = today_date - timedelta(hours=6)
         today_date = today_date.replace(hour=0, minute=0, second=0, microsecond=0) 
                
-        # Actualizamos la fecha de acutalización del hábito y el progreso
+        # Actualizamos la fecha de actualización del hábito y el progreso
         habit_progress_data['updated_at'] = today_date
         habit_data['start_date'] = today_date
         
@@ -264,10 +266,13 @@ def update_progress(request, habit_id):
         user.updated_at = today_date
         user.save()
                   
-        return Response({"message": "Progreso actualizado correctamente"}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "¡Tu progreso de hábitos ha sido actualizado correctamente!"
+            }, status=status.HTTP_200_OK
+        )
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar actualizar el progreso de los hábitos'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
    
 """
     Función para obtener el progreso de un hábito por su id.
@@ -284,8 +289,8 @@ def get_habit_progress(request, habit_id):
         habit_progress_serializer = HabitProgressInfoSerializer(habit_progress)
         return Response({"data" : habit_progress_serializer.data}, status=status.HTTP_200_OK)
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar obtener el progreso del hábito'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 """
     Función para obtener el progreso de todos los o un filtrado
@@ -303,7 +308,7 @@ def get_progress_by_category(request, category):
             habits = Habit.objects.filter(user=request.user.id, category=category)
         
         if not habits:
-            return Response({"message": "No hay hábitos en la categoría seleccionada"}, status=status.HTTP_200_OK)
+            return Response({"message": "No hay hábitos disponibles"}, status=status.HTTP_200_OK)
         
         habits_completed = 0
         habits_incopmleted = 0
@@ -320,7 +325,7 @@ def get_progress_by_category(request, category):
         
         habits_progress_serializer = HabitProgressListSerializer(habits_progress, many=True)
         
-        # Calcular el porcentaje de hábitos completados regla de tres
+        # Calcular el porcentaje de hábitos completados con regla de tres
         habits_completed = (habits_completed * 100) / len(habits)
         habits_incopmleted = (habits_incopmleted * 100) / len(habits)
         
@@ -328,10 +333,11 @@ def get_progress_by_category(request, category):
             "data": habits_progress_serializer.data,
             "habits_completed": habits_completed,
             "habits_incopmleted": habits_incopmleted
-        }, status=status.HTTP_200_OK)
+            }, status=status.HTTP_200_OK
+        )
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar obtener el progreso en esta categoría'}, status=status.HTTP_500_INTERNAL_ERROR_SERVER)
  
 """ 
     Función para obtener un listado de hábitos que pertenecen al usuario logueado,
@@ -344,7 +350,7 @@ def get_habit_notifications(request):
         habits = Habit.objects.filter(user=request.user.id, is_required_reminder=True, is_completed=False)
         
         if not habits:
-            return Response({"message": "No hay hábitos por los que notificar"}, status=status.HTTP_200_OK)
+            return Response({"message": "No hay hábitos por notificar"}, status=status.HTTP_200_OK)
         
         frases_motivacion = {
             1: "Hoy es el día para acercarte un poco más.",
@@ -372,9 +378,12 @@ def get_habit_notifications(request):
             
         return Response({"data": notifications}, status=status.HTTP_200_OK)
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
+    except Exception as _:
+        return Response({"message": 'Error al intentar obtener las notificaciones'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+   
+"""
+    Función para obtener un hábito y mostrarlo como recordatorio al iniciar sesión.
+"""
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def reminder(request):
@@ -389,5 +398,5 @@ def reminder(request):
         habitt_serializer = HabitReminderSerializer(habit)
         return Response({"data": habitt_serializer.data}, status=status.HTTP_200_OK)
         
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as _:
+        return Response({"message": 'Error al intentar obtener un recordatorio'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

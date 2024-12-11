@@ -1,6 +1,4 @@
-import React from "react";
-import { useState } from "react";
-import { Spinner } from "react-bootstrap";
+import React, { useState } from "react";
 import axios from "axios";
 
 // Importamos el archivo para los mensajes (alert)
@@ -10,50 +8,21 @@ import swalMessages from '../../services/SwalMessages';
 import habitIcon from "../../images/routine.png";
 import HabitDetailsModal from "./HabitDetailsModal";
 
-const HabitCard = ({ habit, setHabits, habits }) => {
+const HabitCard = ({ habit, onDelete, onUpdateProgress }) => {
   
-  // Estados para el modal de detalles
-  const [selectedHabit, setSelectedHabit] = useState(null);
+  // Estado para el modal de detalles
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Función para abrir el modal de detalles
-  const openDetailsModal = (habit) => {
-    setSelectedHabit(habit);
-    setShowModal(true);
-  };
-
-  // Función para cerrar el modal de detalles
-  const closeDetailsModal = () => {
-    setSelectedHabit(null);
-    setShowModal(false);
-  };
-
-  // Función para incrementar el progreso de un hábito
-  const incrementHabit = (habit) => {
-    const newAchieved = habit.achieved + 1;
-    updateHabitProgress(habit.id, newAchieved);
-  };
-
-  // Función para decrementar el progreso de un hábito
-  const decrementHabit = (habit) => {
-    if (habit.achieved > 0) {
-      const newAchieved = habit.achieved - 1;
-      updateHabitProgress(habit.id, newAchieved);
-    }
-  };
 
   // Función para actualizar el progreso de un hábito en el backend
-  const updateHabitProgress = async (id, newAchieved) => {
+  const updateHabitProgress = async (newAchieved) => {
+    if (!habit.id || newAchieved === undefined) return;
+
     const token = localStorage.getItem("access_token");
 
     if (!token) return;
 
-    setIsLoading(true);
-
     try {
-      const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/habits/update/progress/${id}/`,
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/habits/update/progress/${habit.id}/`,
         { achieved: newAchieved },
         {
           headers: {
@@ -63,34 +32,35 @@ const HabitCard = ({ habit, setHabits, habits }) => {
         }
       );
 
-      // Comprobamos si la respuesta obtenida es la esperada
-      if (response.data.message === "Progreso actualizado correctamente") {
-        setHabits(
-          habits.map((habit) =>
-            habit.id === id ? { ...habit, achieved: newAchieved } : habit
-          )
-        );
-      } else {
-        swalMessages.errorMessage("Hubo un problema al actualizar el progreso");
-      }
+      // Si la actualización fue exitosa, actualizamos el estado en el componente padre
+      onUpdateProgress(habit.id, newAchieved);
     } catch (error) {
       console.error("Error en updateHabitProgress: ", error);
       swalMessages.errorMessage(error.response?.data?.message);
-    } finally {
-      setIsLoading(false);
     }
   };
+
+  // Función para incrementar el progreso de un hábito
+  const incrementHabit = () => {
+    if (habit.achieved === undefined) return;
+    updateHabitProgress(habit.achieved + 1);
+  };
+
+  // Función para decrementar el progreso de un hábito
+  const decrementHabit = () => {
+    if (habit.achieved === undefined || habit.achieved <= 0) return;
+    updateHabitProgress(habit.achieved -1);
+  };
+
+  // Si no hay hábito válido, no renderizamos nada
+  if (!habit || !habit.id) return null;
 
   return (
 
     // Con esto vemos de qué color se debe mostrar el card dependiendo de si
     // ya se completó el hábito
-    <div
-      key={habit.id}
-      className={`habit-card ${
-        habit.achieved >= habit.goal ? "completed" : ""
-      }`}
-    >
+    <div className={`habit-card ${habit.achieved >= habit.goal ? "completed" : ""}`}>
+
       {/* Título de Objetivo */}
       <div className="habit-info">
         <span className="habit-goal">Objetivo: {habit.goal}</span>
@@ -100,35 +70,27 @@ const HabitCard = ({ habit, setHabits, habits }) => {
         <span className="habit-name">{habit.habit}</span>
       </div>
 
-      {/* Mostramos que se están cargando los datos */}
-      {isLoading ? (
-        <Spinner className="spinner" animation="border" />
-      ) : (
-        // Mostramos los datos del card del hábito
-        <>
-          <div className="habit-progress">
-            <button onClick={() => decrementHabit(habit)}>-</button>
-            <span>{habit.achieved}</span>
-            <button onClick={() => incrementHabit(habit)}>+</button>
-          </div>
-        </>
-      )}
+      {/* Mostramos los datos del card del hábito */}
+      <div className="habit-progress">
+        <button onClick={decrementHabit}>-</button>
+        <span>{habit.achieved}</span>
+        <button onClick={incrementHabit}>+</button>
+      </div>
 
       {/* Botón de Ver detalles */}
       <button
         className="btn-secondary"
-        onClick={() => openDetailsModal(habit)}
+        onClick={() => setShowModal(true)}
       >
         Ver detalles
       </button>
 
       {/* Modal de detalles del hábito */}
       <HabitDetailsModal
-        habit={selectedHabit}
+        habit={habit}
         show={showModal}
-        onClose={closeDetailsModal}
-        setHabits={setHabits}
-        habits={habits}
+        onClose={() => setShowModal(false)}
+        onDelete={onDelete}
       />
     </div>
   );

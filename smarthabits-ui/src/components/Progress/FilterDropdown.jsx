@@ -4,6 +4,9 @@ import { Accordion, Button, Dropdown } from "react-bootstrap";
 // Importamos el archivo CSS
 import "./FilterDropdown.css";
 
+// Importamos el contexto
+import { useProgress } from "../../context/ProgressContext";
+
 // Importamos el componente para mostrar las gráficas
 import ProgressGraphs from "./ProgressGraphs";
 
@@ -14,8 +17,8 @@ import swalMessages from '../../services/SwalMessages';
 import filterIcon from "../../images/filter.png";
 import calendarIcon from '../../images/calendar.png';
 
-// Objeto para manejar las traducciones de categorías
-const categoryTranslations = {
+// Lista de categorías disponibles
+const CATEGORIES = {
   all: "Todas las categorías",
   school: "Escuela",
   work: "Trabajo",
@@ -25,121 +28,58 @@ const categoryTranslations = {
   other: "Otro"
 };
 
-// Lista de categorías disponibles
-const categories = [
-  { id: "all", label: "Todas las categorías" },
-  { id: "school", label: "Escuela" },
-  { id: "work", label: "Trabajo" },
-  { id: "sports", label: "Deporte" },
-  { id: "cleaning", label: "Limpieza" },
-  { id: "leisure", label: "Ocio" },
-  { id: "other", label: "Otro" }
-];
-
 const FilterDropdown = () => {
-  
-  // Estados para los filtros seleccionados
-  const [selectedDays, setSelectedDays] = useState(7);
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedHabit, setSelectedHabit] = useState("all");
-  const [habits, setHabits] = useState([]);
 
+  const { progressData, setProgressData } = useProgress();
   // Estado para controlar la visualización de las gráficas
   const [showGraphs, setShowGraphs] = useState(false);
 
   // Estado para los filtros aplicados
-  const [appliedFilters, setAppliedFilters] = useState({
+  const [filters, setFilters] = useState({
     days: 7,
     category: "all",
     habit: "all"
   });
 
-  // Funciones para manejar el cambio de filtros
-  const handleDaysChange = (days) => {
-    setSelectedDays(days);
-    setShowGraphs(false); // Ocultamos las gráficas cuando se cambian los filtros
-  };
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    if (category !== "all") {
-      const habitInCategory = habits.find(
-        h => h.id === selectedHabit && h.category === category
-      );
-      if (!habitInCategory) {
-        setSelectedHabit("all");
+  // Función para actualizar los hábitos filtrados cuando cambia la categoría
+  useEffect(() => {
+    if (filters.category === "all") {
+      setProgressData(prev => ({
+        ...prev,
+        filteredHabits: progressData.habits
+      }));
+    } else {
+      const filtered = progressData.habits.filter(habit => habit.category === filters.category);
+      setProgressData(prev => ({
+        ...prev,
+        filteredHabits: filtered
+      }));
+      // Si el hábito seleccionado no está en la categoría filtrada, reseteamos la selección
+      if (filters.habit !== "all" && !filtered.find(h => h.id === filters.habit)) {
+        setFilters(prev => ({ ...prev, habit: "all" }));
       }
     }
-    setShowGraphs(false);
-  };
+  }, [filters.category, progressData.habits]);
 
-  const handleHabitSelection = (habit) => {
-    // Si recibimos el string "all", lo usamos directamente
-    if (habit === "all") {
-      setSelectedHabit("all");
-    } else {
-      // Si recibimos un objeto hábito, usamos su id
-      setSelectedHabit(habit.id);
-    }
+  // Función para manejar el cambio en los filtros
+  const handleFilterChange = (type, value) => {
     setShowGraphs(false);
+    setFilters(prev => ({ ...prev, [type]: value }));
   };
 
   // Función para aplicar los filtros cuando se presiona el botón
   const handleApplyFilters = () => {
-    // Validamos que haya hábitos disponibles si se seleccionó un hábito específico
-    if (selectedHabit !== "all" && !habits.find(h => h.id === selectedHabit)) {
+    if (filters.habit !== "all" && !progressData.filteredHabits.find(h => h.id === filters.habit)) {
       swalMessages.errorMessage("El hábito seleccionado ya no está disponible");
       return;
     }
 
-    // Validamos que haya hábitos en la categoría seleccionada
-    if (selectedCategory !== "all" && !habits.some(h => h.category === selectedCategory)) {
+    if (filters.category !== "all" && progressData.filteredHabits.length === 0) {
       swalMessages.errorMessage("No hay hábitos en la categoría seleccionada");
       return;
     }
 
-    setAppliedFilters({
-      days: selectedDays,
-      category: selectedCategory,
-      habit: selectedHabit
-    });
-    setShowGraphs(true); // Mostramos las gráficas solo cuando se presiona el botón
-  };
-
-  // Función para manejar la lista de hábitos del usuario
-  useEffect(() => {
-    fetchHabits();
-  }, []);
-
-  // Función para obtener la lista de hábitos
-  const fetchHabits = async () => {
-    const token = localStorage.getItem("access_token");
-
-    if (!token) return;
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/habits/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data?.data?.length > 0) {
-        setHabits(data.data); // Guardamos los hábitos en el estado
-        if (data.data.length === 0) {
-          swalMessages.errorMessage("No hay hábitos disponibles para mostrar");
-        }
-      } else {
-        swalMessages.errorMessage(
-          data?.message || "Hubo un problema al obtener la lista de hábitos"
-        );
-      }
-    } catch (error) {
-      console.error("Error en fetchHabits: ", error);
-      swalMessages.errorMessage(error.response?.data?.message);
-    }
+    setShowGraphs(true);
   };
 
   return (
@@ -157,29 +97,16 @@ const FilterDropdown = () => {
             {/* Texto y Botones de Rango de Fechas */}
             <strong>Rango de Fechas</strong>
             <div className="days-buttons">
-              <button
-                className={`days-button ${selectedDays === 7 ? "active" : ""}`}
-                onClick={() => handleDaysChange(7)}
-              >
-                <img src={calendarIcon} alt="..." className="icon-calendar" />
-                <span>7 días</span>
-              </button>
-
-              <button
-                className={`days-button ${selectedDays === 15 ? "active" : ""}`}
-                onClick={() => handleDaysChange(15)}
-              >
-                <img src={calendarIcon} alt="..." className="icon-calendar" />
-                <span>15 días</span>
-              </button>
-
-              <button
-                className={`days-button ${selectedDays === 30 ? "active" : ""}`}
-                onClick={() => handleDaysChange(30)}
-              >
-                <img src={calendarIcon} alt="..." className="icon-calendar" />
-                <span>30 días</span>
-              </button>
+              {[7, 15, 30].map(days => (
+                <button
+                  key={days}
+                  className={`days-button ${filters.days === days ? "active" : ""}`}
+                  onClick={() => handleFilterChange('days', days)}
+                >
+                  <img src={calendarIcon} alt="..." className="icon-calendar" />
+                  <span>{days} días</span>
+                </button>
+              ))}
             </div>
 
             {/* Texto y Dropdown de Categoría */}
@@ -190,16 +117,16 @@ const FilterDropdown = () => {
                 id="dropdown-category"
                 className="dropdown-toggle-custom"
               >
-                {categoryTranslations[selectedCategory]}
+                {CATEGORIES[filters.category]}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                {categories.map(category => (
+                {Object.entries(CATEGORIES).map(([id, label]) => (
                   <Dropdown.Item
-                    key={category.id}
-                    onClick={() => handleCategoryChange(category.id)}
+                    key={id}
+                    onClick={() => handleFilterChange('category', id)}
                   >
-                    {category.label}
+                    {label}
                   </Dropdown.Item>
                 ))}
               </Dropdown.Menu>
@@ -213,34 +140,36 @@ const FilterDropdown = () => {
                 id="dropdown-habit"
                 className="dropdown-toggle-custom"
               >
-                {selectedHabit === "all" ? "Todos los hábitos" : habits.find(h => h.id === selectedHabit)?.habit || "Todos los hábitos"}
+                {filters.habit === "all" 
+                  ? "Todos los hábitos" 
+                  : progressData.filteredHabits.find(h => h.id === filters.habit)?.habit || "Todos los hábitos"}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleHabitSelection("all")}>
+                <Dropdown.Item onClick={() => handleFilterChange('habit', 'all')}>
                   Todos los hábitos
                 </Dropdown.Item>
 
-                {habits.length > 0 ? (
-                  habits.map((habit) => (
-                    <Dropdown.Item
-                      key={habit.id}
-                      onClick={() => handleHabitSelection(habit)}
-                    >
-                      {habit.habit}
-                    </Dropdown.Item>
-                  ))
-                ) : (
-                  <Dropdown.Item disabled>
-                    No hay hábitos disponibles
+                {progressData.filteredHabits.map((habit) => (
+                  <Dropdown.Item
+                    key={habit.id}
+                    onClick={() => handleFilterChange('habit', habit.id)}
+                  >
+                    {habit.habit}
                   </Dropdown.Item>
-                )}
+                ))}
               </Dropdown.Menu>
             </Dropdown>
 
             {/* Botón para ver las gráficas */}
             <div className="view-graphs-container">
-              <Button className="btn-primary" onClick={handleApplyFilters}>Ver gráficas</Button>
+              <Button 
+                className="btn-primary" 
+                onClick={handleApplyFilters} 
+                disabled={progressData.habits.length === 0}
+              >
+                Ver gráficas
+              </Button>
             </div>
           </Accordion.Body>
         </Accordion.Item>
@@ -249,9 +178,9 @@ const FilterDropdown = () => {
       {/* Sección de las gráficas */}
       {showGraphs && (
         <ProgressGraphs
-          selectedCategory={appliedFilters.category}
-          selectedHabit={appliedFilters.habit}
-          selectedDays={appliedFilters.days}
+          selectedCategory={filters.category}
+          selectedHabit={filters.habit}
+          selectedDays={filters.days}
         />
       )}
     </div>

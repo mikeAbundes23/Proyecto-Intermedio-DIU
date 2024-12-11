@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Spinner from "react-bootstrap/Spinner";
 
 // Importamos el archivo CSS
 import "./HabitsPage.css";
@@ -9,6 +8,8 @@ import "./HabitsPage.css";
 // Importamos el archivo para los mensajes (alert)
 import swalMessages from '../../services/SwalMessages';
 
+// Importamos el contexto
+import { useUser } from '../../context/UserContext';
 // Importamos el componente del navbar
 import Navbar from "../Navbar/Navbar";
 // Importamos el componente para el botón de crear hábito
@@ -19,108 +20,57 @@ import HabitCard from "./HabitCard";
 const HabitsPage = () => {
 
   const navigate = useNavigate();
-  
+
+  // Estado para la lista de hábitos
   const [habits, setHabits] = useState([]);
-  const [name, setName] = useState(""); // Estado para el nombre del usuario
-  const [isLoading, setIsLoading] = useState(true);
+  // Estado para los datos del usuario loggueado
+  const { userData } = useUser();
 
   // Función para manejar el cambio de vista "Progreso de hábitos"
   const handleProgressClick = () => {
-    navigate("/progress"); // Redirige a la página de progreso
+    navigate("/progress");
   };
 
-  // Función para obtener hábitos y nombre del usuario al mismo tiempo
-  const fetchData = async () => {
+  // Función para obtener los hábitos
+  const fetchHabits = async () => {
     const token = localStorage.getItem('access_token');
     if (!token) return;
 
     try {
-      setIsLoading(true);
-      
-      // Realizamos ambas solicitudes al mismo tiempo
-      const [habitsResponse, userResponse] = await Promise.all([
-        axios.get(`${process.env.REACT_APP_API_URL}/api/habits/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
-        axios.get(`${process.env.REACT_APP_API_URL}/api/user/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
-      ]);
+      const habitsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/habits/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      // Establecemos los hábitos y el nombre del usuario en el estado
-      setHabits(habitsResponse.data.data);
-      setName(userResponse.data.data.name); // Guardamos el nombre del usuario
+      setHabits(habitsResponse.data.data || []);
     } catch (error) {
       console.error("Error completo en fetchData: ", error);
       swalMessages.errorMessage(error.response?.data?.message);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   // Función para obtener los datos al cargar la página
   useEffect(() => {
-    fetchData();
+    fetchHabits();
   }, []);
 
-  // Función para agregar un hábito recién creado a la lista
+  // Funciones para manejar el agregar o eliminar un hábito de la lista
   const handleHabitCreated = (newHabit) => {
-    // Refrescamos la lista completa de hábitos
-    fetchData();
-
     setHabits(prevHabits => {
-      // Nos aseguramos de que el nuevo hábito tenga un id único
-      if (!newHabit.id) {
-        console.warn('Nuevo hábito sin ID:', newHabit);
-        return prevHabits;
-      }
-      
-      // Verificamos si el hábito ya existe
-      const habitExists = prevHabits.some(habit => habit.id === newHabit.id);
-      if (habitExists) {
-        return prevHabits;
-      }
-      
-      // Agregamos el nuevo hábito al arreglo
-      return [...prevHabits, newHabit];
+      const updatedHabits = [...prevHabits, newHabit];
+      return updatedHabits;
     });
   };
 
-  // Función para mostrar los cards de hábitos del usuario
-  const renderHabits = () => {
-    if (isLoading) {
-      return (
-        <div className="d-flex justify-content-center p-4">
-          <Spinner animation="border" variant="primary" />
-        </div>
-      );
-    }
+  const handleHabitDeleted = (habitId) => {
+    setHabits(prev => prev.filter(habit => habit.id !== habitId));
+  };
 
-    if (!habits || habits.length === 0) {
-      return (
-        <div className="text-center p-4">
-          <p className="text-habits">Todavía no tienes ningún hábito registrado</p>
-        </div>
-      );
-    }
-
-    return (
-
-      <div className="habits-grid">
-        {habits.map((habit) => (
-          <HabitCard
-            key={habit.id}
-            habit={habit}
-            setHabits={setHabits}
-            habits={habits}
-          />
-        ))}
-      </div>
-    );
+  const handleProgressUpdate = (habitId, newAchieved) => {
+    setHabits(prev => prev.map(habit => 
+      habit.id === habitId ? { ...habit, achieved: newAchieved } : habit
+    ));
   };
 
   return (
@@ -132,7 +82,7 @@ const HabitsPage = () => {
       {/* Contenedor con lo demás de la vista */}
       <div className="habits-page-container">
         <div className="title-section">
-          <h1>¡Bienvenido(a) {name}!</h1> {/* Mostramos el nombre del usuario */}
+          <h1>¡Bienvenido(a) {userData?.name || ''}!</h1> {/* Mostramos el nombre del usuario */}
         </div>
 
         {/* Sección con los botones */}
@@ -148,7 +98,23 @@ const HabitsPage = () => {
           <div className="habits-title-container">
             <h2 className="habits-title">HÁBITOS</h2>
           </div>
-          {renderHabits()}
+          
+          <div className="habits-grid">
+            {habits.length === 0 ? (
+              <div className="text-center p-4">
+                <p className="text-habits">Todavía no tienes ningún hábito registrado</p>
+              </div>
+            ) : (
+              habits.map((habit) => (
+                <HabitCard
+                  key={`habit-${habit.id}`}
+                  habit={habit}
+                  onDelete={handleHabitDeleted}
+                  onUpdateProgress={handleProgressUpdate}
+                />
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>

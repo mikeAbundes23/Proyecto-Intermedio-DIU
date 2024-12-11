@@ -5,54 +5,38 @@ import axios from "axios";
 // Importamos el archivo CSS
 import "./EditImageButton.css";
 
+// Importamos el contexto
+import { useUser } from "../../context/UserContext";
+
 // Importamos el archivo para los mensajes (alert)
 import swalMessages from '../../services/SwalMessages';
 
 // Importamos los íconos (imágenes png)
 import uploadIcon from '../../images/upload.png';
 
-const EditImageButton = ({ userData, onImageUpdated }) => {
+const EditImageButton = () => {
 
+    const { updateUserData } = useUser();
     // Estado para mostrar el modal
-    const [showEditImageModal, setShowEditImageModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     // Estado para la imagen seleccionada
     const [selectedImage, setSelectedImage] = useState(null);
     // Estado para el nombre del archivo
     const [fileName, setFileName] = useState('Ninguna imagen seleccionada');
-
-    // Función para manejar la imagen
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setSelectedImage(file);
-            setFileName(file.name);
-        }
-    };
-
-    // Función para mostrar el modal de editar imagen
-    const openEditImageModal = () => {
-        setShowEditImageModal(true);
-    };
-
-    // Función para cerrar el modal de editar imagen
-    const closeEditImageModal = () => {
-        setShowEditImageModal(false);
-        setSelectedImage(null);
-        setFileName('Ninguna imagen seleccionada');
-    };
 
     // Función para cambiar la imagen de perfil
     const handleSubmit = async () => {
         const token = localStorage.getItem("access_token");
 
         if (!token || !selectedImage) {
-            swalMessages.errorMessage('Por favor selecciona una imagen');  
+            swalMessages.errorMessage('Por favor selecciona una imagen');
+            return;
         }
 
-        try {
-            const formData = new FormData();
-            formData.append('image', selectedImage);
+        const formData = new FormData();
+        formData.append('image', selectedImage);
 
+        try {
             const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/user/update-image/`,
                 formData,
                 {
@@ -64,14 +48,24 @@ const EditImageButton = ({ userData, onImageUpdated }) => {
             );
 
             // Verificamos que la respuesta sea exitosa y contenga datos
-            if ((response.status === 201 || response.status === 200) && response.data) {
+            if (response.data) {
+                const userResponse = await axios.get(
+                    `${process.env.REACT_APP_API_URL}/api/user/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 // Notificamos al componente principal
-                onImageUpdated(response.data);
-
-                swalMessages.successMessage("¡Tu imagen ha sido actualizada correctamente!");
-                closeEditImageModal();
+                updateUserData(userResponse.data.data);
+                swalMessages.successMessage(response.data?.message);
+                setShowModal(false);
+                setSelectedImage(null);
+                setFileName('Ninguna imagen seleccionada');
             }
         } catch (error) {
+            console.error('Error en handleSubmit: ', error);
             swalMessages.errorMessage(error.response?.data?.message);
         }
     };
@@ -80,12 +74,12 @@ const EditImageButton = ({ userData, onImageUpdated }) => {
 
         <>
             {/* Botón para editar la foto de perfil */}
-            <Button className="btn-primary edit-image-btn" onClick={openEditImageModal}>
+            <Button className="btn-primary edit-image-btn" onClick={() => setShowModal(true)}>
                 Editar imagen
             </Button>
 
             {/* Modal para editar la foto de perfil */}
-            <Modal show={showEditImageModal} onHide={closeEditImageModal} centered>
+            <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton className="border-0">
                     <Modal.Title>
                         Editar Imagen
@@ -94,9 +88,7 @@ const EditImageButton = ({ userData, onImageUpdated }) => {
 
                 <Modal.Body>
                     <div className="image-upload-div">
-                        <label 
-                            htmlFor="photo-upload"
-                        >
+                        <label htmlFor="photo-upload">
                             <img src={uploadIcon} alt="..." className='label-icon' />
                             <span>
                                 Subir foto
@@ -105,13 +97,17 @@ const EditImageButton = ({ userData, onImageUpdated }) => {
                         <input
                             type="file"
                             accept="image/*"
-                            onChange={handleImageUpload}
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                    setSelectedImage(file);
+                                    setFileName(file.name);
+                                }
+                            }}
                             className="d-none"
                             id="photo-upload"
                         />
-                        <span className="file-name mt-2 d-block">
-                            {fileName}
-                        </span>
+                        <span className="file-name mt-2 d-block">{fileName}</span>
                     </div>
                 </Modal.Body>
 

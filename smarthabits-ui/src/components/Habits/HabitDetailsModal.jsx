@@ -18,14 +18,13 @@ const HabitDetailsModal = ({
   habit,
   show,
   onClose,
-  setHabits,
-  habits,
+  onDelete
 }) => {
   
   if (!habit) return null; // Si no hay un hábito seleccionado, no mostrar nada
 
   // Función para eliminar un hábito
-  const deleteHabit = async (id) => {
+  const deleteHabit = async () => {
     const token = localStorage.getItem("access_token");
 
     if (!token) return;
@@ -35,16 +34,16 @@ const HabitDetailsModal = ({
       const result = await swalMessages.confirmMessage();
       if (result.isConfirmed) {
         // Usamos la nueva URL para eliminar el hábito
-        await axios.delete(`${process.env.REACT_APP_API_URL}/api/habits/delete/${id}/`, {
+        const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/habits/delete/${habit.id}/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        setHabits(habits.filter((habit) => habit.id !== id));
+        onDelete(habit.id);
         onClose(); // Cerramos el modal después de eliminar
         // Mostramos el mensaje de confirmación de la eliminación
-        swalMessages.successMessage('Hábito eliminado exitosamente');
+        swalMessages.successMessage(response.data?.message);
       }
     } catch (error) {
       console.error("Error en deleteHabit: ", error);

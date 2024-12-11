@@ -23,31 +23,13 @@ const CreateHabitButton = ({ onHabitCreated }) => {
     is_required_reminder: false,
   });
 
-  // Función para mostrar el modal para crear hábitos
-  const openCreateModal = () => {
-    setShowCreateModal(true);
-  };
-
-  // Función para cerrar el modal de crear un hábito
-  const closeCreateModal = () => {
-    setNewHabit({
-      habit: "",
-      description: "",
-      category: "",
-      frequency: "",
-      goal: "1",
-      is_required_reminder: false,
-    });
-    setShowCreateModal(false);
-  };
-
   // Función para manejar el formulario de creación de hábito
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setNewHabit({
-      ...newHabit,
+    setNewHabit(prev => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+    }));
   };
 
   // Función para enviar el nuevo hábito al backend
@@ -68,8 +50,7 @@ const CreateHabitButton = ({ onHabitCreated }) => {
     }
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/habits/create/`,
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/habits/create/`,
         newHabit,
         {
           headers: {
@@ -79,25 +60,29 @@ const CreateHabitButton = ({ onHabitCreated }) => {
         }
       );
 
-      // Verificamos que la respuesta sea exitosa y contenga datos
-      if ((response.status === 201 || response.status === 200) && response.data) {
+      // Verificamos que la respuesta sea exitosa
+      if (response.status === 201 || response.status === 200) {
         // Aseguramos que el hábito tenga todos los campos necesarios
         const createdHabit = {
           ...response.data,
-          achieved: 0, // Aseguramos que tenga un valor inicial
-          id: response.data.id, // Aseguramos que tenga un ID
+          achieved: 0,
+          goal: parseInt(newHabit.goal),
         };
 
         // Notificamos al componente principal
         onHabitCreated(createdHabit);
+        setShowCreateModal(false);
         
         // Mostramos mensaje de éxito
-        swalMessages.successMessage("Hábito creado exitosamente");
-        
-        // Cerramos el modal
-        closeCreateModal();
-      } else {
-        swalMessages.errorMessage("Hubo un problema al crear el hábito");
+        swalMessages.successMessage(response.data?.message);
+        setNewHabit({
+          habit: "",
+          description: "",
+          category: "",
+          frequency: "",
+          goal: "1",
+          is_required_reminder: false,
+        });
       }
     } catch (error) {
       console.error("Error en createHabit: ", error);
@@ -109,12 +94,12 @@ const CreateHabitButton = ({ onHabitCreated }) => {
     
     <>
       {/* Botón para crear hábitos */}
-      <Button className="btn-primary" onClick={openCreateModal}>
+      <Button className="btn-primary" onClick={() => setShowCreateModal(true)}>
         Crear hábito
       </Button>
 
       {/* Modal para crear un nuevo hábito */}
-      <Modal show={showCreateModal} onHide={closeCreateModal} centered>
+      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)} centered>
         <Modal.Header closeButton className="border-0">
           <Modal.Title>Nuevo Hábito</Modal.Title>
         </Modal.Header>

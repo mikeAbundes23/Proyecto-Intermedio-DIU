@@ -30,6 +30,10 @@
   margin: 8px 0px 8px 10px;
 }
 
+.progress {
+  background-color: #d1d1d1;
+}
+
 .progress-bar-one {
   background-color: #028391 !important;
   border-radius: 0px 8px 8px 0px !important;
@@ -43,11 +47,4 @@
 .progress-bar-three {
   background-color: #01204e !important;
   border-radius: 0px 8px 8px 0px !important;
-}
-
-.spinner-container {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 55px;
 }
