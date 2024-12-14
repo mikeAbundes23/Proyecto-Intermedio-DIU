@@ -15,6 +15,7 @@ import closeIcon from '../../images/close.png';
 import descriptionIcon from '../../images/description.png';
 import calendarIcon from '../../images/calendar.png';
 
+// Objeto para mapear las frecuencias del formulario de crear hábitos
 const FREQUENCY_MAP = {
   'd': 'Diario',
   'w': 'Semanal',

@@ -3,9 +3,13 @@ import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import { getCookie } from '../helpers/Auth';
 
+// Creamos el contexto de autenticación
 export const UserContext = createContext();
 
+// Función que provee el contexto de autenticación
 export const UserProvider = ({ children }) => {
+
+    // Estado para controlar la información del usuario logueado
     const [userData, setUserData] = useState(null);
     const { isAuthenticated } = useContext(AuthContext);
     
@@ -27,7 +31,7 @@ export const UserProvider = ({ children }) => {
         }
     };
 
-    // Obtener datos del usuario cuando está autenticado
+    // Función para obtener los datos del usuario cuando está autenticado
     useEffect(() => {
         if (isAuthenticated && !userData) {
             fetchUserData();
@@ -43,6 +47,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
+        
         <UserContext.Provider value={{ userData, updateUserData, fetchUserData }}>
             {children}
         </UserContext.Provider>

@@ -86,6 +86,7 @@ const EditImageButton = () => {
                     </Modal.Title>
                 </Modal.Header>
 
+                {/* Sección para elegir una imagen */}
                 <Modal.Body>
                     <div className="image-upload-div">
                         <label htmlFor="photo-upload">

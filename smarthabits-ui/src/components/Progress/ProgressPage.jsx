@@ -20,12 +20,13 @@ import habitCompleteIcon from '../../images/percent.png';
 import streakIcon from '../../images/fire.png';
 import longStreakIcon from '../../images/star.png';
 
+// Datos para las primeras barras de la página
 const progressItems = [
   { 
     icon: habitCompleteIcon,
     iconClass: "icon-percent",
     title: "Hábitos Completados",
-    getValue: (data) => `${data.completedPercentage}%`,
+    getValue: (data) => `${Math.round(data.completedPercentage)}%`,
     getProgress: (data) => data.completedPercentage,
     barClass: "progress-bar-one"
   },

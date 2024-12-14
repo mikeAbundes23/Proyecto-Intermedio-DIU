@@ -55,7 +55,7 @@ const HabitsPage = () => {
     fetchHabits();
   }, []);
 
-  // Funciones para manejar el agregar o eliminar un hábito de la lista
+  // Función para manejar el agregar un hábito a la lista
   const handleHabitCreated = (newHabit) => {
     setHabits(prevHabits => {
       const updatedHabits = [...prevHabits, newHabit];
@@ -63,10 +63,12 @@ const HabitsPage = () => {
     });
   };
 
+  // Función para manejar el eliminar un hábito de la lista
   const handleHabitDeleted = (habitId) => {
     setHabits(prev => prev.filter(habit => habit.id !== habitId));
   };
 
+  // Función para actualizar los hábitos de la lista
   const handleProgressUpdate = (habitId, newAchieved) => {
     setHabits(prev => prev.map(habit => 
       habit.id === habitId ? { ...habit, achieved: newAchieved } : habit

@@ -2,9 +2,13 @@ import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 import swalMessages from '../services/SwalMessages';
 
+// Creamos el contexto de autenticación
 const ProgressContext = createContext();
 
+// Función que provee el contexto de autenticación
 export const ProgressProvider = ({ children }) => {
+
+    // Estado para controlar la información de progreso
     const [progressData, setProgressData] = useState({
         habits: [],
         completedPercentage: 0,
@@ -13,6 +17,7 @@ export const ProgressProvider = ({ children }) => {
         filteredHabits: []
     });
 
+    // Función que obtiene los datos de progreso del usuario y hábitos desde el servidor
     const fetchProgressData = async () => {
         const token = localStorage.getItem("access_token");
         if (!token) return;
@@ -41,10 +46,12 @@ export const ProgressProvider = ({ children }) => {
     };
 
     return (
+        
         <ProgressContext.Provider value={{ progressData, setProgressData, fetchProgressData }}>
             {children}
         </ProgressContext.Provider>
     );
 };
 
+// Hook personalizado para usar el contexto del progreso
 export const useProgress = () => useContext(ProgressContext);

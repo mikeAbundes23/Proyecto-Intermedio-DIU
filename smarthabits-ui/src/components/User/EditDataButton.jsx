@@ -16,6 +16,7 @@ const EditDataButton = () => {
     const { userData, updateUserData } = useUser();
     // Estado para mostrar el modal
     const [showModal, setShowModal] = useState(false);
+
     // Estado para los datos del usuario
     const [formData, setFormData] = useState({
         name: "",
@@ -25,6 +26,7 @@ const EditDataButton = () => {
         password: "",
         confirm_password: ""
     });
+
     // Estado para manejar los campos del formulario
     const [hasChanges, setHasChanges] = useState(false);
 
@@ -123,13 +125,13 @@ const EditDataButton = () => {
                 Editar datos
             </Button>
 
-
             {/* Modal para editar los datos del usuario */}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton className="border-0">
                     <Modal.Title>Editar Datos</Modal.Title>
                 </Modal.Header>
 
+                {/* Inputs del modal */}
                 <Modal.Body>
                     <Form>
                         {[

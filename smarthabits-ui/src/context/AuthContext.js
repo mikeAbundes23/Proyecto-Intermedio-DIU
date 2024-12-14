@@ -8,6 +8,7 @@ const cookieName = process.env.REACT_APP_TOKEN_COOKIE_NAME;
 
 // Función que provee el contexto de autenticación
 export const AuthProvider = ({ children }) => {
+
   // Estado para controlar si el usuario está autenticado
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
+    
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>

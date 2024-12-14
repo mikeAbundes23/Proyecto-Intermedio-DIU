@@ -1,3 +1,4 @@
+// Función para obtener el valor de una cookie específica
 export const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -7,6 +8,7 @@ export const getCookie = (name) => {
     return null;
 };
 
+// Función para establecer una nueva cookie en el navegador
 export const setCookie = (name, value, minutes) => {
     let expires = '';
 

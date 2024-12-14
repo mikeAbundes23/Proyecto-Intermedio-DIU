@@ -90,6 +90,7 @@ const SignUpModal = ({ show, handleClose, setShowLogin }) => {
         <Modal.Title>Nuevo Usuario</Modal.Title>
       </Modal.Header>
 
+      {/* Inputs del modal */}
       <Modal.Body>
         <form className="login-form" onSubmit={handleSubmit}>
           {[

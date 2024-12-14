@@ -1,11 +1,13 @@
 from rest_framework import serializers
 from ..models import User
 
+# Serializador para obtener un usuario
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','name', 'last_name', 'username', 'email', 'ongoing_streak', 'longest_streak', 'image']
-        
+
+# Serializador para crear un usuario        
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -19,7 +21,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
         if error:
             raise serializers.ValidationError(error)
         return data
-    
+
+# Serializador para actualizar los datos de un usuario
 class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

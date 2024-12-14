@@ -28,6 +28,7 @@ Chart.register(
   ArcElement
 );
 
+// Objeto para la gráfica de pastel
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
@@ -45,6 +46,7 @@ const chartOptions = {
   }
 };
 
+// Objeto para la gráfica de barras
 const barChartOptions = {
   ...chartOptions,
   scales: {
@@ -188,6 +190,7 @@ const ProgressGraphs = ({ selectedCategory, selectedHabit, selectedDays }) => {
     const totalProgress = progressArray.reduce((sum, value) => sum + value, 0);
     const averageCompletion = totalProgress / progressArray.length;
 
+    // Definimos las gráficas con los datos
     setChartData({
       bar: {
         labels: progressArray.map((_, i) => `Día ${i + 1}`),
